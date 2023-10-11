@@ -29,6 +29,7 @@ Node.js LTS v18.18.1
 1. Git Clone
 2. Install Dependencies
    > Type "npm install" on the terminal
+   
    > Type "npm i express" on the terminal
   
 3. Running the Application

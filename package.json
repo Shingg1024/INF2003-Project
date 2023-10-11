@@ -1,0 +1,16 @@
+{
+  "name": "inf2003-project",
+  "version": "1.0.0",
+  "description": "With the easing of COVID-19 travel restrictions in Japan, Kyoto has regained its position as a top tourist destination. However, travelers currently face the challenge of independently researching and finding recommended restaurants near their accommodations. There is a noticeable absence of applications that seamlessly combine hotel bookings and restaurant recommendations in Kyoto.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

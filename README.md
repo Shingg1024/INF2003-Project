@@ -11,3 +11,6 @@ Our web application project aims to fulfill the pressing need for a convenient t
 Our primary goal is to save tourists time, as we understand that researching and reserving hotels and restaurants may be time-consuming and overwhelming. We hope to simplify trip planning by combining various services into a single user-friendly website, allowing passengers to plan their vacations more effectively and spend more time discovering and relaxing.
 
 Beyond convenience, our vision is to elevate the overall travel experience in Kyoto. We go beyond mere reservations and offer valuable insights and recommendations from locals and experienced travelers. Our platform empowers users to make informed choices, uncover hidden gems, and fully immerse themselves in Kyoto's rich culture and cuisine.
+
+## Package
+Node.js LTS v18.18.1

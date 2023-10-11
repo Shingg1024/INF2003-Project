@@ -12,5 +12,24 @@ Our primary goal is to save tourists time, as we understand that researching and
 
 Beyond convenience, our vision is to elevate the overall travel experience in Kyoto. We go beyond mere reservations and offer valuable insights and recommendations from locals and experienced travelers. Our platform empowers users to make informed choices, uncover hidden gems, and fully immerse themselves in Kyoto's rich culture and cuisine.
 
-## Package
-Node.js LTS v18.18.1
+## Database Setup
+1. MySQL
+2. MongoDB
+   Data Import the following:
+   > Resurant : https://www.kaggle.com/datasets/koki25ando/tabelog-restaurant-review-dataset/
+   
+   > Hotel    : https://www.kaggle.com/datasets/fayekanyarat/japan-hotel-list
+   
+
+## Prerequisites Packages
+Node.js LTS v18.18.1 
+> https://nodejs.org/en/download
+
+## Following Steps
+1. Git Clone
+2. Install Dependencies
+   > Type "npm install" on the terminal
+   > Type "npm i express" on the terminal
+  
+3. Running the Application
+   > Type "npm run dev" on the terminal

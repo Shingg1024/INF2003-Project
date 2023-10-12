@@ -14,12 +14,7 @@ Beyond convenience, our vision is to elevate the overall travel experience in Ky
 
 ## Database Setup
 1. MySQL
-2. MongoDB
-   Data Import the following:
-   > Restaurant : https://www.kaggle.com/datasets/koki25ando/tabelog-restaurant-review-dataset/
-   
-   > Hotel    : https://www.kaggle.com/datasets/fayekanyarat/japan-hotel-list
-   
+2. MongoDB   
 
 ## Prerequisites Packages
 Node.js LTS v18.18.1 

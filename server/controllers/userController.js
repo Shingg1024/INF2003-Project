@@ -1,4 +1,4 @@
-const db = require('../db'); // Import your database connection
+const db = require('../dataset/db'); // Import your database connection
 
 // Define a function to get all users
 exports.getAllUsers = (req, res) => {

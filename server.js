@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require('express');
+const session = require('express-session');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require("body-parser");
@@ -12,10 +13,17 @@ const port = 3000;
 app.use(morgan('tiny'));
 
 // Parse request to body-parser
-app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set view engine
 app.set('view engine', 'ejs');
+
+// Configure Session
+app.use(session({
+    secret: 'secret-key',
+    resave: false,
+    saveUninitialized: false,
+}));
 
 // Load assets
 app.use('/css', express.static(path.resolve(__dirname, 'assets/css')));

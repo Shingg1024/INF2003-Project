@@ -1,4 +1,4 @@
-const hostel = require('../models/hostel');
+const hostel = require('../models/hostelModel');
 
 exports.getAllHostels = (req, res) => {
     hostel.find({ city: "Kyoto" })

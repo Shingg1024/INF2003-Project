@@ -15,6 +15,13 @@ const restaurantSchema = new Schema({
     reviewNum: Number,
     lat: Number,
     long: Number,
+    location: {
+        type: {
+            type: String,
+            enum: ["Point"],
+        },
+        coordinates: [Number], // Array for [longitude, latitude]
+    }
 });
 
 // Create a model for the restaurant collection

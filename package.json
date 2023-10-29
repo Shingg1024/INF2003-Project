@@ -20,7 +20,8 @@
     "express-session": "^1.17.3",
     "mongoose": "^7.6.1",
     "morgan": "^1.10.0",
-    "mysql": "^2.18.1"
+    "mysql2": "^3.6.2",
+    "ssh2": "^1.14.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

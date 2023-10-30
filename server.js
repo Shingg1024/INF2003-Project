@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const path = require('path');
+const db = require('./server/dataset/db'); // Import your database connection
 
 const app = express();
 const port = 3000;
@@ -43,12 +44,32 @@ mongoose.connect(process.env.URI, {
 })
     .then(() => {
         console.log("Connected to MongoDB Server");
-        app.listen(port, () => {
+        const server = app.listen(port, () => {
             console.log(`Node.js App is running on port ${port}`);
+        });
+
+        process.on('SIGUSR2', () => {
+            console.log('Received SIGINT. Closing server...');
+            server.close(() => {
+                // Perform cleanup tasks here
+                console.log('Server closed. Cleaning up...');
+
+                // Close database connections
+                db.closeConnection((err) => {
+                    if (err) {
+                        console.error('Error closing database connections:', err);
+                    } else {
+                        console.log('Database connections closed.');
+                    }
+
+                    // Exit the process
+                    process.exit(0);
+                });
+            });
         });
     })
     .catch((err) => {
-        console.error(err);
+        console.error('Error connecting to MongoDB:', err);
     });
 
 app.get('/', (req, res) => {

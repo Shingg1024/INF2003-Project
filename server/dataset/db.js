@@ -14,6 +14,10 @@ const pool = mysql.createPool({
     user: process.env.MYSQL_USER, // SSH username
     password: process.env.MYSQL_PASSWORD, // SSH password
     database: 'inf2003',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    connectTimeout: 20000, // Increase the connection timeout to 20 seconds
 });
 
 const sshConnection = new Client();

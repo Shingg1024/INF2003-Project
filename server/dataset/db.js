@@ -40,4 +40,37 @@ sshConnection.on('ready', () => {
 });
 sshConnection.connect(sshConfig);
 
-module.exports = pool;
+// Function to release all connections in the pool
+const releaseAllConnections = () => {
+    pool.end((err) => {
+        if (err) {
+            console.error('Error closing connection pool:', err);
+        } else {
+            console.log('All connections in the pool have been released.');
+        }
+    });
+};
+
+module.exports = {
+    getConnection: (callback) => {
+        pool.getConnection((err, connection) => {
+            if (err) {
+                return callback(err, null);
+            }
+            return callback(null, connection);
+        });
+    },
+    releaseConnection: (connection) => {
+        connection.release();
+    },
+    closePool: () => {
+        pool.end((err) => {
+            if (err) {
+                console.error('Error closing connection pool:', err);
+            } else {
+                console.log('Connection pool closed.');
+            }
+        });
+    },
+    releaseAllConnections: releaseAllConnections,
+};

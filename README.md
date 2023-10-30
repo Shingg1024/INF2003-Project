@@ -16,16 +16,18 @@ Beyond convenience, our vision is to elevate the overall travel experience in Ky
 1. MySQL
 2. MongoDB   
 
-## Prerequisites Packages
-Node.js LTS v18.18.1 
-> https://nodejs.org/en/download
-
 ## Following Steps
-1. Git Clone
-2. Install Dependencies
+1. Download the Repository: 
+   - Click the "Code" button and select "Download ZIP." 
+   - Extract the downloaded ZIP archive to your desired location on your computer.
+2. Download the lastest Node.js LTS [here](https://nodejs.org/en/download)
+3. Open a "cmd" on the extracted respository folder.
+4. Install Dependencies
    > Type "npm install" on the terminal
-   
-   > Type "npm i express" on the terminal
   
-3. Running the Application
+5. Running the Application
    > Type "npm run dev" on the terminal
+
+6. Usage:
+   - Open your web browser and navigate to http://localhost:3000.
+   - Follow the on-screen instructions to interact with the application.

@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const path = require('path');
+const axios = require('axios');
 const db = require('./server/dataset/db'); // Import your database connection
 
 const app = express();
@@ -74,6 +75,21 @@ mongoose.connect(process.env.URI, {
 
 app.get('/', (req, res) => {
     res.render('index')
+});
+
+app.get('/test', async (req, res) => {
+    try {
+        // Make an Axios request to fetch data from an API
+        const response = await axios.get('http://localhost:3000/alluser'); // Replace with your API endpoint
+        const data = response.data;
+
+        // Render the EJS template and pass the fetched data to it
+        res.render('test', { data });
+    } catch (error) {
+        // Handle errors, e.g., data fetch failed
+        console.error('Error fetching data:', error);
+        res.status(500).send('Error fetching data');
+    }
 });
 
 app.use(restaurantRoutes);

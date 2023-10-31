@@ -22,6 +22,8 @@ const pool = mysql.createPool({
 
 const sshConnection = new Client();
 
+sshConnection.connect(sshConfig);
+
 sshConnection.on('ready', () => {
     sshConnection.forwardOut(
         '127.0.0.1', // Local MySQL host
@@ -38,7 +40,6 @@ sshConnection.on('ready', () => {
         }
     );
 });
-sshConnection.connect(sshConfig);
 
 // Function to release all connections in the pool
 const releaseAllConnections = () => {

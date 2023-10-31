@@ -50,13 +50,13 @@ mongoose.connect(process.env.URI, {
         });
 
         process.on('SIGUSR2', () => {
-            console.log('Received SIGINT. Closing server...');
+            console.log('Received SIGUSR2. Closing server...');
             server.close(() => {
                 // Perform cleanup tasks here
                 console.log('Server closed. Cleaning up...');
 
                 // Close database connections
-                db.closeConnection((err) => {
+                db.closePool((err) => {
                     if (err) {
                         console.error('Error closing database connections:', err);
                     } else {

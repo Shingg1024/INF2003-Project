@@ -24,9 +24,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/restaurants">Restaurants</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/test">test</a>
-                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Admin</a>
+                        <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/adminuser">View Users</a></li>
+                        <li><a class="dropdown-item" href="#">Link 2</a></li>
+                        <li><a class="dropdown-item" href="#">Link 3</a></li>
+                        </ul>
+                    </li>                        
                 </ul>
                 <ul class="nav justify-content-end">
                         <% if (session.userId) { %>

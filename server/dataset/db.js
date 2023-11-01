@@ -42,15 +42,33 @@ sshConnection.on('ready', () => {
 });
 
 // Function to release all connections in the pool
-const releaseAllConnections = () => {
+const closePool = () => {
     pool.end((err) => {
         if (err) {
             console.error('Error closing connection pool:', err);
         } else {
             console.log('All connections in the pool have been released.');
         }
+        // After closing the pool, you can also close the SSH connection
+        sshConnection.end(); // Close the SSH tunnel connection
     });
 };
+
+// Add an exit handler to ensure proper cleanup when the program ends
+process.on('exit', () => {
+    closePool(); // Close the connection pool and the SSH tunnel
+});
+
+// Additional exit signals to handle (SIGINT, SIGTERM)
+process.on('SIGINT', () => {
+    closePool();
+    process.exit(1);
+});
+
+process.on('SIGTERM', () => {
+    closePool();
+    process.exit(1);
+});
 
 module.exports = {
     getConnection: (callback) => {
@@ -64,14 +82,5 @@ module.exports = {
     releaseConnection: (connection) => {
         connection.release();
     },
-    closePool: () => {
-        pool.end((err) => {
-            if (err) {
-                console.error('Error closing connection pool:', err);
-            } else {
-                console.log('Connection pool closed.');
-            }
-        });
-    },
-    releaseAllConnections: releaseAllConnections,
+    closePool: closePool
 };

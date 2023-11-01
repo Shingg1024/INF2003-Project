@@ -1,0 +1,28 @@
+<!-- include header -->
+<%- include('include/_header') %>
+<!-- /include header -->
+
+<h1>Data from the server:</h1>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <!-- Add more table headers for additional properties -->
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach(item => { %>
+      <tr>
+        <td><%= item.firstName %> <%= item.lastName %></td>
+        <td><%= item.email %></td>
+        <!-- Add more table data cells for additional properties -->
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+
+<!-- include footer -->
+<%- include('include/_footer')%>
+<!-- include footer -->

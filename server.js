@@ -43,7 +43,7 @@ const server = app.listen(port, () => {
 });
 
 // Connect to the MongoDB Server
-mongoose.connect(process.env.URI, {
+const connectionObj = mongoose.connect(process.env.URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -76,24 +76,24 @@ app.get('/edit', (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
-      if (err) {
-        console.error('Error destroying session:', err);
-      }
-      res.redirect('/'); // Redirect to the login page or any other desired destination
+        if (err) {
+            console.error('Error destroying session:', err);
+        }
+        res.redirect('/'); // Redirect to the login page or any other desired destination
     });
-  });
+});
 
 app.get('/adminuser', async (req, res) => {
     try {
         // Make an Axios request to fetch data from an API
-        const response = await axios.get('http://localhost:3000/alluser'); // Replace with your API endpoint
+        const response = await axios.get('http://localhost:3000/user/alluser'); // Replace with your API endpoint
         const data = response.data;
 
         // Render the EJS template and pass the fetched data to it
         res.render('adminuser', { data });
     } catch (error) {
         // Handle errors, e.g., data fetch failed
-        console.error('Error fetching data:', error);
+        //console.error('Error fetching data:', error);
         res.status(500).send('Error fetching data');
     }
 });
@@ -103,24 +103,16 @@ app.use(restaurantRoutes);
 app.use(hostelRoutes);
 app.use(userRoutes);
 
-// Add an exit handler to ensure proper cleanup when the program ends
-process.on('exit', () => {
-    db.closePool(); // Close the connection pool and the SSH tunnel
-});
-
-// Additional exit signals to handle (SIGINT, SIGTERM)
-process.on('SIGINT', () => {
+const cleanUp = (eventType) => {
     server.close(() => {
         console.log('Server closing...');
         db.closePool(); // Close the connection pool and the SSH tunnel
+        connectionObj.disconnect();
+        console.log('---Server closed---');
         process.exit(0); // Exit with success status
     });
-});
+};
 
-process.on('SIGTERM', () => {
-    server.close(() => {
-        console.log('Server closing...');
-        db.closePool(); // Close the connection pool and the SSH tunnel
-        process.exit(0); // Exit with success status
-    });
-});
+[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+    process.on(eventType, cleanUp.bind(null, eventType));
+})

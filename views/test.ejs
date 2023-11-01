@@ -2,15 +2,16 @@
 <%- include('include/_header') %>
 <!-- /include header -->
 
-<body>
-  <h1>Data from the server:</h1>
-  <ul>
-    <% data.forEach(item => { %>
-    <li><%= item.user_name %></li>
-    <!-- Replace 'propertyName' with the actual property you want to display -->
-    <% }); %>
-  </ul>
-</body>
+<h1>Data from the server:</h1>
+<ul>
+  <% data.forEach(item=> { %>
+  <li>
+    <%= item.firstName %> <%= item.lastName %>
+  </li>
+  <!-- Replace 'propertyName' with the actual property you want to display -->
+  <% }); %>
+</ul>
+
 
 <!-- include footer -->
 <%- include('include/_footer')%>

@@ -49,23 +49,17 @@ mongoose.connect(process.env.URI, {
             console.log(`Node.js App is running on port ${port}`);
         });
 
-        process.on('SIGUSR2', () => {
+        process.on('SIGINT', () => {
             console.log('Received SIGUSR2. Closing server...');
             server.close(() => {
                 // Perform cleanup tasks here
                 console.log('Server closed. Cleaning up...');
 
                 // Close database connections
-                db.closePool((err) => {
-                    if (err) {
-                        console.error('Error closing database connections:', err);
-                    } else {
-                        console.log('Database connections closed.');
-                    }
+                db.closePool();
 
-                    // Exit the process
-                    process.exit(0);
-                });
+                // Exit the process
+                process.exit(0);
             });
         });
     })
@@ -73,8 +67,14 @@ mongoose.connect(process.env.URI, {
         console.error('Error connecting to MongoDB:', err);
     });
 
+app.use((req, res, next) => {
+    res.locals.session = req.session;
+    next();
+});
+
+
 app.get('/', (req, res) => {
-    res.render('index')
+    res.render('index', { session: req.session });
 });
 
 app.get('/test', async (req, res) => {

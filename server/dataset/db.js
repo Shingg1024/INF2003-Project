@@ -54,22 +54,6 @@ const closePool = () => {
     });
 };
 
-// Add an exit handler to ensure proper cleanup when the program ends
-process.on('exit', () => {
-    closePool(); // Close the connection pool and the SSH tunnel
-});
-
-// Additional exit signals to handle (SIGINT, SIGTERM)
-process.on('SIGINT', () => {
-    closePool();
-    process.exit(1);
-});
-
-process.on('SIGTERM', () => {
-    closePool();
-    process.exit(1);
-});
-
 module.exports = {
     getConnection: (callback) => {
         pool.getConnection((err, connection) => {

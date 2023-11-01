@@ -28,6 +28,20 @@ Beyond convenience, our vision is to elevate the overall travel experience in Ky
 5. Running the Application
    > Type "npm run dev" on the terminal
 
-6. Usage:
+6. Make sure to always this 3 console logs in the terminal (in any order)
+   - Node.js App is running on port 3000
+   - Connected to MongoDB Server
+   - SSH tunnel to MySQL server established
+
+7. Usage:
    - Open your web browser and navigate to http://localhost:3000.
    - Follow the on-screen instructions to interact with the application.
+
+8. Errors:
+   - If you have any error  shown in the webpage or in the terminal. Please do the following:
+   > Press 'Ctrl-c' and type 'y'
+   - You will see the result 
+      - Server closing...
+      - All connections in the pool have been released.
+   - Now once the application has stopped running, please proceed to step 5 and run the application again.
+

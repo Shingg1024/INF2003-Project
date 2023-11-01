@@ -34,7 +34,10 @@
                     </li>                        
                 </ul>
                 <ul class="nav justify-content-end">
-                        <% if (session.userId) { %>
+                        <% if (session.user) { %>
+                            <script>
+                                console.log('<%= (session.user.email) %>');
+                            </script>
                             <li class="nav-item">
                                 <a class="nav-link" href="/edit">Edit Profile</a>
                             </li>

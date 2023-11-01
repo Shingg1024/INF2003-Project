@@ -7,13 +7,13 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h3>Register</h3>
+                    <h3>Edit</h3>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="/register">
+                    <form method="post" action="/edit">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" required value="<%= session.user.email %>">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
@@ -21,20 +21,20 @@
                         </div>
                         <div class="mb-3">
                             <label for="firstname" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstname" name="firstname" required>
+                            <input type="text" class="form-control" id="firstname" name="firstname" required value="<%= session.user.firstName %>">
                         </div>
                         <div class="mb-3">
                             <label for="lastname" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastname" name="lastname" required>
+                            <input type="text" class="form-control" id="lastname" name="lastname" required value="<%=session.user.lastName %>">
                         </div>
-                        <button type="submit" class="btn btn-primary">Register</button>
-                        <p class="mt-3">Already have an account? <a href="/login">Login now</a></p>
+                        <button type="submit" class="btn btn-primary">Edit Profile</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- include footer -->
 <%- include('include/_footer')%>

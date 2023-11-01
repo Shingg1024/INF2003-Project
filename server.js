@@ -3,10 +3,9 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");  
 const path = require('path');
 const axios = require('axios');
-const db = require('./server/dataset/db'); // Import your database connection
 
 const app = express();
 const port = 3000;
@@ -42,30 +41,14 @@ app.use(express.json());
 mongoose.connect(process.env.URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-})
-    .then(() => {
-        console.log("Connected to MongoDB Server");
-        const server = app.listen(port, () => {
-            console.log(`Node.js App is running on port ${port}`);
-        });
-
-        process.on('SIGINT', () => {
-            console.log('Received SIGUSR2. Closing server...');
-            server.close(() => {
-                // Perform cleanup tasks here
-                console.log('Server closed. Cleaning up...');
-
-                // Close database connections
-                db.closePool();
-
-                // Exit the process
-                process.exit(0);
-            });
-        });
-    })
-    .catch((err) => {
-        console.error('Error connecting to MongoDB:', err);
+}).then(() => {
+    console.log("Connected to MongoDB Server");
+    const server = app.listen(port, () => {
+        console.log(`Node.js App is running on port ${port}`);
     });
+}).catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+});
 
 app.use((req, res, next) => {
     res.locals.session = req.session;
@@ -77,14 +60,14 @@ app.get('/', (req, res) => {
     res.render('index', { session: req.session });
 });
 
-app.get('/test', async (req, res) => {
+app.get('/adminuser', async (req, res) => {
     try {
         // Make an Axios request to fetch data from an API
         const response = await axios.get('http://localhost:3000/alluser'); // Replace with your API endpoint
         const data = response.data;
 
         // Render the EJS template and pass the fetched data to it
-        res.render('test', { data });
+        res.render('adminuser', { data });
     } catch (error) {
         // Handle errors, e.g., data fetch failed
         console.error('Error fetching data:', error);

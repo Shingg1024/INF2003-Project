@@ -3,9 +3,10 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const bodyParser = require("body-parser");  
+const bodyParser = require("body-parser");
 const path = require('path');
 const axios = require('axios');
+const db = require('./server/dataset/db')
 
 const app = express();
 const port = 3000;
@@ -37,15 +38,16 @@ const userRoutes = require('./server/routes/userRoutes');
 
 app.use(express.json());
 
+const server = app.listen(port, () => {
+    console.log(`Node.js App is running on port ${port}`);
+});
+
 // Connect to the MongoDB Server
 mongoose.connect(process.env.URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
     console.log("Connected to MongoDB Server");
-    const server = app.listen(port, () => {
-        console.log(`Node.js App is running on port ${port}`);
-    });
 }).catch((err) => {
     console.error('Error connecting to MongoDB:', err);
 });
@@ -59,6 +61,27 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.render('index', { session: req.session });
 });
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+
+app.get('/edit', (req, res) => {
+    res.render('edit');
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+      if (err) {
+        console.error('Error destroying session:', err);
+      }
+      res.redirect('/'); // Redirect to the login page or any other desired destination
+    });
+  });
 
 app.get('/adminuser', async (req, res) => {
     try {
@@ -75,6 +98,29 @@ app.get('/adminuser', async (req, res) => {
     }
 });
 
+
 app.use(restaurantRoutes);
 app.use(hostelRoutes);
 app.use(userRoutes);
+
+// Add an exit handler to ensure proper cleanup when the program ends
+process.on('exit', () => {
+    db.closePool(); // Close the connection pool and the SSH tunnel
+});
+
+// Additional exit signals to handle (SIGINT, SIGTERM)
+process.on('SIGINT', () => {
+    server.close(() => {
+        console.log('Server closing...');
+        db.closePool(); // Close the connection pool and the SSH tunnel
+        process.exit(0); // Exit with success status
+    });
+});
+
+process.on('SIGTERM', () => {
+    server.close(() => {
+        console.log('Server closing...');
+        db.closePool(); // Close the connection pool and the SSH tunnel
+        process.exit(0); // Exit with success status
+    });
+});

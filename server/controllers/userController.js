@@ -124,3 +124,63 @@ exports.editUser = (req, res) => {
     });
 };
 
+exports.sortData = (req, res) => {
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const sortingParameter = req.query.parameter;
+        const sortOrder = req.query.order;
+        const query = `SELECT * FROM user ORDER BY ${sortingParameter} ${sortOrder}`;
+
+        connection.query(query, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: 'An error occurred' });
+            }
+
+            // Process the query results
+            res.json(result);
+            console.log("------------- SQL query used: " + query + " -------------");
+
+            // Release the connection back to the pool when you're done
+            db.releaseConnection(connection);
+        });
+    });
+};
+
+exports.delete = (req, res) => {
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const itemId = req.params.id;
+
+        const deleteQuery = 'DELETE FROM user WHERE user_id = ?';
+
+
+        connection.query(deleteQuery, [itemId], (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: 'An error occurred' });
+            }
+
+            // Process the query results
+            console.log("------------- SQL query used: " + query + " -------------");
+
+            if (result.affectedRows === 0) {
+                // No item with the provided ID found
+                return res.status(404).json({ error: 'Item not found' });
+            }
+
+            // Release the connection back to the pool when you're done
+            db.releaseConnection(connection);
+
+            return res.status(200).json({ message: 'Item deleted successfully' });
+        });
+    });
+};

@@ -2,26 +2,128 @@
 <%- include('include/_header') %>
 <!-- /include header -->
 
-<h1>Data from the server:</h1>
+<div class="container mt-3 d-flex justify-content-center align-items-center">
+  <div class="text-center">
+    <h1>Data from the server</h1>
+    <p class="mb-2">Sort by</p>
+    <input class="form-check-input" type="radio" name="sortParameter" id="firstName"> First Name
+    <input class="form-check-input" type="radio" name="sortParameter" id="lastName"> Last Name
+    <input class="form-check-input" type="radio" name="sortParameter" id="email"> Email
+    <input type="checkbox" id="sortDescending"> Descending
+    <button id="sort-button" class="btn btn-primary">Sort Data</button>
+  </div>
+</div>
+<div id="error-notification" class="alert alert-danger" style="display: none;"></div>
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>Name</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Full Name</th>
       <th>Email</th>
       <!-- Add more table headers for additional properties -->
     </tr>
   </thead>
   <tbody>
     <% data.forEach(item => { %>
-      <tr>
-        <td><%= item.firstName %> <%= item.lastName %></td>
-        <td><%= item.email %></td>
-        <!-- Add more table data cells for additional properties -->
-      </tr>
+    <tr>
+      <td><%= item.firstName %></td>
+      <td><%= item.lastName %></td>
+      <td><%= item.firstName %> <%= item.lastName %></td>
+      <td><%= item.email %></td>
+      <td>
+        <button class="btn btn-danger" onclick="deleteItem('<%= item.user_id %>')">Delete</button>
+      </td>
+      <!-- Add more table data cells for additional properties -->
+    </tr>
     <% }); %>
   </tbody>
 </table>
 
+<script>
+  document.getElementById('sort-button').addEventListener('click', () => {
+    const sortingParameter = document.querySelector('input[name="sortParameter"]:checked');
+    const sortDescending = document.getElementById('sortDescending').checked;
+
+    // Determine the sorting parameter based on the selected radio button
+    const sortingParameterId = sortingParameter ? sortingParameter.id : '';
+
+    // Determine the sorting order based on user selection
+    const sortOrder = sortDescending ? 'DESC' : 'ASC';
+
+    // Fetch sorted data based on user selections
+    fetch(`/user/sortData?parameter=${sortingParameterId}&order=${sortOrder}`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the sorted data and update the table
+        updateFrontendWithData(data);
+
+        // Reset checkboxes and radio buttons
+        document.getElementById('sortDescending').checked = false;
+        document.querySelectorAll('input[name="sortParameter"]').forEach((radio) => {
+          radio.checked = false;
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+
+  function deleteItem(id) {
+    if (confirm('Are you sure you want to delete this item?')) {
+      fetch(`/user/delete/${id}`, {
+          method: 'DELETE',
+        })
+        .then(response => {
+          if (response.ok) {
+            const itemRow = document.querySelector(`#item-${id}`);
+            if (itemRow) {
+              itemRow.remove();
+            }
+            fetchAndRefreshData();
+          } else {
+            // Handle the error and display it in the notification box
+            response.text().then(errorMessage => {
+              showErrorNotification(errorMessage);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showErrorNotification('An error occurred while deleting the item.');
+        });
+    }
+  }
+
+  function showErrorNotification(message) {
+    const errorNotification = document.getElementById('error-notification');
+    errorNotification.textContent = message;
+    errorNotification.style.display = 'block';
+  }
+
+  function fetchAndRefreshData() {
+    // Fetch data from the server after item deletion
+    fetch('/user/getAllItems') // Replace with your endpoint to fetch data
+      .then(response => response.json())
+      .then(data => {
+        // Handle the refreshed data and update the table
+        updateFrontendWithData(data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+
+  function updateFrontendWithData(sortedData) {
+    const tableBody = document.querySelector('tbody'); // Assuming you have a single table in your HTML
+    tableBody.innerHTML = ''; // Clear existing data
+    sortedData.forEach((item) => {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `<td>${item.firstName}</td><td>${item.lastName}</td><td>${item.firstName} ${item.lastName}</td><td>${item.email}</td>`;
+      tableBody.appendChild(newRow);
+    });
+  }
+</script>
 
 <!-- include footer -->
 <%- include('include/_footer')%>

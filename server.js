@@ -43,7 +43,7 @@ const server = app.listen(port, () => {
 });
 
 // Connect to the MongoDB Server
-const connectionObj = mongoose.connect(process.env.URI, {
+mongoose.connect(process.env.URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -56,7 +56,6 @@ app.use((req, res, next) => {
     res.locals.session = req.session;
     next();
 });
-
 
 app.get('/', (req, res) => {
     res.render('index', { session: req.session });
@@ -107,7 +106,7 @@ const cleanUp = (eventType) => {
     server.close(() => {
         console.log('Server closing...');
         db.closePool(); // Close the connection pool and the SSH tunnel
-        connectionObj.disconnect();
+        mongoose.connection.close();
         console.log('---Server closed---');
         process.exit(0); // Exit with success status
     });

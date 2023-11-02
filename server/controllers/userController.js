@@ -17,6 +17,7 @@ exports.getAllUsers = (req, res) => {
 
             // Process the query results
             res.send(result);
+            console.log("------------- SQL query used: " + query + " -------------");
 
             // Release the connection back to the pool when you're done
             db.releaseConnection(connection);
@@ -51,6 +52,8 @@ exports.loginUser = (req, res) => {
             // Process the query results
             res.redirect('/');
 
+            console.log("------------- SQL query used: " + query + " -------------");
+
             // Release the connection back to the pool when you're done
             db.releaseConnection(connection);
         });
@@ -61,8 +64,8 @@ exports.loginUser = (req, res) => {
 exports.editUser = (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    const fname = req.body.fname;
-    const lname = req.body.lname;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
 
     db.getConnection((err, connection) => {
         if (err) {
@@ -83,13 +86,13 @@ exports.editUser = (req, res) => {
             updateFields.push('password = ?');
             updateValues.push(password);
         }
-        if (fname) {
-            updateFields.push('fname = ?');
-            updateValues.push(fname);
+        if (firstName) {
+            updateFields.push('firstName = ?');
+            updateValues.push(firstName);
         }
-        if (lname) {
-            updateFields.push('lname = ?');
-            updateValues.push(lname);
+        if (lastName) {
+            updateFields.push('lastName = ?');
+            updateValues.push(lastName);
         }
 
         // Create the SET clause for the SQL query
@@ -107,11 +110,13 @@ exports.editUser = (req, res) => {
 
             // Update the session user with the new information
             if (email) req.session.user.email = email;
-            if (fname) req.session.user.firstName = fname;
-            if (lname) req.session.user.lastName = lname;
+            if (firstName) req.session.user.firstName = firstName;
+            if (lastName) req.session.user.lastName = lastName;
 
             // Redirect to a success page or profile page
             res.redirect('/edit'); // Change this URL to your actual profile page URL
+
+            console.log("------------- SQL query used: " + query + " -------------");
 
             // Release the connection back to the pool when you're done
             db.releaseConnection(connection);

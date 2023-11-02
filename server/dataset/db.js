@@ -17,7 +17,8 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-    connectTimeout: 20000, // Increase the connection timeout to 20 seconds
+    connectTimeout: 50000, // Increase the connection timeout to 20 seconds
+    port: 8889
 });
 
 const sshConnection = new Client();
@@ -35,7 +36,9 @@ sshConnection.on('ready', () => {
 
             pool.config.connectionConfig.stream = stream; // Attach the SSH tunnel stream to the MySQL connection pool
 
-            // The pool is now configured to use the SSH tunnel stream for MySQL connections
+            // Set the sequenceId to 0 before establishing the MySQL connection
+            stream.sequenceId = 0;
+
             console.log('SSH tunnel to MySQL server established');
         }
     );

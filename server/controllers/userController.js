@@ -193,3 +193,56 @@ exports.delete = (req, res) => {
         }
     });
 };
+exports.rankcountFirstName = (req, res) => {
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const query = "WITH NameCounts AS (SELECT firstName ,COUNT(*) AS NameCount FROM user GROUP BY firstName)" +
+        "SELECT firstName, NameCount, RANK() OVER (ORDER BY NameCount DESC) AS NameRank FROM NameCounts ORDER BY NameRANK";
+
+        connection.query(query, (err, result) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                // Process the query results
+                res.send(result);
+                console.log("------------- SQL query used: " + query + " -------------");
+            } finally {
+                // Release the connection back to the pool when you're done
+                db.releaseConnection(connection);
+            }
+        });
+    });
+};
+exports.denseRankcountFirstName = (req, res) => {
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+        const query = "WITH NameCounts AS (SELECT firstName ,COUNT(*) AS NameCount FROM user GROUP BY firstName)" +
+        "SELECT firstName, NameCount, DENSE_RANK() OVER (ORDER BY NameCount DESC) AS NameRank FROM NameCounts ORDER BY NameRANK";  
+
+        connection.query(query, (err, result) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                // Process the query results
+                res.send(result);
+                console.log("------------- SQL query used: " + query + " -------------");
+            } finally {
+                // Release the connection back to the pool when you're done
+                db.releaseConnection(connection);
+            }
+        });
+    });
+};

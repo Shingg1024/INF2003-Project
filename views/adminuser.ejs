@@ -4,13 +4,20 @@
 
 <div class="container mt-3 d-flex justify-content-center align-items-center">
   <div class="text-center">
-    <h1>Data from the server</h1>
+    <h1>Account Management</h1>
     <p class="mb-2">Sort by</p>
     <input class="form-check-input" type="radio" name="sortParameter" id="firstName"> First Name
     <input class="form-check-input" type="radio" name="sortParameter" id="lastName"> Last Name
     <input class="form-check-input" type="radio" name="sortParameter" id="email"> Email
     <input type="checkbox" id="sortDescending"> Descending
+    <br>
     <button id="sort-button" class="btn btn-primary">Sort Data</button>
+    <button id="reset-button" class="btn btn-danger">Reset</button>
+    <br><br>
+    <p class="mb-2">Advanced</p>
+    <button id="rank-button" class="btn btn-primary">Rank Similar first name</button>
+    <button id="dense-button" class="btn btn-primary">Dense Rank Similar first name</button>
+    <button id="reset-button" class="btn btn-danger">Reset</button>
   </div>
 </div>
 <table class="table table-bordered">
@@ -67,6 +74,31 @@
         console.error('Error:', error);
       });
   });
+  document.getElementById('rank-button').addEventListener('click', () => {
+    fetch(`/user/rankcountFirstName`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the sorted data and update the table
+        countRank(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+  document.getElementById('dense-button').addEventListener('click', () => {
+    fetch(`/user/denseRankcountFirstName`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the sorted data and update the table
+        countRank(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+  document.getElementById('reset-button').addEventListener('click', () => {
+    fetchAndRefreshData();
+  });
 
   function deleteItem(id) {
     if (confirm('Are you sure you want to delete this item?')) {
@@ -100,7 +132,7 @@
 
   function fetchAndRefreshData() {
     // Fetch data from the server after item deletion
-    fetch('/user/getAllItems') // Replace with your endpoint to fetch data
+    fetch('/user/alluser') 
       .then(response => response.json())
       .then(data => {
         // Handle the refreshed data and update the table
@@ -112,11 +144,52 @@
   }
 
   function updateFrontendWithData(sortedData) {
-    const tableBody = document.querySelector('tbody'); // Assuming you have a single table in your HTML
-    tableBody.innerHTML = ''; // Clear existing data
+    const tableHead = document.querySelector('thead');
+    tableHead.innerHTML = ''; 
+    const row = document.createElement('tr');
+    row.innerHTML = `<th>First Name</th><th>Last Name</th><th>Full Name</th><th>Email</th>`;
+    tableHead.appendChild(row);
+
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = ''; 
     sortedData.forEach((item) => {
       const newRow = document.createElement('tr');
-      newRow.innerHTML = `<td>${item.firstName}</td><td>${item.lastName}</td><td>${item.firstName} ${item.lastName}</td><td>${item.email}</td>`;
+      newRow.innerHTML = `<td>${item.firstName}</td><td>${item.lastName}</td><td>${item.firstName} ${item.lastName}</td><td>${item.email}</td><td>
+        <button class="btn btn-danger" onclick="deleteItem(${item.user_id}">Delete</button></td>`;
+      tableBody.appendChild(newRow);
+    });
+  }
+
+  function countRank(data) {
+
+    const tableHead = document.querySelector('thead');
+    tableHead.innerHTML = ''; // Clear existing data
+    const row = document.createElement('tr');
+    row.innerHTML = `<th>First Name</th><th>Count</th><th>Rank</th>`;
+    tableHead.appendChild(row);
+
+    const tableBody = document.querySelector('tbody'); // Assuming you have a single table in your HTML
+    tableBody.innerHTML = ''; // Clear existing data
+    data.forEach((item) => {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `<td>${item.firstName}</td><td>${item.NameCount}</td><td>${item.NameRank}</td>`;
+      tableBody.appendChild(newRow);
+    });
+  }
+
+  function countDenseRank(data) {
+
+    const tableHead = document.querySelector('thead');
+    tableHead.innerHTML = ''; // Clear existing data
+    const row = document.createElement('tr');
+    row.innerHTML = `<th>First Name</th><th>Count</th><th>Dense Rank</th>`;
+    tableHead.appendChild(row);
+
+    const tableBody = document.querySelector('tbody'); // Assuming you have a single table in your HTML
+    tableBody.innerHTML = ''; // Clear existing data
+    data.forEach((item) => {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `<td>${item.firstName}</td><td>${item.NameCount}</td><td>${item.NameRank}</td>`;
       tableBody.appendChild(newRow);
     });
   }

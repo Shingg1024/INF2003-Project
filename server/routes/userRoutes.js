@@ -8,5 +8,7 @@ router.post('/login', userController.loginUser);
 router.post('/edit', userController.editUser);
 router.get('/user/sortData', userController.sortData);
 router.delete('/user/delete/:id', userController.delete);
+router.get('/user/rankcountFirstName',userController.rankcountFirstName)
+router.get('/user/denseRankcountFirstName',userController.denseRankcountFirstName)
 
 module.exports = router;

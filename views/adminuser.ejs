@@ -13,7 +13,6 @@
     <button id="sort-button" class="btn btn-primary">Sort Data</button>
   </div>
 </div>
-<div id="error-notification" class="alert alert-danger" style="display: none;"></div>
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -82,23 +81,21 @@
             }
             fetchAndRefreshData();
           } else {
-            // Handle the error and display it in the notification box
+            // Handle the error and display it in the alert box
             response.text().then(errorMessage => {
-              showErrorNotification(errorMessage);
+              showCustomAlert(errorMessage, 'alert-danger');
             });
           }
         })
         .catch(error => {
           console.error('Error:', error);
-          showErrorNotification('An error occurred while deleting the item.');
+          showCustomAlert('An error occurred while deleting the item.', 'alert-danger');
         });
     }
   }
 
-  function showErrorNotification(message) {
-    const errorNotification = document.getElementById('error-notification');
-    errorNotification.textContent = message;
-    errorNotification.style.display = 'block';
+  function showCustomAlert(message, alertType) {
+    alert(message);
   }
 
   function fetchAndRefreshData() {

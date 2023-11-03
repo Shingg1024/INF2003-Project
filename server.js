@@ -112,6 +112,6 @@ const cleanUp = (eventType) => {
     });
 };
 
-[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `SIGTERM`].forEach((eventType) => {
     process.on(eventType, cleanUp.bind(null, eventType));
 })

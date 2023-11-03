@@ -1,4 +1,5 @@
 const db = require('../dataset/db'); // Import your database connection
+const userModel = require('../models/userModel');
 
 // Get all users
 exports.getAllUsers = (req, res) => {
@@ -27,7 +28,6 @@ exports.getAllUsers = (req, res) => {
     });
 };
 
-// Login
 exports.loginUser = (req, res) => {
     email = req.body.email;
     password = req.body.password;
@@ -52,10 +52,41 @@ exports.loginUser = (req, res) => {
                     return res.status(401).json({ error: 'Invalid email or password' });
                 }
                 req.session.user = results[0];
-                // Process the query results
-                res.redirect('/');
-
                 console.log("------------- SQL query used: " + query + " -------------");
+
+                // Retrieve the user_id from the SQL data
+                const id = req.session.user.user_id;
+
+                // Use the user_id to query the NoSQL data
+                userModel.findOne({
+                    user_id: id
+                }).then((result) => {
+                    if (result) {
+                        // Map and merge the NoSQL result with the existing SQL user data
+                        req.session.user = {
+                            user_id: req.session.user.user_id, // Keep the SQL user_id
+                            email: req.session.user.email,     // Map SQL email to NoSQL email
+                            firstName: req.session.user.firstName, // Map SQL firstname to NoSQL firstname
+                            lastName: req.session.user.lastName,   // Map SQL lastName to NoSQL lastName
+                            profile: {
+                                biography: result.profile.biography,
+                                interests: result.profile.interests,
+                                socialMedia: {
+                                    twitter: result.profile.socialMedia.twitter,
+                                    instagram: result.profile.socialMedia.instagram,
+                                    facebook: result.profile.socialMedia.facebook
+                                }
+                            }
+                        };
+                        
+                        console.log("------------- MongoDB query used: userModel.findOne({ user_id: id }) -------------");
+                        res.redirect('/');
+                    } else {
+                        res.redirect('/');
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
             } finally {
                 // Release the connection back to the pool when you're done
                 db.releaseConnection(connection);
@@ -65,7 +96,7 @@ exports.loginUser = (req, res) => {
 };
 
 // Update Profile
-exports.editUser = (req, res) => {
+exports.editUser = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     const firstName = req.body.firstName;
@@ -118,9 +149,6 @@ exports.editUser = (req, res) => {
                 if (firstName) req.session.user.firstName = firstName;
                 if (lastName) req.session.user.lastName = lastName;
 
-                // Redirect to a success page or profile page
-                res.redirect('/edit'); // Change this URL to your actual profile page URL
-
                 console.log("------------- SQL query used: " + query + " -------------");
             });
         } finally {
@@ -128,6 +156,54 @@ exports.editUser = (req, res) => {
             db.releaseConnection(connection);
         }
     });
+
+    // Update the NoSQL (MongoDB) data
+    const id = req.session.user.user_id;
+    try {
+        const updatedUser = await userModel.findOneAndUpdate(
+            { user_id: id },
+            {
+                $set: {
+                    'profile.biography': req.body.biography,
+                    'profile.interests': req.body.interests,
+                    'profile.socialMedia.twitter': req.body.twitter,
+                    'profile.socialMedia.instagram': req.body.instagram,
+                    'profile.socialMedia.facebook': req.body.facebook,
+                }
+            },
+            { new: true, upsert: true }
+        );
+
+        req.session.user = {
+            user_id: req.session.user.user_id,
+            email: email || req.session.user.email,
+            firstName: firstName || req.session.user.firstName,
+            lastName: lastName || req.session.user.lastName,
+            profile: {
+                biography: updatedUser.profile.biography,
+                interests: updatedUser.profile.interests,
+                socialMedia: {
+                    twitter: updatedUser.profile.socialMedia.twitter,
+                    instagram: updatedUser.profile.socialMedia.instagram,
+                    facebook: updatedUser.profile.socialMedia.facebook
+                }
+            }
+        };
+
+        console.log("------------- MongoDB query used: userModel.findOneAndUpdate(" + 
+            "{ user_id: id },{$set: {'profile.biography': req.body.biography,'profile.interests': req.body.interests, " +
+            "'profile.socialMedia.twitter': req.body.twitter, " +
+            "'profile.socialMedia.instagram': req.body.instagram, " +
+            "'profile.socialMedia.facebook': req.body.facebook,}}, " +
+            "{ new: true, upsert: true }) -------------"
+            );
+
+        // Redirect to a success page or profile page
+        res.redirect('/edit'); // Change this URL to your actual profile page URL
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: 'An error occurred' });
+    }
 };
 
 exports.sortData = (req, res) => {
@@ -193,6 +269,7 @@ exports.delete = (req, res) => {
         }
     });
 };
+
 exports.rankcountFirstName = (req, res) => {
     db.getConnection((err, connection) => {
         if (err) {
@@ -201,7 +278,7 @@ exports.rankcountFirstName = (req, res) => {
         }
 
         const query = "WITH NameCounts AS (SELECT firstName ,COUNT(*) AS NameCount FROM user GROUP BY firstName)" +
-        "SELECT firstName, NameCount, RANK() OVER (ORDER BY NameCount DESC) AS NameRank FROM NameCounts ORDER BY NameRANK";
+            "SELECT firstName, NameCount, RANK() OVER (ORDER BY NameCount DESC) AS NameRank FROM NameCounts ORDER BY NameRANK";
 
         connection.query(query, (err, result) => {
             try {
@@ -220,6 +297,7 @@ exports.rankcountFirstName = (req, res) => {
         });
     });
 };
+
 exports.denseRankcountFirstName = (req, res) => {
     db.getConnection((err, connection) => {
         if (err) {
@@ -227,7 +305,7 @@ exports.denseRankcountFirstName = (req, res) => {
             return res.status(500).json({ error: 'An error occurred' });
         }
         const query = "WITH NameCounts AS (SELECT firstName ,COUNT(*) AS NameCount FROM user GROUP BY firstName)" +
-        "SELECT firstName, NameCount, DENSE_RANK() OVER (ORDER BY NameCount DESC) AS NameRank FROM NameCounts ORDER BY NameRANK";  
+            "SELECT firstName, NameCount, DENSE_RANK() OVER (ORDER BY NameCount DESC) AS NameRank FROM NameCounts ORDER BY NameRANK";
 
         connection.query(query, (err, result) => {
             try {

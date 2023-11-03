@@ -27,6 +27,26 @@
                             <label for="lastname" class="form-label">Last Name</label>
                             <input type="text" class="form-control" id="lastname" name="lastName" required value="<%=session.user.lastName %>">
                         </div>
+                        <div class="mb-3">
+                            <label for="biography" class="form-label">Biography</label>
+                            <textarea class="form-control" id="biography" name="biography" rows="3"><%= session.user.profile && session.user.profile.biography ? session.user.profile.biography : '' %></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="interests" class="form-label">Interests</label>
+                            <input type="text" class="form-control" id="interests" name="interests" value="<%= session.user.profile && session.user.profile.interests ? session.user.profile.interests : '' %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="twitter" class="form-label">Twitter</label>
+                            <input type="text" class="form-control" id="twitter" name="twitter" value="<%= session.user.profile && session.user.profile.socialMedia && session.user.profile.socialMedia.twitter ? session.user.profile.socialMedia.twitter : '' %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="instagram" class="form-label">Instagram</label>
+                            <input type="text" class="form-control" id="instagram" name="instagram" value="<%= session.user.profile && session.user.profile.socialMedia && session.user.profile.socialMedia.instagram ? session.user.profile.socialMedia.instagram : '' %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="facebook" class="form-label">Facebook</label>
+                            <input type="text" class="form-control" id="facebook" name="facebook" value="<%= session.user.profile && session.user.profile.socialMedia && session.user.profile.socialMedia.facebook ? session.user.profile.socialMedia.facebook : '' %>">
+                        </div>
                         <button type="submit" class="btn btn-primary">Edit Profile</button>
                     </form>
                 </div>

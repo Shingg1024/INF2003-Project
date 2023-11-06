@@ -100,8 +100,8 @@ exports.loginUser = (req, res) => {
 exports.regUser = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    const firstName = req.body.firstname;
-    const lastName = req.body.lastname;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
     console.log(req.body)
 
     db.getConnection((err, connection) => {
@@ -149,7 +149,7 @@ exports.regUser = async (req, res) => {
             }
         })
     });
-    
+
 };
 
 // Update Profile
@@ -311,7 +311,7 @@ exports.delete = (req, res) => {
                 }
 
                 // Process the query results
-                console.log("------------- SQL query used: " + query + " -------------");
+                console.log("------------- SQL query used: " + deleteQuery + " -------------");
 
                 if (result.affectedRows === 0) {
                     // No item with the provided ID found

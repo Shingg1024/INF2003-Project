@@ -1,0 +1,64 @@
+<!-- include header -->
+<%- include('include/_header') %>
+<!-- /include header -->
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Link</th>
+      <th>Price</th>
+      <th>Free</th>
+      <th>General</th>
+      <th>Services</th>
+      <th>Food Drink</th>
+      <th>Entertainment</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach(item => { %>
+    <tr>
+      <td><%= item.hostel_name %></td>
+      <td><a href="<%= item.hostel_link %>" target="_blank"><%= item.hostel_link %></a></td>
+      <td>¥<%= item.price %></td>
+      <td>
+        <% item.free.forEach(freeItem => { %>
+        <% let cleanedItem = freeItem.replace(/[\[\]']/g, ''); %>
+        <p><%= cleanedItem %></p><br>
+        <% }); %>
+      </td>
+      <td>
+        <% item.general.forEach(freeItem => { %>
+        <% let cleanedItem = freeItem.replace(/[\[\]']/g, ''); %>
+        <p><%= cleanedItem %></p>
+        <% }); %>
+      </td>
+      <td>
+        <% item.services.forEach(freeItem => { %>
+        <% let cleanedItem = freeItem.replace(/[\[\]']/g, ''); %>
+        <p><%= cleanedItem %></p>
+        <% }); %>
+      </td>
+      <td>
+        <% item.foodDrink.forEach(freeItem => { %>
+        <% let cleanedItem = freeItem.replace(/[\[\]']/g, ''); %>
+        <p><%= cleanedItem %></p>
+        <% }); %>
+      </td>
+      <td>
+        <% item.entertainment.forEach(freeItem => { %>
+        <% let cleanedItem = freeItem.replace(/[\[\]']/g, ''); %>
+        <p><%= cleanedItem %></p>
+        <% }); %>
+      </td>
+      <td>
+        <a href="https://maps.google.com/?q=<%= item.location.coordinates[1] %>,<%= item.location.coordinates[0] %>">Google Map</a>
+      </td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<!-- include footer -->
+<%- include('include/_footer')%>
+<!-- include footer -->

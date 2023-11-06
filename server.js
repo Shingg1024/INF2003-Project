@@ -78,21 +78,39 @@ app.get('/logout', (req, res) => {
         if (err) {
             console.error('Error destroying session:', err);
         }
-        res.redirect('/'); // Redirect to the login page or any other desired destination
+        res.redirect('/'); 
     });
 });
 
-app.get('/adminuser', async (req, res) => {
+app.get('/userStats', async (req, res) => {
     try {
-        // Make an Axios request to fetch data from an API
-        const response = await axios.get('http://localhost:3000/user/alluser'); // Replace with your API endpoint
-        const data = response.data;
+        response = await axios.get('http://localhost:3000/user/alluser');
+        data = response.data;
 
-        // Render the EJS template and pass the fetched data to it
         res.render('adminuser', { data });
     } catch (error) {
-        // Handle errors, e.g., data fetch failed
-        //console.error('Error fetching data:', error);
+        res.status(500).send('Error fetching data');
+    }
+});
+
+app.get('/hostelFull', async (req, res) => {
+    try {
+        response = await axios.get('http://localhost:3000/hostel/allhostels'); 
+        data = response.data;
+
+        res.render('hostelFull', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
+app.get('/restaurantFull', async (req, res) => {
+    try {
+        response = await axios.get('http://localhost:3000/restaurant/allrestaurants'); 
+        data = response.data;
+
+        res.render('restaurantFull', { data });
+    } catch (error) {
         res.status(500).send('Error fetching data');
     }
 });

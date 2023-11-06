@@ -39,8 +39,8 @@ exports.loginUser = (req, res) => {
             return res.status(500).json({ error: 'An error occurred' });
         }
 
-        const query = "SELECT * FROM user where email = ?";
-        connection.query(query, [email], (err, results) => {
+        const query = "SELECT * FROM user where email = ? and password = ?";
+        connection.query(query, [email, password], (err, results) => {
             try {
                 if (err) {
                     console.log(err);
@@ -96,13 +96,12 @@ exports.loginUser = (req, res) => {
     });
 };
 
-// Register User
-exports.regUser = async (req, res) => {
+// Register
+exports.regUser = (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    console.log(req.body)
 
     db.getConnection((err, connection) => {
         if (err) {
@@ -110,47 +109,34 @@ exports.regUser = async (req, res) => {
             return res.status(500).json({ error: 'An error occurred' });
         }
 
-        if (!email || !password) {
-            return res.status(400).json({ error: 'Email and password are required.' });
-        }
-
-        const query = "SELECT * FROM user where email = ?";
-        connection.query(query, [email], (err, results) => {
-            try {
-                if (err) {
-                    console.log(err);
-                    return res.status(500).json({ error: 'An error occurred' });
-                }
-
-                console.log("------------- SQL query used: " + query + " -------------");
-
-                if (results.length > 0) {
-                    db.releaseConnection(connection);
-                    return res.status(400).json({ error: 'User with that email already exists.' });
-                }
-            } catch (err) {
+        const selectQuery = "SELECT * FROM user where email = ?";
+        connection.query(selectQuery, [email], (err, results) => {
+            if (err) {
                 console.log(err);
+                db.releaseConnection(connection);
                 return res.status(500).json({ error: 'An error occurred' });
             }
-        })
 
-        const query1 = "INSERT INTO user (email, password, firstName, lastName) VALUES (?, ?, ?, ?)";
-        connection.query(query1, [email, password, firstName, lastName], (err, results) => {
-            try {
-                if (err) {
-                    console.log(err);
-                    return res.status(500).json({ error: 'An error occurred' });
-                }
+            if (results.length == 0) {
+                const insertQuery = "INSERT INTO user (email, password, firstName, lastName) VALUES (?, ?, ?, ?)";
+                connection.query(insertQuery, [email, password, firstName, lastName], (err, results) => {
+                    if (err) {
+                        db.releaseConnection(connection);
+                        console.log(err);
+                        return res.status(500).json({ error: 'An error occurred during registration.' });
+                    }
 
-                console.log("------------- SQL query used: " + query1 + " -------------");
-                res.redirect('/login');
-            } finally {
+                    db.releaseConnection(connection);
+                    return res.status(200).json({ message: 'User registered successfully.' });
+                });
+            } else {
                 db.releaseConnection(connection);
+                return res.status(400).json({ error: 'User with that email already exists.' });
             }
-        })
+        });
     });
-
 };
+
 
 // Update Profile
 exports.editUser = async (req, res) => {

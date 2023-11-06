@@ -29,10 +29,8 @@
   </div>
 </div>
 <script>
-  // Check if a JavaScript variable 'error' is set in your EJS template
   var error = "<%= typeof error !== 'undefined' ? error : '' %>";
   if (error) {
-    // Display the error message and style it as needed
     var errorMessage = error;
     document.getElementById("error-message").innerHTML = errorMessage;
     document.getElementById("error-message").style.display = "block";

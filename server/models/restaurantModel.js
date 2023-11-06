@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const restaurantSchema = new Schema({
+    restaurant_id: Number,
     name: String,
     japaneseName: String,
     station: String,
@@ -9,12 +10,8 @@ const restaurantSchema = new Schema({
     secondCategory: String,
     dinnerPrice: String,
     lunchPrice: String,
-    totalRating: Number,
-    dinnerRating: Number,
-    lunchRating: Number,
-    reviewNum: Number,
-    lat: Number,
-    long: Number,
+    latitude: Number,
+    longitude: Number,
     location: {
         type: {
             type: String,

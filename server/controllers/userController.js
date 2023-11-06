@@ -28,6 +28,7 @@ exports.getAllUsers = (req, res) => {
     });
 };
 
+// Login
 exports.loginUser = (req, res) => {
     email = req.body.email;
     password = req.body.password;
@@ -78,7 +79,7 @@ exports.loginUser = (req, res) => {
                                 }
                             }
                         };
-                        
+
                         console.log("------------- MongoDB query used: userModel.findOne({ user_id: id }) -------------");
                         res.redirect('/');
                     } else {
@@ -93,6 +94,62 @@ exports.loginUser = (req, res) => {
             }
         });
     });
+};
+
+// Register User
+exports.regUser = async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const firstName = req.body.firstname;
+    const lastName = req.body.lastname;
+    console.log(req.body)
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Email and password are required.' });
+        }
+
+        const query = "SELECT * FROM user where email = ?";
+        connection.query(query, [email], (err, results) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                console.log("------------- SQL query used: " + query + " -------------");
+
+                if (results.length > 0) {
+                    db.releaseConnection(connection);
+                    return res.status(400).json({ error: 'User with that email already exists.' });
+                }
+            } catch (err) {
+                console.log(err);
+                return res.status(500).json({ error: 'An error occurred' });
+            }
+        })
+
+        const query1 = "INSERT INTO user (email, password, firstName, lastName) VALUES (?, ?, ?, ?)";
+        connection.query(query1, [email, password, firstName, lastName], (err, results) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                console.log("------------- SQL query used: " + query1 + " -------------");
+                res.redirect('/login');
+            } finally {
+                db.releaseConnection(connection);
+            }
+        })
+    });
+    
 };
 
 // Update Profile
@@ -190,16 +247,15 @@ exports.editUser = async (req, res) => {
             }
         };
 
-        console.log("------------- MongoDB query used: userModel.findOneAndUpdate(" + 
+        console.log("------------- MongoDB query used: userModel.findOneAndUpdate(" +
             "{ user_id: id },{$set: {'profile.biography': req.body.biography,'profile.interests': req.body.interests, " +
             "'profile.socialMedia.twitter': req.body.twitter, " +
             "'profile.socialMedia.instagram': req.body.instagram, " +
             "'profile.socialMedia.facebook': req.body.facebook,}}, " +
             "{ new: true, upsert: true }) -------------"
-            );
+        );
 
-        // Redirect to a success page or profile page
-        res.redirect('/edit'); // Change this URL to your actual profile page URL
+        res.redirect('/edit');
     } catch (err) {
         console.log(err);
         return res.status(500).json({ error: 'An error occurred' });

@@ -2,38 +2,39 @@
 <%- include('include/_header') %>
 <!-- /include header -->
 
+<div id="errorDiv" style="display: none;"></div>
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Register</h3>
-                </div>
-                <div class="card-body">
-                    <form method="post" action="/register">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Register</button>
-                        <p class="mt-3">Already have an account? <a href="/login">Login now</a></p>
-                    </form>
-                </div>
-            </div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>Register</h3>
         </div>
+        <div class="card-body">
+          <form method="post" action="/register" id="registerForm">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" required>
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+            <p class="mt-3">Already have an account? <a href="/login">Login now</a></p>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- include footer -->

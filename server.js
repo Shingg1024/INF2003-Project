@@ -102,6 +102,17 @@ app.use(restaurantRoutes);
 app.use(hostelRoutes);
 app.use(userRoutes);
 
+app.use((err, req, res, next) => {
+    console.error(err); 
+  
+    if (res.headersSent) {
+      return next(err); 
+    }
+  
+    res.status(500).send('An internal server error occurred. Please refresh the page or restart the application.');
+  
+  });
+
 const cleanUp = (eventType) => {
     server.close(() => {
         console.log('Server closing...');

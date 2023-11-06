@@ -106,7 +106,6 @@ const cleanUp = (eventType) => {
     server.close(() => {
         console.log('Server closing...');
         db.closePool(); // Close the connection pool and the SSH tunnel
-        mongoose.connection.close();
         console.log('---Server closed---');
         process.exit(0); // Exit with success status
     });

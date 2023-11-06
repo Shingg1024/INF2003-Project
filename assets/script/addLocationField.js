@@ -19,18 +19,18 @@ async function addLocationField() {
     for await (const doc of cursor1) {
         const location = {
             type: "Point",
-            coordinates: [doc.long, doc.lat],
+            coordinates: [doc.longitude, doc.latitude],
         };
 
-        // Update the document with the new "location" field
-        await resModel.updateOne({ _id: doc._id }, { location });
+        await resModel.updateOne({ restaurant_id: doc.restaurant_id }, { location });
     }
 }
 
 // Connect to your MongoDB
-mongoose.connect("mongodb+srv://admin:root@shingapi.uhgdqub.mongodb.net/INF2003?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         // Call the function to add and populate the "location" field
+        console.log("Adding now...")
         addLocationField()
             .then(() => {
                 console.log("Location fields added to documents.");

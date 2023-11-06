@@ -12,6 +12,8 @@ const hostelSchema = new Schema({
     services: [String],
     foodDrink: [String],
     entertainment: [String],
+    latitude: Number,
+    longitude: Number,
     location: {
         type: {
             type: String,

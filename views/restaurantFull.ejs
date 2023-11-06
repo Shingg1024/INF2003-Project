@@ -16,12 +16,12 @@
   <tbody>
     <% data.forEach(item => { %>
     <tr>
-      <td><%= item.Name %></td>
-      <td><%= item.JapaneseName %></td>
-      <td><%= item.FirstCategory %></td>
-      <td><%= item.SecondCategory %></td>
-      <td><%= item.LunchPrice %></td>
-      <td><%= item.DinnerPrice %></td>
+      <td><%= item.name %></td>
+      <td><%= item.japaneseName %></td>
+      <td><%= item.firstCategory %></td>
+      <td><%= item.secondCategory %></td>
+      <td><%= item.lunchPrice %></td>
+      <td><%= item.dinnerPrice %></td>
       <td>
         <a href="https://maps.google.com/?q=<%= item.location.coordinates[1] %>,<%= item.location.coordinates[0] %>">Google Map</a>
       </td>

@@ -366,3 +366,71 @@ exports.denseRankcountFirstName = (req, res) => {
         });
     });
 };
+
+exports.rankcountReview = (req, res) => {
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const query = "WITH CombinedReviewCounts AS (" +
+            "SELECT user_id, COUNT(*) AS total_review_count " +
+            "FROM (SELECT user_id FROM review_hostel UNION ALL SELECT user_id FROM review_restaurant) AS Combined " +
+            "GROUP BY user_id) " +
+            "SELECT u.email, c.user_id, total_review_count, RANK() OVER(ORDER BY total_review_count DESC) AS user_rank " + 
+            "FROM CombinedReviewCounts c " +
+            "INNER JOIN user u ON c.user_id = u.user_id " +
+            "ORDER BY user_rank ";    
+
+        connection.query(query, (err, result) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                // Process the query results
+                res.send(result);
+                console.log("------------- SQL query used: " + query + " -------------");
+            } finally {
+                // Release the connection back to the pool when you're done
+                db.releaseConnection(connection);
+            }
+        });
+    });
+};
+
+exports.denseRankcountReview = (req, res) => {
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const query = "WITH CombinedReviewCounts AS (" +
+            "SELECT user_id, COUNT(*) AS total_review_count " +
+            "FROM (SELECT user_id FROM review_hostel UNION ALL SELECT user_id FROM review_restaurant) AS Combined " +
+            "GROUP BY user_id) " +
+            "SELECT u.email, c.user_id, total_review_count, DENSE_RANK() OVER(ORDER BY total_review_count DESC) AS user_rank " + 
+            "FROM CombinedReviewCounts c " +
+            "INNER JOIN user u ON c.user_id = u.user_id " +
+            "ORDER BY user_rank ";    
+
+        connection.query(query, (err, result) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                // Process the query results
+                res.send(result);
+                console.log("------------- SQL query used: " + query + " -------------");
+            } finally {
+                // Release the connection back to the pool when you're done
+                db.releaseConnection(connection);
+            }
+        });
+    });
+};

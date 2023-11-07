@@ -16,6 +16,8 @@
     <p class="mb-2">Advanced</p>
     <button id="rank-button" class="btn btn-primary">Rank Similar first name</button>
     <button id="dense-button" class="btn btn-primary">Dense Rank Similar first name</button>
+    <button id="review-button" class="btn btn-primary">Rank total reviews</button>
+    <button id="densereview-button" class="btn btn-primary">Dense Rank total reviews</button>
     <br><br>
     <button id="reset-button" class="btn btn-danger">Reset</button>
     <br><br>
@@ -52,20 +54,15 @@
     const sortingParameter = document.querySelector('input[name="sortParameter"]:checked');
     const sortDescending = document.getElementById('sortDescending').checked;
 
-    // Determine the sorting parameter based on the selected radio button
     const sortingParameterId = sortingParameter ? sortingParameter.id : '';
 
-    // Determine the sorting order based on user selection
     const sortOrder = sortDescending ? 'DESC' : 'ASC';
 
-    // Fetch sorted data based on user selections
     fetch(`/user/sortData?parameter=${sortingParameterId}&order=${sortOrder}`)
       .then((response) => response.json())
       .then((data) => {
-        // Handle the sorted data and update the table
         updateFrontendWithData(data);
 
-        // Reset checkboxes and radio buttons
         document.getElementById('sortDescending').checked = false;
         document.querySelectorAll('input[name="sortParameter"]').forEach((radio) => {
           radio.checked = false;
@@ -79,7 +76,6 @@
     fetch(`/user/rankcountFirstName`)
       .then((response) => response.json())
       .then((data) => {
-        // Handle the sorted data and update the table
         countRank(data);
       })
       .catch((error) => {
@@ -90,8 +86,27 @@
     fetch(`/user/denseRankcountFirstName`)
       .then((response) => response.json())
       .then((data) => {
-        // Handle the sorted data and update the table
         countDenseRank(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+  document.getElementById('review-button').addEventListener('click', () => {
+    fetch(`/user/rankcountReview`)
+      .then((response) => response.json())
+      .then((data) => {
+        countReview(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+  document.getElementById('densereview-button').addEventListener('click', () => {
+    fetch(`/user/denseRankcountReview`)
+      .then((response) => response.json())
+      .then((data) => {
+        countdenseReview(data);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -114,7 +129,6 @@
             }
             fetchAndRefreshData();
           } else {
-            // Handle the error and display it in the alert box
             response.text().then(errorMessage => {
               showCustomAlert(errorMessage, 'alert-danger');
             });
@@ -137,13 +151,13 @@
 
   function updateFrontendWithData(sortedData) {
     const tableHead = document.querySelector('thead');
-    tableHead.innerHTML = ''; 
+    tableHead.innerHTML = '';
     const row = document.createElement('tr');
     row.innerHTML = `<th>First Name</th><th>Last Name</th><th>Full Name</th><th>Email</th>`;
     tableHead.appendChild(row);
 
     const tableBody = document.querySelector('tbody');
-    tableBody.innerHTML = ''; 
+    tableBody.innerHTML = '';
     sortedData.forEach((item) => {
       const newRow = document.createElement('tr');
       newRow.innerHTML = `<td>${item.firstName}</td><td>${item.lastName}</td><td>${item.firstName} ${item.lastName}</td><td>${item.email}</td><td>
@@ -153,15 +167,14 @@
   }
 
   function countRank(data) {
-
     const tableHead = document.querySelector('thead');
-    tableHead.innerHTML = ''; // Clear existing data
+    tableHead.innerHTML = '';
     const row = document.createElement('tr');
     row.innerHTML = `<th>First Name</th><th>Count</th><th>Rank</th>`;
     tableHead.appendChild(row);
 
-    const tableBody = document.querySelector('tbody'); // Assuming you have a single table in your HTML
-    tableBody.innerHTML = ''; // Clear existing data
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = '';
     data.forEach((item) => {
       const newRow = document.createElement('tr');
       newRow.innerHTML = `<td>${item.firstName}</td><td>${item.NameCount}</td><td>${item.NameRank}</td>`;
@@ -170,18 +183,49 @@
   }
 
   function countDenseRank(data) {
-
     const tableHead = document.querySelector('thead');
-    tableHead.innerHTML = ''; // Clear existing data
+    tableHead.innerHTML = '';
     const row = document.createElement('tr');
     row.innerHTML = `<th>First Name</th><th>Count</th><th>Dense Rank</th>`;
     tableHead.appendChild(row);
 
-    const tableBody = document.querySelector('tbody'); // Assuming you have a single table in your HTML
-    tableBody.innerHTML = ''; // Clear existing data
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = '';
     data.forEach((item) => {
       const newRow = document.createElement('tr');
       newRow.innerHTML = `<td>${item.firstName}</td><td>${item.NameCount}</td><td>${item.NameRank}</td>`;
+      tableBody.appendChild(newRow);
+    });
+  }
+
+  function countReview(data) {
+    const tableHead = document.querySelector('thead');
+    tableHead.innerHTML = '';
+    const row = document.createElement('tr');
+    row.innerHTML = `<th>Email</th><th>Total Review Count</th><th>Rank</th>`;
+    tableHead.appendChild(row);
+
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = '';
+    data.forEach((item) => {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `<td>${item.email}</td><td>${item.total_review_count}</td><td>${item.user_rank}</td>`;
+      tableBody.appendChild(newRow);
+    });
+  }
+
+  function countdenseReview(data) {
+    const tableHead = document.querySelector('thead');
+    tableHead.innerHTML = '';
+    const row = document.createElement('tr');
+    row.innerHTML = `<th>Email</th><th>Total Review Count</th><th>Dense Rank</th>`;
+    tableHead.appendChild(row);
+
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = '';
+    data.forEach((item) => {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `<td>${item.email}</td><td>${item.total_review_count}</td><td>${item.user_rank}</td>`;
       tableBody.appendChild(newRow);
     });
   }

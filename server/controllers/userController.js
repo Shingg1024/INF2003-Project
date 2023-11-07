@@ -1,4 +1,4 @@
-const db = require('../dataset/db'); // Import your database connection
+const db = require('../dataset/db');
 const userModel = require('../models/userModel');
 
 // Get all users
@@ -17,11 +17,9 @@ exports.getAllUsers = (req, res) => {
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                // Process the query results
                 res.send(result);
                 console.log("------------- SQL query used: " + query + " -------------");
             } finally {
-                // Release the connection back to the pool when you're done
                 db.releaseConnection(connection);
             }
         });
@@ -48,27 +46,23 @@ exports.loginUser = (req, res) => {
                 }
 
                 if (results.length === 0) {
-                    // No user with the provided email found
                     connection.release();
                     return res.status(401).json({ error: 'Invalid email or password' });
                 }
                 req.session.user = results[0];
                 console.log("------------- SQL query used: " + query + " -------------");
 
-                // Retrieve the user_id from the SQL data
                 const id = req.session.user.user_id;
 
-                // Use the user_id to query the NoSQL data
                 userModel.findOne({
                     user_id: id
                 }).then((result) => {
                     if (result) {
-                        // Map and merge the NoSQL result with the existing SQL user data
                         req.session.user = {
-                            user_id: req.session.user.user_id, // Keep the SQL user_id
-                            email: req.session.user.email,     // Map SQL email to NoSQL email
-                            firstName: req.session.user.firstName, // Map SQL firstname to NoSQL firstname
-                            lastName: req.session.user.lastName,   // Map SQL lastName to NoSQL lastName
+                            user_id: req.session.user.user_id,
+                            email: req.session.user.email,
+                            firstName: req.session.user.firstName,
+                            lastName: req.session.user.lastName,
                             profile: {
                                 biography: result.profile.biography,
                                 interests: result.profile.interests,
@@ -89,7 +83,6 @@ exports.loginUser = (req, res) => {
                     console.log(err);
                 });
             } finally {
-                // Release the connection back to the pool when you're done
                 db.releaseConnection(connection);
             }
         });
@@ -152,11 +145,9 @@ exports.editUser = async (req, res) => {
                 return res.status(500).json({ error: 'An error occurred' });
             }
 
-            // Initialize an array to store the fields to update and their corresponding values
             const updateFields = [];
             const updateValues = [];
 
-            // Check if each field is not blank and add it to the update array
             if (email) {
                 updateFields.push('email = ?');
                 updateValues.push(email);
@@ -174,11 +165,9 @@ exports.editUser = async (req, res) => {
                 updateValues.push(lastName);
             }
 
-            // Create the SET clause for the SQL query
             const setClause = updateFields.join(', ');
 
-            // You should update the user's information in the database
-            const query = `UPDATE user SET ${setClause} WHERE user_id = ?`; // Assuming there's a user_id for the user
+            const query = `UPDATE user SET ${setClause} WHERE user_id = ?`;
             updateValues.push(req.session.user.user_id);
 
             connection.query(query, updateValues, (err, results) => {
@@ -187,7 +176,6 @@ exports.editUser = async (req, res) => {
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                // Update the session user with the new information
                 if (email) req.session.user.email = email;
                 if (firstName) req.session.user.firstName = firstName;
                 if (lastName) req.session.user.lastName = lastName;
@@ -195,12 +183,10 @@ exports.editUser = async (req, res) => {
                 console.log("------------- SQL query used: " + query + " -------------");
             });
         } finally {
-            // Release the connection back to the pool when you're done
             db.releaseConnection(connection);
         }
     });
 
-    // Update the NoSQL (MongoDB) data
     const id = req.session.user.user_id;
     try {
         const updatedUser = await userModel.findOneAndUpdate(
@@ -266,12 +252,10 @@ exports.sortData = (req, res) => {
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                // Process the query results
                 res.json(result);
                 console.log("------------- SQL query used: " + query + " -------------");
             });
         } finally {
-            // Release the connection back to the pool when you're done
             db.releaseConnection(connection);
         }
     });
@@ -296,11 +280,9 @@ exports.delete = (req, res) => {
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                // Process the query results
                 console.log("------------- SQL query used: " + deleteQuery + " -------------");
 
                 if (result.affectedRows === 0) {
-                    // No item with the provided ID found
                     return res.status(404).json({ error: 'Item not found' });
                 }
 
@@ -329,11 +311,9 @@ exports.rankcountFirstName = (req, res) => {
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                // Process the query results
                 res.send(result);
                 console.log("------------- SQL query used: " + query + " -------------");
             } finally {
-                // Release the connection back to the pool when you're done
                 db.releaseConnection(connection);
             }
         });
@@ -356,11 +336,9 @@ exports.denseRankcountFirstName = (req, res) => {
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                // Process the query results
                 res.send(result);
                 console.log("------------- SQL query used: " + query + " -------------");
             } finally {
-                // Release the connection back to the pool when you're done
                 db.releaseConnection(connection);
             }
         });
@@ -378,10 +356,10 @@ exports.rankcountReview = (req, res) => {
             "SELECT user_id, COUNT(*) AS total_review_count " +
             "FROM (SELECT user_id FROM review_hostel UNION ALL SELECT user_id FROM review_restaurant) AS Combined " +
             "GROUP BY user_id) " +
-            "SELECT u.email, c.user_id, total_review_count, RANK() OVER(ORDER BY total_review_count DESC) AS user_rank " + 
+            "SELECT u.email, c.user_id, total_review_count, RANK() OVER(ORDER BY total_review_count DESC) AS user_rank " +
             "FROM CombinedReviewCounts c " +
             "INNER JOIN user u ON c.user_id = u.user_id " +
-            "ORDER BY user_rank ";    
+            "ORDER BY user_rank ";
 
         connection.query(query, (err, result) => {
             try {
@@ -390,11 +368,9 @@ exports.rankcountReview = (req, res) => {
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                // Process the query results
                 res.send(result);
                 console.log("------------- SQL query used: " + query + " -------------");
             } finally {
-                // Release the connection back to the pool when you're done
                 db.releaseConnection(connection);
             }
         });
@@ -412,10 +388,10 @@ exports.denseRankcountReview = (req, res) => {
             "SELECT user_id, COUNT(*) AS total_review_count " +
             "FROM (SELECT user_id FROM review_hostel UNION ALL SELECT user_id FROM review_restaurant) AS Combined " +
             "GROUP BY user_id) " +
-            "SELECT u.email, c.user_id, total_review_count, DENSE_RANK() OVER(ORDER BY total_review_count DESC) AS user_rank " + 
+            "SELECT u.email, c.user_id, total_review_count, DENSE_RANK() OVER(ORDER BY total_review_count DESC) AS user_rank " +
             "FROM CombinedReviewCounts c " +
             "INNER JOIN user u ON c.user_id = u.user_id " +
-            "ORDER BY user_rank ";    
+            "ORDER BY user_rank ";
 
         connection.query(query, (err, result) => {
             try {
@@ -424,11 +400,9 @@ exports.denseRankcountReview = (req, res) => {
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                // Process the query results
                 res.send(result);
                 console.log("------------- SQL query used: " + query + " -------------");
             } finally {
-                // Release the connection back to the pool when you're done
                 db.releaseConnection(connection);
             }
         });

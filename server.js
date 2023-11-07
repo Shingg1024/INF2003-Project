@@ -35,6 +35,8 @@ app.use('/js', express.static(path.resolve(__dirname, 'assets/js')));
 const restaurantRoutes = require('./server/routes/restaurantRoutes');
 const hostelRoutes = require('./server/routes/hostelRoutes');
 const userRoutes = require('./server/routes/userRoutes');
+const reviewRoutes = require('./server/routes/reviewRoutes');
+const bookingRoutes = require('./server/routes/bookingRoutes');
 
 app.use(express.json());
 
@@ -115,10 +117,36 @@ app.get('/restaurantFull', async (req, res) => {
     }
 });
 
+app.get('/booking', async (req, res) => {
+    try {
+        id = req.session.user.user_id;
+        response = await axios.get('http://localhost:3000/booking/getBooking/'  + id); 
+        data = response.data;
+
+        res.render('booking', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
+app.get('/review', async (req, res) => {
+    try {
+        id = req.session.user.user_id;
+        response = await axios.get('http://localhost:3000/review/getReview/' + id); 
+        data = response.data;
+
+        res.render('review', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
 
 app.use(restaurantRoutes);
 app.use(hostelRoutes);
 app.use(userRoutes);
+app.use(reviewRoutes);
+app.use(bookingRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err); 

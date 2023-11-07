@@ -1,0 +1,25 @@
+<!-- include header -->
+<%- include('include/_header') %>
+<!-- /include header -->
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>start </th>
+      <th>end</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach(item => { %>
+    <tr>
+      <td><%= item.hostel_id %></td>
+      <td><%= item.date_start %></td>
+      <td><%= item.date_end %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<!-- include footer -->
+<%- include('include/_footer')%>
+<!-- include footer -->

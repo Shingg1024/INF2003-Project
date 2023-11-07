@@ -19,19 +19,27 @@
                         <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/allhostels">Hostels</a>
+                        <a class="nav-link" href="/#">Hostel</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/restaurants">Restaurants</a>
+                        <a class="nav-link" href="/#">Restaurant</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">All Details</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Detailed Information</a>
                         <ul class="dropdown-menu">
-                            <% if (session.user) { if (session.user.user_id == 103)  { %> <li><a class="dropdown-item" href="/userStats">User Statistics</a></li> <% } }%>  
-                            <li><a class="dropdown-item" href="/hostelFull">All Hostel Full Details</a></li>
-                            <li><a class="dropdown-item" href="/restaurantFull">All Restaurant Full Details</a></li>
+                            <% if (session.user) { if (session.user.user_id == 103)  { %> <li><a class="dropdown-item" href="/userStats">All User Statistic</a></li> <% } }%>  
+                            <li><a class="dropdown-item" href="/hostelFull">All Hostel Full Detail</a></li>
+                            <li><a class="dropdown-item" href="/restaurantFull">All Restaurant Full Detail</a></li>
                         </ul>
-                    </li>                        
+                    </li>
+                    <% if (session.user) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/booking">Booking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/review">Review</a>
+                    </li> 
+                    <% } %>                       
                 </ul>
                 <ul class="nav justify-content-end">
                         <% if (session.user) { %>

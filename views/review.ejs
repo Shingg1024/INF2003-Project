@@ -1,0 +1,25 @@
+<!-- include header -->
+<%- include('include/_header') %>
+<!-- /include header -->
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>comment </th>
+      <th>rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach(item => { %>
+    <tr>
+      <td><%= item.booking_hostel_id %></td>
+      <td><%= item.review_comment %></td>
+      <td><%= item.review_rating %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<!-- include footer -->
+<%- include('include/_footer')%>
+<!-- include footer -->

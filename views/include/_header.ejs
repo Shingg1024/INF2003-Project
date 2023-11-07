@@ -27,16 +27,16 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">All Details</a>
                         <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/userStats">All User Statistics </a></li>
-                        <li><a class="dropdown-item" href="/hostelFull">All Hostel Full Details</a></li>
-                        <li><a class="dropdown-item" href="/restaurantFull">All Restaurant Full Details</a></li>
+                            <% if (session.user) { if (session.user.user_id == 103)  { %> <li><a class="dropdown-item" href="/userStats">User Statistics</a></li> <% } }%>  
+                            <li><a class="dropdown-item" href="/hostelFull">All Hostel Full Details</a></li>
+                            <li><a class="dropdown-item" href="/restaurantFull">All Restaurant Full Details</a></li>
                         </ul>
                     </li>                        
                 </ul>
                 <ul class="nav justify-content-end">
                         <% if (session.user) { %>
                             <script>
-                                console.log('<%= (session.user.email) %>');
+                                console.log('<%= (session.user.user_id) %>');
                             </script>
                             <li class="nav-item">
                                 <a class="nav-link" href="/edit">Edit Profile</a>

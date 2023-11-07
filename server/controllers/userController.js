@@ -408,3 +408,78 @@ exports.denseRankcountReview = (req, res) => {
         });
     });
 };
+
+exports.showUserReview = (req, res) => {
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const query = "SELECT user.email, review_hostel.review_comment, review_hostel.review_rating, review_restaurant.review_comment, review_restaurant.review_rating FROM user " +
+            "INNER JOIN review_hostel ON user.user_id = review_hostel.user_id " +
+            "INNER JOIN review_restaurant ON user.user_id = review_restaurant.user_id;";
+
+        connection.query(query, (err, result) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                res.send(result);
+                console.log(result)
+                console.log("------------- SQL query used: " + query + " -------------");
+            } finally {
+                db.releaseConnection(connection);
+            }
+        });
+    });
+};
+
+exports.showUserReviewType = (req, res) => {
+    const joinType = req.params.joinType;
+    const reviewType = req.params.reviewType;
+    console.log("join: " + joinType);
+    console.log("review: " + reviewType);
+
+    if (reviewType === 'restaurant') {
+        tableName = 'review_restaurant';
+    } else if (reviewType === 'hostel') {
+        tableName = 'review_hostel';
+    } else {
+        return res.status(400).json({ error: 'Invalid reviewType' });
+    }
+
+    if (joinType === 'left') {
+        joinTypeSql = 'LEFT JOIN';
+    } else if (joinType === 'right') {
+        joinTypeSql = 'RIGHT JOIN';
+    } else {
+        return res.status(400).json({ error: 'Invalid joinType' });
+    }
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const query = "SELECT u.email, r.review_comment, r.review_rating FROM user u " + joinTypeSql + " " + tableName + " r ON u.user_id = r.user_id";
+
+        connection.query(query, (err, result) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                res.send(result);
+                console.log("------------- SQL query used: " + query + " -------------");
+            } finally {
+                db.releaseConnection(connection);
+            }
+        });
+    });
+};

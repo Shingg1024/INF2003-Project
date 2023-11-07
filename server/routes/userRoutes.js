@@ -16,4 +16,7 @@ router.get('/user/denseRankcountFirstName',userController.denseRankcountFirstNam
 router.get('/user/rankcountReview',userController.rankcountReview)
 router.get('/user/denseRankcountReview',userController.denseRankcountReview)
 
+router.get('/user/showUserReview', userController.showUserReview);
+router.get('/user/showUserReviewType/:joinType&:reviewType', userController.showUserReviewType);
+
 module.exports = router;

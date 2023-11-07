@@ -13,4 +13,7 @@ router.delete('/user/delete/:id', userController.delete);
 router.get('/user/rankcountFirstName',userController.rankcountFirstName)
 router.get('/user/denseRankcountFirstName',userController.denseRankcountFirstName)
 
+router.get('/user/rankcountReview',userController.rankcountReview)
+router.get('/user/denseRankcountReview',userController.denseRankcountReview)
+
 module.exports = router;

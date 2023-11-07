@@ -5,7 +5,7 @@
 <div class="container mt-3 d-flex justify-content-center align-items-center">
   <div class="text-center">
     <h1>Account Management</h1>
-    <p class="mb-2">Sort by</p>
+    <h3 class="mb-2">Sort by: </h3>
     <input class="form-check-input" type="radio" name="sortParameter" id="firstName"> First Name
     <input class="form-check-input" type="radio" name="sortParameter" id="lastName"> Last Name
     <input class="form-check-input" type="radio" name="sortParameter" id="email"> Email
@@ -13,11 +13,34 @@
     <br>
     <button id="sort-button" class="btn btn-primary">Sort Data</button>
     <br><br>
-    <p class="mb-2">Advanced</p>
-    <button id="rank-button" class="btn btn-primary">Rank Similar first name</button>
-    <button id="dense-button" class="btn btn-primary">Dense Rank Similar first name</button>
-    <button id="review-button" class="btn btn-primary">Rank total reviews</button>
-    <button id="densereview-button" class="btn btn-primary">Dense Rank total reviews</button>
+    <h3 class="mb-2">Advanced Features:</h3>
+    <label>Similar First Name</label>
+    <br>
+    <button id="rank-button" class="btn btn-primary">Rank</button>
+    <button id="dense-button" class="btn btn-primary">Dense Rank</button>
+    <br>
+    <label>Total Reviews</label>
+    <br>
+    <button id="review-button" class="btn btn-primary">Rank</button>
+    <button id="densereview-button" class="btn btn-primary">Dense Rank</button>
+    <br><br>
+    <h3 class="mb-2">Show Reviews:</h3>
+    <button id="showBoth-button" class="btn btn-primary">Show who reviewed both</button>
+    <br>
+    <label>Select Join Type for Restaurant Reviews:</label>
+    <br>
+    <input type="radio" name="joinTypeRestaurant" value="left" checked> Left Join
+    <input type="radio" name="joinTypeRestaurant" value="right"> Right Join
+    <br>
+    <button id="showRes-button" class="btn btn-primary">Show who reviewed Restaurant</button>
+    <br>
+    <label>Select Join Type for Hostel Reviews:</label>
+    <br>
+    <input type="radio" name="joinTypeHostel" value="left" checked> Left Join
+    <input type="radio" name="joinTypeHostel" value="right"> Right Join
+    <br>
+    <button id="showHostel-button" class="btn btn-primary">Show who reviewed Hostel</button>
+
     <br><br>
     <button id="reset-button" class="btn btn-danger">Reset</button>
     <br><br>
@@ -112,6 +135,36 @@
         console.error('Error:', error);
       });
   });
+  document.getElementById('showBoth-button').addEventListener('click', () => {
+    fetch(`/user/showUserReview`)
+      .then((response) => response.json())
+      .then((data) => {
+        bothReviews(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+  document.getElementById("showRes-button").addEventListener("click", function() {
+    const selectedJoinType = document.querySelector('input[name="joinTypeRestaurant"]:checked').value;
+    sendRequest(selectedJoinType, 'restaurant');
+  });
+
+  document.getElementById("showHostel-button").addEventListener("click", function() {
+    const selectedJoinType = document.querySelector('input[name="joinTypeHostel"]:checked').value;
+    sendRequest(selectedJoinType, 'hostel');
+  });
+
+  function sendRequest(joinType, reviewType) {
+    fetch(`/user/showUserReviewType/${joinType}&${reviewType}`)
+      .then(response => response.json())
+      .then(data => {
+        reviews(data);
+      })
+      .catch(error => {
+        console.error("An error occurred:", error);
+      });
+  }
   document.getElementById('reset-button').addEventListener('click', () => {
     fetchAndRefreshData();
   });
@@ -226,6 +279,38 @@
     data.forEach((item) => {
       const newRow = document.createElement('tr');
       newRow.innerHTML = `<td>${item.email}</td><td>${item.total_review_count}</td><td>${item.user_rank}</td>`;
+      tableBody.appendChild(newRow);
+    });
+  }
+
+  function bothReviews(data) {
+    const tableHead = document.querySelector('thead');
+    tableHead.innerHTML = '';
+    const row = document.createElement('tr');
+    row.innerHTML = `<th>Email</th><th>Hostel Comment</th><th>Hostel Rating</th><th>Restaurant Comment</th><th>Restaurant Rating</th>`;
+    tableHead.appendChild(row);
+
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = '';
+    data.forEach((item) => {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `<td>${item.email}</td><td>${item.review_comment}</td><td>${item.review_rating}</td><td>${item.review_comment}</td><td>${item.review_rating}</td>`;
+      tableBody.appendChild(newRow);
+    });
+  }
+
+  function reviews(data) {
+    const tableHead = document.querySelector('thead');
+    tableHead.innerHTML = '';
+    const row = document.createElement('tr');
+    row.innerHTML = `<th>Email</th><th>Comment</th><th>Rating</th>`;
+    tableHead.appendChild(row);
+
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = '';
+    data.forEach((item) => {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `<td>${item.email}</td><td>${item.review_comment}</td><td>${item.review_rating}</td>`;
       tableBody.appendChild(newRow);
     });
   }

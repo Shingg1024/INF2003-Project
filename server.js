@@ -87,7 +87,7 @@ app.get('/userStats', async (req, res) => {
         response = await axios.get('http://localhost:3000/user/alluser');
         data = response.data;
 
-        res.render('adminuser', { data });
+        res.render('userStats', { data });
     } catch (error) {
         res.status(500).send('Error fetching data');
     }

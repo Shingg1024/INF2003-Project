@@ -9,7 +9,7 @@ const axios = require('axios');
 const db = require('./server/dataset/db')
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 // Log requests
 app.use(morgan('tiny'));

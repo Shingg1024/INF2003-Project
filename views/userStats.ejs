@@ -1,14 +1,14 @@
-<!-- include header -->
 <%- include('include/_header') %>
-<!-- /include header -->
+
+<%- include('include/_nav') %>
 
 <div class="container mt-3 d-flex justify-content-center align-items-center">
   <div class="text-center">
     <h1>Account Management</h1>
     <h3 class="mb-2">Sort by: </h3>
-    <input class="form-check-input" type="radio" name="sortParameter" id="first_name"> First Name
-    <input class="form-check-input" type="radio" name="sortParameter" id="last_name"> Last Name
-    <input class="form-check-input" type="radio" name="sortParameter" id="email"> Email
+    <input type="radio" name="sortParameter" id="first_name"> First Name
+    <input type="radio" name="sortParameter" id="last_name"> Last Name
+    <input type="radio" name="sortParameter" id="email"> Email
     <input type="checkbox" id="sortDescending"> Descending
     <br>
     <button id="sort-button" class="btn btn-primary">Sort Data</button>

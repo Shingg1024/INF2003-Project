@@ -157,11 +157,11 @@ exports.editUser = async (req, res) => {
                 updateValues.push(password);
             }
             if (firstName) {
-                updateFields.push('firstName = ?');
+                updateFields.push('first_name = ?');
                 updateValues.push(firstName);
             }
             if (lastName) {
-                updateFields.push('lastName = ?');
+                updateFields.push('last_name = ?');
                 updateValues.push(lastName);
             }
 

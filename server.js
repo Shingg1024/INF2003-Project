@@ -86,7 +86,7 @@ app.get('/logout', (req, res) => {
 
 app.get('/userStats', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3000/user/alluser');
+        response = await axios.get('http://localhost:3001/user/alluser');
         data = response.data;
 
         res.render('userStats', { data });
@@ -97,7 +97,7 @@ app.get('/userStats', async (req, res) => {
 
 app.get('/hostelFull', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3000/hostel/allhostels'); 
+        response = await axios.get('http://localhost:3001/hostel/allhostels'); 
         data = response.data;
 
         res.render('hostelFull', { data });
@@ -108,7 +108,7 @@ app.get('/hostelFull', async (req, res) => {
 
 app.get('/restaurantFull', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3000/restaurant/allrestaurants'); 
+        response = await axios.get('http://localhost:3001/restaurant/allrestaurants'); 
         data = response.data;
 
         res.render('restaurantFull', { data });
@@ -125,7 +125,7 @@ app.get('/restaurants', async (req, res) => {
 app.get('/booking', async (req, res) => {
     try {
         id = req.session.user.user_id;
-        response = await axios.get('http://localhost:3000/booking/getBooking/'  + id); 
+        response = await axios.get('http://localhost:3001/booking/getBooking/'  + id); 
         data = response.data;
 
         res.render('booking', { data });
@@ -137,7 +137,7 @@ app.get('/booking', async (req, res) => {
 app.get('/review', async (req, res) => {
     try {
         id = req.session.user.user_id;
-        response = await axios.get('http://localhost:3000/review/getReview/' + id); 
+        response = await axios.get('http://localhost:3001/review/getReview/' + id); 
         data = response.data;
 
         res.render('review', { data });

@@ -1,0 +1,54 @@
+</head>
+<header id="header">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#">Hostel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/restaurants">Restaurant</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Detailed Information</a>
+                    <ul class="dropdown-menu">
+                        <% if (session.user) { if (session.user.user_id == 102)  { %> <li><a class="dropdown-item" href="/userStats">All User Statistic</a></li> <% } }%>  
+                        <li><a class="dropdown-item" href="/hostelFull">All Hostel Full Detail</a></li>
+                        <li><a class="dropdown-item" href="/restaurantFull">All Restaurant Full Detail</a></li>
+                    </ul>
+                </li>
+                <% if (session.user) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/booking">Booking</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/review">Review</a>
+                </li> 
+                <% } %>                       
+            </ul>
+            <ul class="nav justify-content-end">
+                    <% if (session.user) { %>
+                        <script>
+                            console.log('<%= (session.user.user_id) %>');
+                        </script>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/edit">Edit Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">Register</a>
+                        </li>
+                    <% } %>
+            </ul>
+        </div>
+    </nav>
+</header>

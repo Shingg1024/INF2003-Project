@@ -61,8 +61,8 @@ exports.loginUser = (req, res) => {
                         req.session.user = {
                             user_id: req.session.user.user_id,
                             email: req.session.user.email,
-                            firstName: req.session.user.firstName,
-                            lastName: req.session.user.lastName,
+                            firstName: req.session.user.first_name,
+                            lastName: req.session.user.last_name,
                             profile: {
                                 biography: result.profile.biography,
                                 interests: result.profile.interests,
@@ -111,7 +111,7 @@ exports.regUser = (req, res) => {
             }
 
             if (results.length == 0) {
-                const insertQuery = "INSERT INTO user (email, password, firstName, lastName) VALUES (?, ?, ?, ?)";
+                const insertQuery = "INSERT INTO user (email, password, first_name, last_name) VALUES (?, ?, ?, ?)";
                 connection.query(insertQuery, [email, password, firstName, lastName], (err, results) => {
                     if (err) {
                         db.releaseConnection(connection);
@@ -301,8 +301,8 @@ exports.rankcountFirstName = (req, res) => {
             return res.status(500).json({ error: 'An error occurred' });
         }
 
-        const query = "WITH NameCounts AS (SELECT firstName ,COUNT(*) AS NameCount FROM user GROUP BY firstName)" +
-            "SELECT firstName, NameCount, RANK() OVER (ORDER BY NameCount DESC) AS NameRank FROM NameCounts ORDER BY NameRANK";
+        const query = "WITH NameCounts AS (SELECT first_name ,COUNT(*) AS NameCount FROM user GROUP BY first_name)" +
+            "SELECT first_name, NameCount, RANK() OVER (ORDER BY NameCount DESC) AS NameRank FROM NameCounts ORDER BY NameRANK";
 
         connection.query(query, (err, result) => {
             try {
@@ -326,8 +326,8 @@ exports.denseRankcountFirstName = (req, res) => {
             console.log(err);
             return res.status(500).json({ error: 'An error occurred' });
         }
-        const query = "WITH NameCounts AS (SELECT firstName ,COUNT(*) AS NameCount FROM user GROUP BY firstName)" +
-            "SELECT firstName, NameCount, DENSE_RANK() OVER (ORDER BY NameCount DESC) AS NameRank FROM NameCounts ORDER BY NameRANK";
+        const query = "WITH NameCounts AS (SELECT first_name ,COUNT(*) AS NameCount FROM user GROUP BY first_name)" +
+            "SELECT first_name, NameCount, DENSE_RANK() OVER (ORDER BY NameCount DESC) AS NameRank FROM NameCounts ORDER BY NameRANK";
 
         connection.query(query, (err, result) => {
             try {
@@ -429,7 +429,6 @@ exports.showUserReview = (req, res) => {
                 }
 
                 res.send(result);
-                console.log(result)
                 console.log("------------- SQL query used: " + query + " -------------");
             } finally {
                 db.releaseConnection(connection);
@@ -441,8 +440,6 @@ exports.showUserReview = (req, res) => {
 exports.showUserReviewType = (req, res) => {
     const joinType = req.params.joinType;
     const reviewType = req.params.reviewType;
-    console.log("join: " + joinType);
-    console.log("review: " + reviewType);
 
     if (reviewType === 'restaurant') {
         tableName = 'review_restaurant';

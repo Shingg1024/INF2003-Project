@@ -117,6 +117,11 @@ app.get('/restaurantFull', async (req, res) => {
     }
 });
 
+app.get('/restaurants', async (req, res) => {
+    res.render('restaurants');
+});
+
+
 app.get('/booking', async (req, res) => {
     try {
         id = req.session.user.user_id;

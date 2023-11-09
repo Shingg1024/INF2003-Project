@@ -6,8 +6,8 @@
   <div class="text-center">
     <h1>Account Management</h1>
     <h3 class="mb-2">Sort by: </h3>
-    <input class="form-check-input" type="radio" name="sortParameter" id="firstName"> First Name
-    <input class="form-check-input" type="radio" name="sortParameter" id="lastName"> Last Name
+    <input class="form-check-input" type="radio" name="sortParameter" id="first_name"> First Name
+    <input class="form-check-input" type="radio" name="sortParameter" id="last_name"> Last Name
     <input class="form-check-input" type="radio" name="sortParameter" id="email"> Email
     <input type="checkbox" id="sortDescending"> Descending
     <br>
@@ -59,9 +59,9 @@
   <tbody>
     <% data.forEach(item => { %>
     <tr>
-      <td><%= item.firstName %></td>
-      <td><%= item.lastName %></td>
-      <td><%= item.firstName %> <%= item.lastName %></td>
+      <td><%= item.first_name %></td>
+      <td><%= item.last_name %></td>
+      <td><%= item.first_name %> <%= item.last_name %></td>
       <td><%= item.email %></td>
       <td>
         <button class="btn btn-danger" onclick="deleteItem('<%= item.user_id %>')">Delete</button>
@@ -213,7 +213,7 @@
     tableBody.innerHTML = '';
     sortedData.forEach((item) => {
       const newRow = document.createElement('tr');
-      newRow.innerHTML = `<td>${item.firstName}</td><td>${item.lastName}</td><td>${item.firstName} ${item.lastName}</td><td>${item.email}</td><td>
+      newRow.innerHTML = `<td>${item.first_name}</td><td>${item.last_name}</td><td>${item.first_name} ${item.last_name}</td><td>${item.email}</td><td>
         <button class="btn btn-danger" onclick="deleteItem(${item.user_id})">Delete</button>`;
       tableBody.appendChild(newRow);
     });
@@ -230,7 +230,7 @@
     tableBody.innerHTML = '';
     data.forEach((item) => {
       const newRow = document.createElement('tr');
-      newRow.innerHTML = `<td>${item.firstName}</td><td>${item.NameCount}</td><td>${item.NameRank}</td>`;
+      newRow.innerHTML = `<td>${item.first_name}</td><td>${item.NameCount}</td><td>${item.NameRank}</td>`;
       tableBody.appendChild(newRow);
     });
   }
@@ -246,7 +246,7 @@
     tableBody.innerHTML = '';
     data.forEach((item) => {
       const newRow = document.createElement('tr');
-      newRow.innerHTML = `<td>${item.firstName}</td><td>${item.NameCount}</td><td>${item.NameRank}</td>`;
+      newRow.innerHTML = `<td>${item.first_name}</td><td>${item.NameCount}</td><td>${item.NameRank}</td>`;
       tableBody.appendChild(newRow);
     });
   }

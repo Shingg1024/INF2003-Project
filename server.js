@@ -40,15 +40,14 @@ const bookingRoutes = require('./server/routes/bookingRoutes');
 
 app.use(express.json());
 
-const server = app.listen(port, () => {
-    console.log(`Node.js App is running on port ${port}`);
-});
-
 // Connect to the MongoDB Server
 mongoose.connect(process.env.URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
+    const server = app.listen(port, () => {
+        console.log(`Node.js App is running on port ${port}`);
+    });
     console.log("Connected to MongoDB Server");
 }).catch((err) => {
     console.error('Error connecting to MongoDB:', err);
@@ -80,7 +79,7 @@ app.get('/logout', (req, res) => {
         if (err) {
             console.error('Error destroying session:', err);
         }
-        res.redirect('/'); 
+        res.redirect('/');
     });
 });
 
@@ -97,7 +96,7 @@ app.get('/userStats', async (req, res) => {
 
 app.get('/hostelFull', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3001/hostel/allhostels'); 
+        response = await axios.get('http://localhost:3001/hostel/allhostels');
         data = response.data;
 
         res.render('hostelFull', { data });
@@ -108,7 +107,7 @@ app.get('/hostelFull', async (req, res) => {
 
 app.get('/restaurantFull', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3001/restaurant/allrestaurants'); 
+        response = await axios.get('http://localhost:3001/restaurant/allrestaurants');
         data = response.data;
 
         res.render('restaurantFull', { data });
@@ -125,7 +124,7 @@ app.get('/restaurants', async (req, res) => {
 app.get('/booking', async (req, res) => {
     try {
         id = req.session.user.user_id;
-        response = await axios.get('http://localhost:3001/booking/getBooking/'  + id); 
+        response = await axios.get('http://localhost:3001/booking/getBooking/' + id);
         data = response.data;
 
         res.render('booking', { data });
@@ -137,7 +136,7 @@ app.get('/booking', async (req, res) => {
 app.get('/review', async (req, res) => {
     try {
         id = req.session.user.user_id;
-        response = await axios.get('http://localhost:3001/review/getReview/' + id); 
+        response = await axios.get('http://localhost:3001/review/getReview/' + id);
         data = response.data;
 
         res.render('review', { data });
@@ -154,15 +153,15 @@ app.use(reviewRoutes);
 app.use(bookingRoutes);
 
 app.use((err, req, res, next) => {
-    console.error(err); 
-  
+    console.error(err);
+
     if (res.headersSent) {
-      return next(err); 
+        return next(err);
     }
-  
+
     res.status(500).send('An internal server error occurred. Please refresh the page or restart the application.');
-  
-  });
+
+});
 
 const cleanUp = (eventType) => {
     server.close(() => {

@@ -145,6 +145,10 @@ app.get('/review', async (req, res) => {
     }
 });
 
+app.get('/home', async (req, res) => {
+    res.render('home');
+});
+
 
 app.use(restaurantRoutes);
 app.use(hostelRoutes);

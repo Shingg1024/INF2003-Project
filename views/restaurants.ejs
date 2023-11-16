@@ -25,179 +25,89 @@
       font-family: serif;
       font-weight: 400;
     }
-    .rooms {
-      position: relative;
-      flex:1;
-      display: flex;
-      margin-left: 20px;
-    }
+.rooms {
+  position: relative;
+}
 
-    .rooms .text {
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-top: none;
-      padding: 30px;
-    }
+.rooms .text {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: none;
+  padding: 30px;
+}
 
-    .rooms i {
-      font-size: 12px;
-      color: #fbb234;
-      margin: 15px 0;
-      margin-right: 5px;
-    }
+.rooms i {
+  font-size: 12px;
+  color: #fbb234;
+  margin: 15px 0;
+  margin-right: 5px;
+}
 
-    .rooms p {
-      margin: 20px 0;
-      opacity: 0.7;
-    }
+.rooms p {
+  margin: 20px 0;
+  opacity: 0.7;
+}
 
-    .rooms h3 {
-      font-size: 30px;
-      line-height: 20px;
-      margin-left: 20px;
-      font-weight: 500;
-      color: #7fc142;
-    }
+.rooms h3 {
+  font-size: 30px;
+  line-height: 20px;
+  margin-left: 20px;
+  font-weight: 500;
+  color: #7fc142;
+}
 
-    .rooms h3 span {
-      font-size: 15px;
-      font-weight: 400;
-      color: #000;
-    }
+.rooms h3 span {
+  font-size: 15px;
+  font-weight: 400;
+  color: #000;
+}
 
-    .rooms .items .image {
-      position: relative;
-      overflow: hidden;
-    }
+.rooms .items .image {
+  position: relative;
+  overflow: hidden;
+}
 
-    .rooms .items .image img {
-      width: 100%;
-      height: 50%;
-    }
+.rooms .items .image img {
+  width: 100%; /* Adjust the width as needed */
+  height: 50%;
+}
 
-    .rooms .items .image .favorite {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 24px;
-      color: #fbb234;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
+.rooms .items .image .favorite {
+  position: absolute;
+  top: 10px; /* Adjust the top position as needed */
+  right: 10px; /* Adjust the right position as needed */
+  font-size: 24px; /* Adjust the font size as needed */
+  color: #fbb234;
+  cursor: pointer;
+  transition: color 0.3s ease; /* Add transition for a smooth effect */
+}
 
-    .content{
-      flex:2;
-    }
+.owl-carousel1 .owl-nav .owl-prev,
+.owl-carousel1 .owl-nav .owl-next {
+  position: absolute;
+  top: -20%;
+  height: 50px;
+  width: 50px;
+  background: #7fc142 !important;
+}
 
-    .filter-section {
-      float: left;
-      width: 30%; /* Adjust the width as needed */
-      background-color: lightgray;
-      color: black; /* Yellow text color */
-      padding: 20px;
-      box-sizing: border-box;
-      margin-left: 20px; /* Adjust margin as needed */
-      margin-top: 30px;
-      border-radius: 15px;
-    }
+.owl-carousel1 .owl-nav .owl-prev i,
+.owl-carousel1 .owl-nav .owl-next i {
+  color: #fff;
+}
 
-    .filter-form {
-      margin-bottom: 20px;
-    }
+.owl-carousel1 .owl-nav .owl-prev {
+  left: 90%;
+}
 
-    .filter-form label {
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .filter-form input,
-    .filter-form select,
-    .filter-form button {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
-
-    .filter-form button {
-      background-color: #ffc107; /* Yellow button color */
-      color: #333; /* Black text color */
-      cursor: pointer;
-    }
-
-    .filter-form button:hover {
-      background-color: lightgray; /* Black button color on hover */
-      color: #ffc107; /* Yellow text color on hover */
-    }
-
-    .owl-carousel1 .owl-nav .owl-prev,
-    .owl-carousel1 .owl-nav .owl-next {
-      position: absolute;
-      top: -20%;
-      height: 50px;
-      width: 50px;
-      background: #7fc142 !important;
-    }
-
-    .owl-carousel1 .owl-nav .owl-prev i,
-    .owl-carousel1 .owl-nav .owl-next i {
-      color: #fff;
-    }
-
-    .owl-carousel1 .owl-nav .owl-prev {
-      left: 90%;
-    }
-
-    .owl-carousel1 .owl-nav .owl-next {
-      right: 0;
-    }
+.owl-carousel1 .owl-nav .owl-next {
+  right: 0;
+}
 
   </style>
   
 <%- include('include/_nav') %>
 <body>
-         <!-- Filter section -->
-         <div class="filter-section">
-          <form class="filter-form" id="filterForm">
-            <label for="location">Location:</label>
-            <select id="location" name="location">
-              <option value="location">Central Kyoto</option>
-              <option value="location">Gion</option>
-              <option value="location">Kyoto Station</option>
-              <option value="location">Downtown Kawaramachi</option>
-            </select>
-  
-            <label for="cuisine">Cuisine Type:</label>
-            <select id="cuisine" name="cuisine">
-              <option value="cuisine">Japanese</option>
-              <option value="cuisine">Western</option>
-              <option value="cuisine">Chinese</option>
-              <option value="cuisine">Mexican</option>
-            </select>
 
-            <label for="price">Price Range:</label>
-            <select id="price" name="price">
-              <option value="price">¥800~¥1000</option>
-              <option value="price">¥1000~¥4999</option>
-              <option value="price">¥5000~¥8000</option>
-            </select>
-  
-            <label for="ratings">Minimum Ratings:</label>
-            <select id="ratings" name="ratings">
-              <option value="ratings">3 Stars</option>
-              <option value="ratings">4 Stars</option>
-              <option value="ratings">5 Stars</option>
-            </select>
-  
-            <label for="availability">Availability:</label>
-            <select id="availability" name="availability">
-              <option value="available">Available</option>
-              <option value="unavailable">Unavailable</option>
-            </select>
-  
-            <button type="button" onclick="filterRooms()">Filter</button>
-          </form>
-        </div>
     <section class="rooms">
       <div class="container top">
         <div class="heading">

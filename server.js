@@ -40,14 +40,15 @@ const bookingRoutes = require('./server/routes/bookingRoutes');
 
 app.use(express.json());
 
+const server = app.listen(port, () => {
+    console.log(`Node.js App is running on port ${port}`);
+});
+
 // Connect to the MongoDB Server
 mongoose.connect(process.env.URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
-    const server = app.listen(port, () => {
-        console.log(`Node.js App is running on port ${port}`);
-    });
     console.log("Connected to MongoDB Server");
 }).catch((err) => {
     console.error('Error connecting to MongoDB:', err);

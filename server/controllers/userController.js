@@ -259,8 +259,7 @@ exports.sortData = (req, res) => {
         }
     });
 };
-
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
     const itemId = req.params.id;
     db.getConnection((err, connection) => {
         try {
@@ -271,7 +270,7 @@ exports.delete = (req, res) => {
 
             const deleteQuery = 'DELETE FROM user WHERE user_id = ?';
 
-            connection.query(deleteQuery, [itemId], (err, result) => {
+            connection.query(deleteQuery, [itemId], async (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.status(500).json({ error: 'An error occurred' });
@@ -283,22 +282,20 @@ exports.delete = (req, res) => {
                     return res.status(404).json({ error: 'Item not found' });
                 }
 
+                // Assuming userModel is a Mongoose model
+                const deletedUser = await userModel.deleteOne({ user_id: itemId }).catch((err) => {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred while deleting from MongoDB' });
+                });
+
+                console.log("------------- MongoDB query used: userModel.deleteOne({ user_id: id }) -------------");
             });
         } finally {
             db.releaseConnection(connection);
         }
-
-        userModel.deleteOne({ user_id: itemId }, (err) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).json({ error: 'An error occurred while deleting from MongoDB' });
-            }
-
-            console.log("------------- MongoDB query used: userModel.deleteOne({ user_id: id }) -------------");
-            res.redirect('/');
-        });
     });
 };
+
 
 
 exports.rankcountFirstName = (req, res) => {

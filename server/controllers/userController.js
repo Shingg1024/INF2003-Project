@@ -61,8 +61,8 @@ exports.loginUser = (req, res) => {
                         req.session.user = {
                             user_id: req.session.user.user_id,
                             email: req.session.user.email,
-                            firstName: req.session.user.first_name,
-                            lastName: req.session.user.last_name,
+                            first_name: req.session.user.first_name,
+                            last_name: req.session.user.last_name,
                             profile: {
                                 biography: result.profile.biography,
                                 interests: result.profile.interests,
@@ -73,7 +73,6 @@ exports.loginUser = (req, res) => {
                                 }
                             }
                         };
-
                         console.log("------------- MongoDB query used: userModel.findOne({ user_id: id }) -------------");
                         res.redirect('/');
                     } else {
@@ -97,36 +96,36 @@ exports.regUser = (req, res) => {
     const lastName = req.body.lastName;
 
     db.getConnection((err, connection) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).json({ error: 'An error occurred' });
-        }
-
-        const selectQuery = "SELECT * FROM user where email = ?";
-        connection.query(selectQuery, [email], (err, results) => {
+        try {
             if (err) {
                 console.log(err);
-                db.releaseConnection(connection);
                 return res.status(500).json({ error: 'An error occurred' });
             }
 
-            if (results.length == 0) {
-                const insertQuery = "INSERT INTO user (email, password, first_name, last_name) VALUES (?, ?, ?, ?)";
-                connection.query(insertQuery, [email, password, firstName, lastName], (err, results) => {
-                    if (err) {
-                        db.releaseConnection(connection);
-                        console.log(err);
-                        return res.status(500).json({ error: 'An error occurred during registration.' });
-                    }
+            const selectQuery = "SELECT * FROM user where email = ?";
+            connection.query(selectQuery, [email], (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
 
-                    db.releaseConnection(connection);
-                    return res.status(200).json({ message: 'User registered successfully.' });
-                });
-            } else {
-                db.releaseConnection(connection);
-                return res.status(400).json({ error: 'User with that email already exists.' });
-            }
-        });
+                if (results.length == 0) {
+                    const insertQuery = "INSERT INTO user (email, password, first_name, last_name) VALUES (?, ?, ?, ?)";
+                    connection.query(insertQuery, [email, password, firstName, lastName], (err, results) => {
+                        if (err) {
+                            console.log(err);
+                            return res.status(500).json({ error: 'An error occurred during registration.' });
+                        }
+                        console.log("------------- SQL query used: " + insertQuery + " -------------");
+                        res.redirect('/login');
+                    });
+                } else {
+                    return res.status(400).json({ error: 'User with that email already exists.' });
+                }
+            });
+        } finally {
+            db.releaseConnection(connection);
+        }
     });
 };
 
@@ -262,6 +261,7 @@ exports.sortData = (req, res) => {
 };
 
 exports.delete = (req, res) => {
+    const itemId = req.params.id;
     db.getConnection((err, connection) => {
         try {
             if (err) {
@@ -269,10 +269,7 @@ exports.delete = (req, res) => {
                 return res.status(500).json({ error: 'An error occurred' });
             }
 
-            const itemId = req.params.id;
-
             const deleteQuery = 'DELETE FROM user WHERE user_id = ?';
-
 
             connection.query(deleteQuery, [itemId], (err, result) => {
                 if (err) {
@@ -286,13 +283,23 @@ exports.delete = (req, res) => {
                     return res.status(404).json({ error: 'Item not found' });
                 }
 
-                return res.status(200).json({ message: 'Item deleted successfully' });
             });
         } finally {
             db.releaseConnection(connection);
         }
+
+        userModel.deleteOne({ user_id: itemId }, (err) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: 'An error occurred while deleting from MongoDB' });
+            }
+
+            console.log("------------- MongoDB query used: userModel.deleteOne({ user_id: id }) -------------");
+            res.redirect('/');
+        });
     });
 };
+
 
 exports.rankcountFirstName = (req, res) => {
     db.getConnection((err, connection) => {

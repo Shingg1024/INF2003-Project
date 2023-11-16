@@ -60,7 +60,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-    res.render('index', { session: req.session });
+    res.render('home', { session: req.session });
 });
 
 app.get('/login', (req, res) => {

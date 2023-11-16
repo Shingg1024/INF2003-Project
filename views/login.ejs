@@ -35,6 +35,23 @@
     document.getElementById("error-message").innerHTML = errorMessage;
     document.getElementById("error-message").style.display = "block";
   }
+  // Example using the fetch API
+  fetch('/user/alluser')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .catch(error => {
+      // Handle the error and show an alert to the user
+      if (error instanceof Error) {
+        // Check if it's a network error or a response error (e.g., 500)
+        if (error.message === 'Network response was not ok') {
+          alert('An internal server error occurred. Please restart the application.');
+        }
+      }
+    });
 </script>
 
 <!-- include footer -->

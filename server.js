@@ -172,6 +172,10 @@ app.get('/review', async (req, res) => {
     }
 });
 
+app.get('/aboutus', async (req, res) => {
+    res.render('aboutus');
+});
+
 app.get('/home', async (req, res) => {
     res.render('home');
 });

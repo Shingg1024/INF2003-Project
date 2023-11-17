@@ -88,6 +88,11 @@
       flex:2;
     }
 
+    .modal-content {
+      width:120%; /* You can adjust the percentage according to your preference */
+      height:auto;
+    }
+
     .filter-section {
       float: left;
       width: 30%; /* Adjust the width as needed */
@@ -224,9 +229,58 @@
                 <p>Lorem ipsum dolor sit amet constur adipisicing elit sed do eiusmtem por incid.
                 </p>
                 <div class="button flex">
-                  <button class="primary-btn">BOOK NOW</button>
+                  <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
+                  <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Booking Form</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h2 class="text-center"><%= item.hostel_name %></h2>
+                        
+                        <div class="counter-section">
+                            <p>Rooms: <span id="roomCounter">1</span></p>
+                            <button onclick="changeCounter('roomCounter', 'increment')">+</button>
+                            <button onclick="changeCounter('roomCounter', 'decrement')">-</button>
+                        </div>
+                    
+                        <div class="counter-section">
+                            <p>Adults: <span id="adultCounter">1</span></p>
+                            <button onclick="changeCounter('adultCounter', 'increment')">+</button>
+                            <button onclick="changeCounter('adultCounter', 'decrement')">-</button>
+                        </div>
+                    
+                        <div class="counter-section">
+                            <p>Children: <span id="childCounter">0</span></p>
+                            <button onclick="changeCounter('childCounter', 'increment')">+</button>
+                            <button onclick="changeCounter('childCounter', 'decrement')">-</button>
+                        </div>
+                    
+                        <div class="calendar-section">
+                          <p>Check-in Date: <input type="date"></p>
+                        </div>
+
+                        <div class="calendar-section">
+                          <p>Check-out Date: <input type="date"></p>
+                        </div>
+                      </div>
+                    
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                   <h3>¥<%= item.price %><span> <br> PER NIGHT</span> </h3>
                 </div>
+                
               </div>
             </div>
         </div>
@@ -234,5 +288,6 @@
       </div>
     </section>
     <script src="/assets/script/favourites.js"></script>
+    <script src="/assets/script/book-modal.js"></script>
 </body>
 

@@ -1,0 +1,110 @@
+<%- include('include/_header') %>
+
+<style>
+  .image-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .favorite {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #fbb234;
+  }
+
+  .favorite.clicked {
+    color: red; /* Change the color when clicked */
+  }
+</style>
+
+<body>
+  <%- include('include/_nav') %>
+
+  <div class="container">
+    <h1><%= data[0].hostel_name %></h1><br>
+
+    <div class="image-container">
+        <img src="/assets/images/image2.jpg" alt="restaurant1">
+        <i class="far fa-heart favorite" onclick="toggleFavorite(this)"></i>
+    </div>
+    <br><br>
+    <p>City: <%= data[0].city %><br>
+    Price: ¥<%= data[0].price.toFixed(2) %></p>
+
+    <h3>Free Amenities</h3>
+    <ul>
+        <% if (data[0].free && data[0].free.length > 0) {
+            data[0].free[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+                <li><%= item.replace(/['"]+/g, '').trim() %></li>
+            <% });
+        } else { %>
+            <li>No free amenities available</li>
+        <% } %>
+    </ul>
+
+    <h3>General Amenities</h3>
+    <ul>
+        <% if (data[0].general && data[0].general.length > 0) {
+            data[0].general[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+                <li><%= item.replace(/['"]+/g, '').trim() %></li>
+            <% });
+        } else { %>
+            <li>No general amenities available</li>
+        <% } %>
+    </ul>
+
+    <h3>Services</h3>
+    <ul>
+        <% if (data[0].services && data[0].services.length > 0) {
+            data[0].services[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+                <li><%= item.replace(/['"]+/g, '').trim() %></li>
+            <% });
+        } else { %>
+            <li>No services available</li>
+        <% } %>
+    </ul>
+
+    <h3>Food & Drink Options</h3>
+    <ul>
+        <% if (data[0].foodDrink && data[0].foodDrink.length > 0) {
+            data[0].foodDrink[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+                <li><%= item.replace(/['"]+/g, '').trim() %></li>
+            <% });
+        } else { %>
+            <li>No food and drink options available</li>
+        <% } %>
+    </ul>
+
+    <h3>Entertainment</h3>
+    <ul>
+        <% if (data[0].entertainment && data[0].entertainment.length > 0) {
+            data[0].entertainment[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+                <li><%= item.replace(/['"]+/g, '').trim() %></li>
+            <% });
+        } else { %>
+            <li>No entertainment options available</li>
+        <% } %>
+    </ul>
+
+    <!-- rest of your code -->
+</div>
+
+  <%- include('include/_footer') %>
+
+  <script>
+    function toggleFavorite(element) {
+      element.classList.toggle('clicked');
+      if (element.classList.contains('clicked')) {
+        element.classList.remove('far');
+        element.classList.add('fas');
+      } else {
+        element.classList.remove('fas');
+        element.classList.add('far');
+      }
+    }
+  </script>
+</body>
+</html>

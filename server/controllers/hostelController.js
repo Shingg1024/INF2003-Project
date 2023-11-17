@@ -69,3 +69,13 @@ exports.addHostelBooking = (req, res) => {
 
     });
 };
+exports.getHos = (req, res) => {
+    hostel.find({
+        hostel_id: req.params.id
+    }).then((result) => {
+        console.log("------------- MongoDB query used: hostel.find({ hostel_id: req.param.id })-------------");
+        res.send(result);
+    }).catch((err) => {
+        console.log(err);
+    });
+}

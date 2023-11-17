@@ -125,6 +125,19 @@ app.get('/hostels', async (req, res) => {
     }
 });
 
+app.get('/indivHostel/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await axios.get(`http://localhost:3001/hostel/hos/${id}`);
+        const data = response.data;
+
+        res.render('indivHostel', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
+
 app.get('/restaurantFull', async (req, res) => {
     try {
         response = await axios.get('http://localhost:3001/restaurant/allrestaurants');
@@ -147,6 +160,18 @@ app.get('/restaurants', async (req, res) => {
     }
 });
 
+app.get('/indivRestaurant/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await axios.get(`http://localhost:3001/restaurant/res/${id}`);
+        const data = response.data;
+
+        res.render('indivRestaurant', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
 
 app.get('/booking', async (req, res) => {
     try {
@@ -160,6 +185,18 @@ app.get('/booking', async (req, res) => {
     }
 });
 
+app.get('/indivBooking', async (req, res) => {
+    try {
+        id = req.session.user.user_id;
+        response = await axios.get('http://localhost:3001/booking/getBooking/' + id);
+        data = response.data;
+
+        res.render('indivBooking', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
 app.get('/review', async (req, res) => {
     try {
         id = req.session.user.user_id;
@@ -167,6 +204,18 @@ app.get('/review', async (req, res) => {
         data = response.data;
 
         res.render('review', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
+app.get('/indivReview', async (req, res) => {
+    try {
+        id = req.session.user.user_id;
+        response = await axios.get('http://localhost:3001/review/getReview/' + id);
+        data = response.data;
+
+        res.render('indivReview', { data });
     } catch (error) {
         res.status(500).send('Error fetching data');
     }
@@ -186,6 +235,7 @@ app.use(hostelRoutes);
 app.use(userRoutes);
 app.use(reviewRoutes);
 app.use(bookingRoutes);
+
 
 app.use((err, req, res, next) => {
     console.error(err);

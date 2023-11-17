@@ -1,0 +1,62 @@
+<%- include('include/_header') %>
+<style>
+  .image-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .favorite {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #fbb234;
+  }
+
+  .favorite.clicked {
+    color: red; /* Change the color when clicked */
+  }
+</style>
+<body>
+  <%- include('include/_nav') %>
+
+  <div class="container">
+    <% data.forEach(restaurant => { %>
+      <h1><%= restaurant.name %> (<%= restaurant.japaneseName %>)</h1>
+      <br>
+      <div class="image-container">
+      <img src="/assets/images/image1.jpg" alt="restaurant1">
+      <i class="far fa-heart favorite" onclick="toggleFavorite(this)"></i></div>
+      <br><br>
+      <p>Nearest Station: <%= restaurant.station %></p>
+      <p>First Category: <%= restaurant.firstCategory %></p>
+      <p>Second Category: <%= restaurant.secondCategory %></p>
+
+      <h3>Prices</h3>
+      <p>Lunch Price: <%= restaurant.lunchPrice !== "NA" ? restaurant.lunchPrice : "Not available" %></p>
+      <p>Dinner Price: <%= restaurant.dinnerPrice %></p>
+
+      <!-- Add more details if needed -->
+
+    <% }); %>
+
+    <!-- rest of your code -->
+  </div>
+
+  <%- include('include/_footer') %>
+
+  <script>
+    function toggleFavorite(element) {
+      element.classList.toggle('clicked');
+      if (element.classList.contains('clicked')) {
+        element.classList.remove('far');
+        element.classList.add('fas');
+      } else {
+        element.classList.remove('fas');
+        element.classList.add('far');
+      }
+    }
+  </script>
+</body>
+</html>

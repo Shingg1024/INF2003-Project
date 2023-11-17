@@ -7,4 +7,6 @@ router.get('/hostel/allhostels', hostelController.getAllHostels);
 router.post('hostel/newBooking', bookingController.addHostelBooking);
 
 
+router.get('/hostel/hos/:id', hostelController.getHos);
 module.exports = router;
+

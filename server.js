@@ -158,6 +158,17 @@ app.get('/restaurants', async (req, res) => {
     }
 });
 
+app.get('/indivRestaurant', async (req, res) => {
+    try {
+        response = await axios.get('http://localhost:3001/restaurant/allrestaurants'); 
+        data = response.data;
+
+        res.render('indivRestaurant', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
 
 app.get('/booking', async (req, res) => {
     try {

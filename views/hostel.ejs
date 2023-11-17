@@ -241,38 +241,38 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <h2 class="text-center"><%= item.hostel_name %></h2>
+                        <h2 class="text-center" id="modalHostelName" value="<%= item.id %>"><%= item.hostel_name %></h2>
                         
                         <div class="counter-section">
-                            <p>Rooms: <span id="roomCounter">1</span></p>
+                            <p>Rooms: <span id="roomCounter" value="1">1</span></p>
                             <button onclick="changeCounter('roomCounter', 'increment')">+</button>
                             <button onclick="changeCounter('roomCounter', 'decrement')">-</button>
                         </div>
                     
                         <div class="counter-section">
-                            <p>Adults: <span id="adultCounter">1</span></p>
+                            <p>Adults: <span id="adultCounter"  value="1">1</span></p>
                             <button onclick="changeCounter('adultCounter', 'increment')">+</button>
                             <button onclick="changeCounter('adultCounter', 'decrement')">-</button>
                         </div>
                     
                         <div class="counter-section">
-                            <p>Children: <span id="childCounter">0</span></p>
+                            <p>Children: <span id="childCounter"  value="0">0</span></p>
                             <button onclick="changeCounter('childCounter', 'increment')">+</button>
                             <button onclick="changeCounter('childCounter', 'decrement')">-</button>
                         </div>
                     
                         <div class="calendar-section">
-                          <p>Check-in Date: <input type="date"></p>
+                          <p>Check-in Date: <input type="date" id="checkInDate"></p>
                         </div>
 
                         <div class="calendar-section">
-                          <p>Check-out Date: <input type="date"></p>
+                          <p>Check-out Date: <input type="date" id="checkOutDate"></p>
                         </div>
                       </div>
                     
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-primary" id="submitBookingBtn">Submit</button>
                       </div>
                     </div>
                   </div>

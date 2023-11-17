@@ -1,90 +1,94 @@
 <%- include('include/_header') %>
-    <%- include('include/_nav') %>
-        <html lang="en">
+<%- include('include/_nav') %>
+<html lang="en">
 
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>About Us</title>
-            <style>
-                /* Reset default styles */
-                * {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us</title>
+  <style>
+    body {
+      background-image: url('https://www.pixelstalk.net/wp-content/uploads/2016/03/japan-sakura-backgrounds-for-windows.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 100%;
+      min-height: 100vh;
+    }
 
-                /* Body styles */
-                body {
-                    font-family: Arial, sans-serif;
-                    background-color: #f2f2f2;
-                    color: #333;
-                    line-height: 1.5;
-                }
+    .content-container {
+      padding: 20px;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.5); /* Set the background color with transparency */
+      backdrop-filter: blur(px); /* Apply a blur effect to the background */
+      border-radius: 10px;
+    }
 
-                /* Header styles */
-                header {
-                    background-color: #333;
-                    padding: 20px;
-                    color: #fff;
-                }
+    .content-container h1,
+    .content-container h2,
+    .content-container p {
+      margin: 0;
+      
+    }
 
-                header h1 {
-                    font-size: 28px;
-                }
 
-                /* Main styles */
-                main {
-                    padding: 20px;
-                }
 
-                section {
-                    margin-bottom: 20px;
-                }
+    .content-container h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      
+    }
 
-                h2 {
-                    font-size: 24px;
-                    margin-bottom: 10px;
-                }
+    .content-container p {
+      font-size: 18px;
+      line-height: 1.5;
+      
+    }
 
-                p {
-                    font-size: 16px;
-                }
+    footer {
+      padding: 20px;
+      color: #fff;
+      text-align: center;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.5); /* Set the background color with transparency */
+      backdrop-filter: blur(px); /* Apply a blur effect to the background */
+      border-radius: 10px;
+    }   
+    h1 {
+        text-align: center;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+        font-size:325%
+    }
+  </style>
+</head>
 
-                /* Footer styles */
-                footer {
-                    background-color: #333;
-                    padding: 10px;
-                    color: #fff;
-                    text-align: center;
-                    font-size: 14px;
-                }
-            </style>
-        </head>
+<body>
+    <br>
+  
 
-        <body>
-            <header>
-                <h1>About Us</h1>
-            </header>
+  <main>
+    <header>
+      </header>
+    <div class="content-container">
+      <section>
+        <h1>About Us</h1>
+        <br>
+        <h2>Our Story</h2>
+        <p>We are a team of dedicated software engineers who are passionate about travelling. We created this website to
+            allow booking of restaurants and hotels on one platform, as we understand the frustration of navigating multiple
+            websites. 
+        </p>
+      </section>
+      <br>
+      <section>
+        <h2>Our Mission</h2>
+        <p>To create a platform that can handle restaurant and hotel bookings.</p>
+      </section>
+    </div>
+  </main>
 
-            <main>
-                <section>
-                    <h2>Our Story</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae diam sed erat eleifend
-                        blandit vitae ac nisi. Suspendisse potenti. In eu metus vitae tortor hendrerit consectetur ut
-                        vel urna.</p>
-                </section>
+  <footer>
+    <p>&copy; 2023 Your Company. All rights reserved.</p>
+  </footer>
+</body>
 
-                <section>
-                    <h2>Our Mission</h2>
-                    <p>Nulla facilisi. Sed eget libero vel risus fermentum faucibus. Fusce ac dignissim ex. Aliquam
-                        varius erat a sapien sodales, non ultrices justo lobortis. Nullam hendrerit neque vitae ex
-                        lobortis consequat.</p>
-                </section>
-            </main>
-
-            <footer>
-                <p>&copy; 2023 Your Company. All rights reserved.</p>
-            </footer>
-        </body>
-        </html>
+</html>

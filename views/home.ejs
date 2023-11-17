@@ -59,6 +59,24 @@
       background-color: #333;
       color: #fbb234;
     }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+  
+    main {
+      flex: 1;
+    }
+  
+    footer {
+      padding: 10px;
+      color: #fff;
+      text-align: center;
+      background-color: rgb(16, 15, 15);
+      backdrop-filter: blur(10px);
+      margin-top: auto; /* Push the footer to the bottom */
+    }
   </style>
 </head>
 
@@ -78,6 +96,9 @@
     <a href="/restaurants" class="cta-button">Explore Restaurants</a>
     <a href="/hostels" class="cta-button">Explore Hostels</a>
   </div>
+  <footer>
+    <p>&copy; 2023 Your Company. All rights reserved.</p>
+  </footer>
 </body>
 
 </html>

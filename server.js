@@ -125,16 +125,18 @@ app.get('/hostels', async (req, res) => {
     }
 });
 
-app.get('/indivHostel', async (req, res) => {
+app.get('/indivHostel/:id', async (req, res) => {
+    const id = req.params.id;
     try {
-        response = await axios.get('http://localhost:3001/hostel/allhostels'); 
-        data = response.data;
+        const response = await axios.get(`http://localhost:3001/hostel/hos/${id}`);
+        const data = response.data;
 
         res.render('indivHostel', { data });
     } catch (error) {
         res.status(500).send('Error fetching data');
     }
 });
+
 
 app.get('/restaurantFull', async (req, res) => {
     try {
@@ -158,10 +160,11 @@ app.get('/restaurants', async (req, res) => {
     }
 });
 
-app.get('/indivRestaurant', async (req, res) => {
+app.get('/indivRestaurant/:id', async (req, res) => {
+    const id = req.params.id;
     try {
-        response = await axios.get('http://localhost:3001/restaurant/allrestaurants'); 
-        data = response.data;
+        const response = await axios.get(`http://localhost:3001/restaurant/res/${id}`);
+        const data = response.data;
 
         res.render('indivRestaurant', { data });
     } catch (error) {

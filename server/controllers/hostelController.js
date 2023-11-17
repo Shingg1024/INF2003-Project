@@ -10,3 +10,13 @@ exports.getAllHostels = (req, res) => {
         console.log(err);
     });
 }
+exports.getHos = (req, res) => {
+    hostel.find({
+        hostel_id: req.param.id
+    }).then((result) => {
+        console.log("------------- MongoDB query used: hostel.find({ hostel_id: req.param.id })-------------");
+        res.send(result);
+    }).catch((err) => {
+        console.log(err);
+    });
+}

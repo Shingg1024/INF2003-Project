@@ -28,8 +28,16 @@ app.use(session({
 }));
 
 // Load assets
-app.use('/css', express.static(path.resolve(__dirname, 'assets/css')));
-app.use('/js', express.static(path.resolve(__dirname, 'assets/js')));
+// app.use('/css', express.static(path.resolve(__dirname, 'assets/css')));
+// app.use('/js', express.static(path.resolve(__dirname, 'assets/js')));
+
+app.use('/assets', express.static('assets', { 
+    setHeaders: (res, path, stat) => {
+        if (path.endsWith('.js')) {
+            res.set('Content-Type', 'application/javascript');
+        }
+    },
+}));
 
 // Define routes
 const restaurantRoutes = require('./server/routes/restaurantRoutes');
@@ -80,7 +88,7 @@ app.get('/logout', (req, res) => {
         if (err) {
             console.error('Error destroying session:', err);
         }
-        res.redirect('/'); 
+        res.redirect('/');
     });
 });
 
@@ -97,7 +105,7 @@ app.get('/userStats', async (req, res) => {
 
 app.get('/hostelFull', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3001/hostel/allhostels'); 
+        response = await axios.get('http://localhost:3001/hostel/allhostels');
         data = response.data;
 
         res.render('hostelFull', { data });
@@ -106,9 +114,20 @@ app.get('/hostelFull', async (req, res) => {
     }
 });
 
+app.get('/hostels', async (req, res) => {
+    try {
+        response = await axios.get('http://localhost:3001/hostel/allhostels'); 
+        data = response.data;
+
+        res.render('hostel', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
 app.get('/restaurantFull', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3001/restaurant/allrestaurants'); 
+        response = await axios.get('http://localhost:3001/restaurant/allrestaurants');
         data = response.data;
 
         res.render('restaurantFull', { data });
@@ -118,14 +137,21 @@ app.get('/restaurantFull', async (req, res) => {
 });
 
 app.get('/restaurants', async (req, res) => {
-    res.render('restaurants');
+    try {
+        response = await axios.get('http://localhost:3001/restaurant/allrestaurants'); 
+        data = response.data;
+
+        res.render('restaurants', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
 });
 
 
 app.get('/booking', async (req, res) => {
     try {
         id = req.session.user.user_id;
-        response = await axios.get('http://localhost:3001/booking/getBooking/'  + id); 
+        response = await axios.get('http://localhost:3001/booking/getBooking/' + id);
         data = response.data;
 
         res.render('booking', { data });
@@ -137,13 +163,17 @@ app.get('/booking', async (req, res) => {
 app.get('/review', async (req, res) => {
     try {
         id = req.session.user.user_id;
-        response = await axios.get('http://localhost:3001/review/getReview/' + id); 
+        response = await axios.get('http://localhost:3001/review/getReview/' + id);
         data = response.data;
 
         res.render('review', { data });
     } catch (error) {
         res.status(500).send('Error fetching data');
     }
+});
+
+app.get('/home', async (req, res) => {
+    res.render('home');
 });
 
 
@@ -154,15 +184,15 @@ app.use(reviewRoutes);
 app.use(bookingRoutes);
 
 app.use((err, req, res, next) => {
-    console.error(err); 
-  
+    console.error(err);
+
     if (res.headersSent) {
-      return next(err); 
+        return next(err);
     }
-  
+
     res.status(500).send('An internal server error occurred. Please refresh the page or restart the application.');
-  
-  });
+
+});
 
 const cleanUp = (eventType) => {
     server.close(() => {

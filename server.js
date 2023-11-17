@@ -166,7 +166,7 @@ app.get('/review', async (req, res) => {
         response = await axios.get('http://localhost:3001/review/getReview/' + id);
         data = response.data;
 
-        res.render('aboutus', { data });
+        res.render('review', { data });
     } catch (error) {
         res.status(500).send('Error fetching data');
     }

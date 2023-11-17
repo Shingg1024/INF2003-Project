@@ -125,6 +125,17 @@ app.get('/hostels', async (req, res) => {
     }
 });
 
+app.get('/indivHostel', async (req, res) => {
+    try {
+        response = await axios.get('http://localhost:3001/hostel/allhostels'); 
+        data = response.data;
+
+        res.render('indivHostel', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
 app.get('/restaurantFull', async (req, res) => {
     try {
         response = await axios.get('http://localhost:3001/restaurant/allrestaurants');
@@ -186,6 +197,7 @@ app.use(hostelRoutes);
 app.use(userRoutes);
 app.use(reviewRoutes);
 app.use(bookingRoutes);
+app.use('/hostel',hostelRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err);

@@ -11,7 +11,7 @@ exports.getAllRestaurants = (req, res) => {
 
 exports.getRes = (req, res) => {
     restaurant.find({
-        restaurant_id: req.param.id
+        restaurant_id: req.params.id
     }).then((result) => {
         console.log("------------- MongoDB query used: restaurant.find({restaurant_id: req.param.id}) -------------");
         res.send(result);

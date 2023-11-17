@@ -172,6 +172,18 @@ app.get('/review', async (req, res) => {
     }
 });
 
+app.get('/aboutus', async (req, res) => {
+    try {
+        id = req.session.user.user_id;
+        response = await axios.get('http://localhost:3001/aboutus' + id);
+        data = response.data;
+
+        res.render('review', { data });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+});
+
 app.get('/home', async (req, res) => {
     res.render('home');
 });

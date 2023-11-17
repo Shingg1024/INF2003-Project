@@ -166,10 +166,14 @@ app.get('/review', async (req, res) => {
         response = await axios.get('http://localhost:3001/review/getReview/' + id);
         data = response.data;
 
-        res.render('review', { data });
+        res.render('aboutus', { data });
     } catch (error) {
         res.status(500).send('Error fetching data');
     }
+});
+
+app.get('/aboutus', async (req, res) => {
+    res.render('aboutus');
 });
 
 app.get('/home', async (req, res) => {

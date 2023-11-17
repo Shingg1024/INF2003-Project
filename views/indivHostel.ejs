@@ -1,3 +1,87 @@
 <%- include('include/_header') %>
 
+<style>
+  .image-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .favorite {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #fbb234;
+    transition: color 0.3s ease;
+  }
+
+  .favorite.clicked {
+    color: red; /* Change the color when clicked */
+  }
+</style>
+
+<body>
   <%- include('include/_nav') %>
+
+  <div class="container">
+    <h1>Individual Hostel Page</h1>
+
+    <h2>Hostel Information</h2>
+    <p>Name: <%= data[0].hostel_name %></p>
+
+    <div class="image-container">
+      <img src="/assets/images/image2.jpg" alt="restaurant1">
+      <i class="far fa-heart favorite" onclick="toggleFavorite(this)"></i>
+    </div>
+
+    <p>City: <%= data[0].city %><br>
+    Price: $<%= data[0].price.toFixed(2) %></p>
+
+    <h3>Free Amenities</h3>
+    <ul>
+      <% data[0].free[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+        <li><%= item.replace(/['"]+/g, '').trim() %></li>
+      <% }); %>
+    </ul>
+
+    <h3>General Amenities</h3>
+    <ul>
+      <% data[0].general[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+        <li><%= item.replace(/['"]+/g, '').trim() %></li>
+      <% }); %>
+    </ul>
+
+    <h3>Services</h3>
+    <ul>
+      <% data[0].services[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+        <li><%= item.replace(/['"]+/g, '').trim() %></li>
+      <% }); %>
+    </ul>
+
+    <h3>Food & Drink Options</h3>
+    <ul>
+      <% data[0].foodDrink[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+        <li><%= item.replace(/['"]+/g, '').trim() %></li>
+      <% }); %>
+    </ul>
+
+    <h3>Entertainment</h3>
+    <ul>
+      <% data[0].entertainment[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+        <li><%= item.replace(/['"]+/g, '').trim() %></li>
+      <% }); %>
+    </ul>
+
+    <!-- rest of your code -->
+  </div>
+
+  <%- include('include/_footer') %>
+
+  <script>
+    function toggleFavorite(element) {
+      element.classList.toggle('clicked');
+    }
+  </script>
+</body>
+</html>

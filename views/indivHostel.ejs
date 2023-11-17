@@ -24,19 +24,16 @@
 <body>
   <%- include('include/_nav') %>
 
-  <div class="container">
-    <h1>Individual Hostel Page</h1>
-
-    <h2>Hostel Information</h2>
-    <p>Name: <%= data[0].hostel_name %></p>
+  <div class="container">   
+    <h1><%= data[0].hostel_name %></h1><br>
 
     <div class="image-container">
       <img src="/assets/images/image2.jpg" alt="restaurant1">
       <i class="far fa-heart favorite" onclick="toggleFavorite(this)"></i>
     </div>
-
+    <br><br>
     <p>City: <%= data[0].city %><br>
-    Price: $<%= data[0].price.toFixed(2) %></p>
+    Price: ¥<%= data[0].price.toFixed(2) %></p>
 
     <h3>Free Amenities</h3>
     <ul>
@@ -81,6 +78,13 @@
   <script>
     function toggleFavorite(element) {
       element.classList.toggle('clicked');
+      if (element.classList.contains('clicked')) {
+        element.classList.remove('far');
+        element.classList.add('fas');
+      } else {
+        element.classList.remove('fas');
+        element.classList.add('far');
+      }
     }
   </script>
 </body>

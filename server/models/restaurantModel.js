@@ -17,11 +17,14 @@ const restaurantSchema = new Schema({
             type: String,
             enum: ["Point"],
         },
-        coordinates: [Number], // Array for [longitude, latitude]
+        coordinates: {
+            type: [Number],
+            index: '2dsphere',
+        },
     }
 });
+restaurantSchema.index({ location: "2dsphere" });
 
-// Create a model for the restaurant collection
 const restaurant = mongoose.model('restaurant', restaurantSchema);
 
 module.exports = restaurant;

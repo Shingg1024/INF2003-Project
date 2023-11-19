@@ -19,7 +19,10 @@ const hostelSchema = new Schema({
             type: String,
             enum: ["Point"],
         },
-        coordinates: [Number], // Array for [longitude, latitude]
+        coordinates: {
+            type: [Number],
+            index: '2dsphere',
+        },
     }
 });
 hostelSchema.index({ location: "2dsphere" });

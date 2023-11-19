@@ -16,7 +16,8 @@
   }
 
   .favorite.clicked {
-    color: red; /* Change the color when clicked */
+    color: red;
+    /* Change the color when clicked */
   }
 </style>
 
@@ -27,73 +28,74 @@
     <h1><%= data[0].hostel_name %></h1><br>
 
     <div class="image-container">
-        <img src="/assets/images/image2.jpg" alt="restaurant1">
-        <i class="far fa-heart favorite" onclick="toggleFavorite(this)"></i>
+      <img src="/assets/images/image2.jpg" alt="restaurant1">
+      <i class="far fa-heart favorite" onclick="toggleFavorite(this)"></i>
     </div>
     <br><br>
     <p>City: <%= data[0].city %><br>
-    Price: ¥<%= data[0].price.toFixed(2) %></p>
+      Price: ¥<%= data[0].price.toFixed(2) %></p>
 
     <h3>Free Amenities</h3>
     <ul>
-        <% if (data[0].free && data[0].free.length > 0) {
+      <% if (data[0].free && data[0].free.length > 0) {
             data[0].free[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-                <li><%= item.replace(/['"]+/g, '').trim() %></li>
-            <% });
+      <li><%= item.replace(/['"]+/g, '').trim() %></li>
+      <% });
         } else { %>
-            <li>No free amenities available</li>
-        <% } %>
+      <li>No free amenities available</li>
+      <% } %>
     </ul>
 
     <h3>General Amenities</h3>
     <ul>
-        <% if (data[0].general && data[0].general.length > 0) {
+      <% if (data[0].general && data[0].general.length > 0) {
             data[0].general[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-                <li><%= item.replace(/['"]+/g, '').trim() %></li>
-            <% });
+      <li><%= item.replace(/['"]+/g, '').trim() %></li>
+      <% });
         } else { %>
-            <li>No general amenities available</li>
-        <% } %>
+      <li>No general amenities available</li>
+      <% } %>
     </ul>
 
     <h3>Services</h3>
     <ul>
-        <% if (data[0].services && data[0].services.length > 0) {
+      <% if (data[0].services && data[0].services.length > 0) {
             data[0].services[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-                <li><%= item.replace(/['"]+/g, '').trim() %></li>
-            <% });
+      <li><%= item.replace(/['"]+/g, '').trim() %></li>
+      <% });
         } else { %>
-            <li>No services available</li>
-        <% } %>
+      <li>No services available</li>
+      <% } %>
     </ul>
 
     <h3>Food & Drink Options</h3>
     <ul>
-        <% if (data[0].foodDrink && data[0].foodDrink.length > 0) {
+      <% if (data[0].foodDrink && data[0].foodDrink.length > 0) {
             data[0].foodDrink[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-                <li><%= item.replace(/['"]+/g, '').trim() %></li>
-            <% });
+      <li><%= item.replace(/['"]+/g, '').trim() %></li>
+      <% });
         } else { %>
-            <li>No food and drink options available</li>
-        <% } %>
+      <li>No food and drink options available</li>
+      <% } %>
     </ul>
 
     <h3>Entertainment</h3>
     <ul>
-        <% if (data[0].entertainment && data[0].entertainment.length > 0) {
+      <% if (data[0].entertainment && data[0].entertainment.length > 0) {
             data[0].entertainment[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-                <li><%= item.replace(/['"]+/g, '').trim() %></li>
-            <% });
+      <li><%= item.replace(/['"]+/g, '').trim() %></li>
+      <% });
         } else { %>
-            <li>No entertainment options available</li>
-        <% } %>
+      <li>No entertainment options available</li>
+      <% } %>
     </ul>
 
+    <button id="showNearbyBtn" data-latitude="<%= data[0].location.coordinates[1] %>" data-longitude="<%= data[0].location.coordinates[0] %>" onclick="showNearbyRestaurants()">Show Nearby Restaurants</button>
+
+    <div id="nearbyRestaurants" style="display: none;">
+    </div>
     <!-- rest of your code -->
-</div>
-
-  <%- include('include/_footer') %>
-
+  </div>
   <script>
     function toggleFavorite(element) {
       element.classList.toggle('clicked');
@@ -105,6 +107,50 @@
         element.classList.add('far');
       }
     }
+
+    function showNearbyRestaurants() {
+      const latitude = document.getElementById('showNearbyBtn').dataset.latitude;
+      const longitude = document.getElementById('showNearbyBtn').dataset.longitude;
+
+      fetch(`/restaurant/nearbyRestaurants?latitude=${latitude}&longitude=${longitude}`)
+        .then(response => response.json())
+        .then(data => {
+          const nearbyRestaurantsDiv = document.getElementById('nearbyRestaurants');
+                nearbyRestaurantsDiv.innerHTML = ''; 
+
+                if (data.length > 0) {
+                    const table = document.createElement('table');
+                    table.className = 'nearby-table';
+
+                    const headerRow = table.insertRow();
+                    const headerCell = headerRow.insertCell();
+                    headerCell.textContent = 'Nearby Restaurants';
+                    headerCell.colSpan = 2;
+                    headerCell.className = 'table-header';
+
+                    data.forEach(restaurant => {
+                        const row = table.insertRow();
+
+                        const nameCell = row.insertCell();
+                        const nameLink = document.createElement('a');
+                        nameLink.href = `/indivRestaurant/${restaurant.restaurant_id}`; 
+                        nameLink.textContent = restaurant.name;
+                        nameCell.appendChild(nameLink);
+
+                        const addressCell = row.insertCell();
+                        addressCell.textContent = restaurant.address;
+                    });
+
+                    nearbyRestaurantsDiv.appendChild(table);
+                    nearbyRestaurantsDiv.style.display = 'block'; 
+                } else {
+                    nearbyRestaurantsDiv.innerHTML = '<p>No nearby restaurants found</p>';
+                    nearbyRestaurantsDiv.style.display = 'block'; 
+                }
+        })
+        .catch(error => console.error('Error fetching nearby restaurants:', error));
+    }
+
   </script>
-</body>
-</html>
+
+  <%- include('include/_footer') %>

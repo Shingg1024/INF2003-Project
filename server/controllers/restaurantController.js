@@ -20,6 +20,31 @@ exports.getRes = (req, res) => {
     });
 }
 
+exports.nearbyRes = async (req, res) => {
+    const { latitude, longitude } = req.query;
+
+    try {
+        const nearbyRestaurants = await restaurant.find({
+            location: {
+                $near: {
+                    $geometry: {
+                        type: 'Point',
+                        coordinates: [parseFloat(longitude), parseFloat(latitude)],
+                    },
+                    $maxDistance: 5000,
+                },
+            },
+        }).limit(10).lean();
+
+        console.log("------------- MongoDB query used: restaurant.find({location: {$near: {$geometry: {type: 'Point', coordinates: [parseFloat(longitude), parseFloat(latitude)],},"
+            + "$maxDistance: 5000, }, }, "
+            + "}).limit(10).lean();  -------------");
+        res.json(nearbyRestaurants);
+    } catch (error) {
+        console.error('Error fetching nearby restaurants:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 // Get restaurant booking count
 exports.getRestaurantBookingCount = (req, res) => {

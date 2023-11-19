@@ -1,57 +1,92 @@
 <%- include('include/_header') %>
 <style>
   body {
-    background-image: url('https://wallpapers.com/images/featured/japan-landscape-7oivwrn8hrzce9uv.webp');
+    background-image: url('assets/images/japan-landscape.jpg');
     background-size: cover;
     background-position: center;
     height: 100%;
     min-height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
   }
 
-  .flex-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 50px;
   }
 
-  .flex-container>div {
-    margin: 10px;
-    padding: 20px;
-    font-size: 20px;
-    background-color: #f2f2f2;
+  h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+  }
+
+  .search-bar {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    background-color: #fbb234;
+    color: #333;
+    text-decoration: none;
     border-radius: 5px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
   }
 
-  .card-body {
+  .cta-button:hover {
+    background-color: #333;
+    color: #fbb234;
+  }
+  body {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: start;
+    min-height: 100vh;
   }
 
-  .img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
+  main {
+    flex: 1;
   }
 
-  .glyphicon-heart-empty {
-    cursor: pointer;
-    color: #ccc;
-  }
-
-  .glyphicon-heart-empty:hover {
-    color: red;
+  footer {
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+    background-color: rgb(16, 15, 15);
+    backdrop-filter: blur(10px);
+    margin-top: auto; /* Push the footer to the bottom */
   }
 </style>
 <%- include('include/_nav') %>
 
-<div>
+<div class="container">
+  <h1>Welcome to XXXXX XXXX</h1>
+  <p>Discover and explore the best restaurants and hostels in town.</p>
 
+  <!-- Hero Section with Search Bar -->
+<input type="text" class="search-bar" placeholder="Search for restaurants or hostels..." style="color: #333;">
+
+  <!-- Features/Services Section -->
+  <h2>Discover Amazing Places</h2>
+  <p>Explore a variety of restaurants and hostels, from cozy cafes to comfortable accommodations.</p>
+
+  <!-- Call-to-Action Button -->
+  <a href="/restaurants" class="cta-button">Explore Restaurants</a>
+  <a href="/hostels" class="cta-button">Explore Hostels</a>
 </div>
+
 <script>
   // Example using the fetch API
   fetch('/user/alluser')

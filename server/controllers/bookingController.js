@@ -279,37 +279,35 @@ exports.getRestaurantBookingCount = (req, res) => {
     });
 };
 
-//Add new hostel booking
+// Add new hostel booking
 exports.addHostelBooking = (req, res) => {
+    console.log(req.body);
+
+    const id = req.body.user_id;
+    const hostelId = req.body.hostelId;
+    const bookingId = req.body.bookingId;
+    const checkInDate = req.body.date_start;
+    const checkOutDate = req.body.date_end;
+
     db.getConnection((err, connection) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).json({ error: 'An error occurred' });
-        }
+        try {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: 'An error occurred' });
+            }
 
-        id = req.params.id;
-        hostelId = req.params.hostelId;
-        bookingId = req.params.bookingId;
-        checkInDate = req.params.checkInDate;
-        checkOutDate = req.params.checkOutDate;
+            const query = "INSERT INTO booking_hostel (booking_hostel_id, user_id, hostel_id, date_start, date_end) VALUES (?, ?, ?, ?, ?);";
+            connection.query(query, [bookingId, id, hostelId, checkInDate, checkOutDate], (err, result) => {
 
-        //const { bookingId, id, hostelId, checkInDate, checkOutDate } = req.body;
-
-        const query = "INSERT INTO booking_hostel (booking_hostel_id, user_id, hostel_id, date_start, date_end) VALUES (?, ?, ?, ?, ?);";
-        connection.query(query, [bookingId, id, hostelId, checkInDate, checkOutDate], (err, result) => {
-            try {
                 if (err) {
                     console.log(err);
                     return res.status(500).json({ error: 'An error occurred' });
                 }
-
-                res.send(result);
                 console.log("------------- SQL query used: " + query + " -------------");
-            } finally {
-                db.releaseConnection(connection);
-            }
-        });
-
+            });
+        } finally {
+            db.releaseConnection(connection);
+        }
     });
 };
 

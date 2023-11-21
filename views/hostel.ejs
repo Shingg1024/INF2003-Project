@@ -1,238 +1,249 @@
 <%- include('include/_header') %>
-  <style>
-    .flex-container{
-      display: flex;
-    }
-    .flex-container > div{
-      margin: 10px;
-      padding: 20px;
-      font-size: 30px;
-    }
+<style>
+  .flex-container {
+    display: flex;
+  }
+
+  .flex-container>div {
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+  }
 
 
-    .heading h1 {
-      font-size: 100px;
-      font-weight: 500;
-      opacity: 0.1;
-      font-family: serif;
-      position: absolute;
-      top: -30px;
-    }
-    
-    .heading h2 {
-      margin: 30px 0;
-      font-size: 45px;
-      font-family: serif;
-      font-weight: 400;
-    }
-    .rooms {
-      position: relative;
-      flex:1;
-      display: flex;
-      margin-left: 20px;
-    }
+  .heading h1 {
+    font-size: 100px;
+    font-weight: 500;
+    opacity: 0.1;
+    font-family: serif;
+    position: absolute;
+    top: -30px;
+  }
 
-    .rooms .text {
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-top: none;
-      padding: 30px;
-    }
+  .heading h2 {
+    margin: 30px 0;
+    font-size: 45px;
+    font-family: serif;
+    font-weight: 400;
+  }
 
-    .rooms i {
-      font-size: 12px;
-      color: #fbb234;
-      margin: 15px 0;
-      margin-right: 5px;
-    }
+  .rooms {
+    position: relative;
+    flex: 1;
+    display: flex;
+    margin-left: 20px;
+  }
 
-    .rooms p {
-      margin: 20px 0;
-      opacity: 0.7;
-    }
+  .rooms .text {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: none;
+    padding: 30px;
+  }
 
-    .rooms h3 {
-      font-size: 30px;
-      line-height: 20px;
-      margin-left: 20px;
-      font-weight: 500;
-      color: #7fc142;
-    }
+  .rooms i {
+    font-size: 12px;
+    color: #fbb234;
+    margin: 15px 0;
+    margin-right: 5px;
+  }
 
-    .rooms h3 span {
-      font-size: 15px;
-      font-weight: 400;
-      color: #000;
-    }
+  .rooms p {
+    margin: 20px 0;
+    opacity: 0.7;
+  }
 
-    .rooms .items .image {
-      position: relative;
-      overflow: hidden;
-    }
+  .rooms h3 {
+    font-size: 30px;
+    line-height: 20px;
+    margin-left: 20px;
+    font-weight: 500;
+    color: #7fc142;
+  }
 
-    .rooms .items .image img {
-      width: 100%;
-      height: 50%;
-    }
+  .rooms h3 span {
+    font-size: 15px;
+    font-weight: 400;
+    color: #000;
+  }
 
-    .rooms .items .image .favorite {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 24px;
-      color: #fbb234;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
+  .rooms .items .image {
+    position: relative;
+    overflow: hidden;
+  }
 
-    .content{
-      flex:2;
-    }
+  .rooms .items .image img {
+    width: 100%;
+    height: 50%;
+  }
 
-    .modal-content {
-      width:120%; /* You can adjust the percentage according to your preference */
-      height:auto;
-    }
+  .rooms .items .image .favorite {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #fbb234;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
 
-    .filter-section {
-      float: left;
-      width: 30%; /* Adjust the width as needed */
-      background-color: lightgray;
-      color: black; /* Yellow text color */
-      padding: 20px;
-      box-sizing: border-box;
-      margin-left: 20px; /* Adjust margin as needed */
-      margin-top: 30px;
-      border-radius: 15px;
-    }
+  .content {
+    flex: 2;
+  }
 
-    .filter-form {
-      margin-bottom: 20px;
-    }
+  .modal-content {
+    width: 120%;
+    /* You can adjust the percentage according to your preference */
+    height: auto;
+  }
 
-    .filter-form label {
-      display: block;
-      margin-bottom: 8px;
-    }
+  .filter-section {
+    float: left;
+    width: 30%;
+    /* Adjust the width as needed */
+    background-color: lightgray;
+    color: black;
+    /* Yellow text color */
+    padding: 20px;
+    box-sizing: border-box;
+    margin-left: 20px;
+    /* Adjust margin as needed */
+    margin-top: 30px;
+    border-radius: 15px;
+  }
 
-    .filter-form input,
-    .filter-form select,
-    .filter-form button {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
+  .filter-form {
+    margin-bottom: 20px;
+  }
 
-    .filter-form button {
-      background-color: #ffc107; /* Yellow button color */
-      color: #333; /* Black text color */
-      cursor: pointer;
-    }
+  .filter-form label {
+    display: block;
+    margin-bottom: 8px;
+  }
 
-    .filter-form button:hover {
-      background-color: lightgray; /* Black button color on hover */
-      color: #ffc107; /* Yellow text color on hover */
-    }
+  .filter-form input,
+  .filter-form select,
+  .filter-form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
 
-    .owl-carousel1 .owl-nav .owl-prev,
-    .owl-carousel1 .owl-nav .owl-next {
-      position: absolute;
-      top: -20%;
-      height: 50px;
-      width: 50px;
-      background: #7fc142 !important;
-    }
+  .filter-form button {
+    background-color: #ffc107;
+    /* Yellow button color */
+    color: #333;
+    /* Black text color */
+    cursor: pointer;
+  }
 
-    .owl-carousel1 .owl-nav .owl-prev i,
-    .owl-carousel1 .owl-nav .owl-next i {
-      color: #fff;
-    }
+  .filter-form button:hover {
+    background-color: lightgray;
+    /* Black button color on hover */
+    color: #ffc107;
+    /* Yellow text color on hover */
+  }
 
-    .owl-carousel1 .owl-nav .owl-prev {
-      left: 90%;
-    }
+  .owl-carousel1 .owl-nav .owl-prev,
+  .owl-carousel1 .owl-nav .owl-next {
+    position: absolute;
+    top: -20%;
+    height: 50px;
+    width: 50px;
+    background: #7fc142 !important;
+  }
 
-    .owl-carousel1 .owl-nav .owl-next {
-      right: 0;
-    }
+  .owl-carousel1 .owl-nav .owl-prev i,
+  .owl-carousel1 .owl-nav .owl-next i {
+    color: #fff;
+  }
 
-  </style>
-  
+  .owl-carousel1 .owl-nav .owl-prev {
+    left: 90%;
+  }
+
+  .owl-carousel1 .owl-nav .owl-next {
+    right: 0;
+  }
+</style>
+
 <%- include('include/_nav') %>
-<body>
-         <!-- Filter section -->
-         <div class="filter-section">
-          <form class="filter-form" id="filterForm">
-            <label for="location">Location:</label>
-            <select id="location" name="location">
-              <option value="location">Central Kyoto</option>
-              <option value="location">Gion</option>
-              <option value="location">Kyoto Station</option>
-              <option value="location">Downtown Kawaramachi</option>
-            </select>
-  
-            <label for="room">Room Type:</label>
-            <select id="room" name="room">
-              <option value="room">Dorm Room</option>
-              <option value="room">Private Room</option>
-            </select>
 
-            <label for="price">Price Range:</label>
-            <select id="price" name="price">
-              <option value="price">¥800~¥1000</option>
-              <option value="price">¥1000~¥4999</option>
-              <option value="price">¥5000~¥8000</option>
-            </select>
-  
-            <label for="ratings">Minimum Ratings:</label>
-            <select id="ratings" name="ratings">
-              <option value="ratings">3 Stars</option>
-              <option value="ratings">4 Stars</option>
-              <option value="ratings">5 Stars</option>
-            </select>
-  
-            <label for="availability">Availability:</label>
-            <select id="availability" name="availability">
-              <option value="available">Available</option>
-              <option value="unavailable">Unavailable</option>
-            </select>
-  
-            <button type="button" onclick="filterRooms()">Filter</button>
-          </form>
-        </div>
-    <section class="rooms">
-      <div class="container top">
-        <div class="heading">
-          <h1>EXPLORE</h1>
-          <h2>Hostels nearby</h2>
-          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          </p>
-        </div>
-        <% data.forEach(item => { %>
-        <div class="content mtop">
-          <div class="owl-carousel owl-carousel1 owl-theme">
-            <div class="items">
-              <div class="image">
-                <img src="/assets/images/image2.jpg" alt="restaurant1">
-                <i class="far fa-heart favorite"></i>
-              </div>
-              <div class="text">
-                <a href="/indivHostel/<%= item.hostel_id %>"> <!-- Add the anchor tag here -->
+<body>
+  <!-- Filter section -->
+  <div class="filter-section">
+    <form class="filter-form" id="filterForm">
+      <label for="location">Location:</label>
+      <select id="location" name="location">
+        <option value="location">Central Kyoto</option>
+        <option value="location">Gion</option>
+        <option value="location">Kyoto Station</option>
+        <option value="location">Downtown Kawaramachi</option>
+      </select>
+
+      <label for="room">Room Type:</label>
+      <select id="room" name="room">
+        <option value="room">Dorm Room</option>
+        <option value="room">Private Room</option>
+      </select>
+
+      <label for="price">Price Range:</label>
+      <select id="price" name="price">
+        <option value="price">¥800~¥1000</option>
+        <option value="price">¥1000~¥4999</option>
+        <option value="price">¥5000~¥8000</option>
+      </select>
+
+      <label for="ratings">Minimum Ratings:</label>
+      <select id="ratings" name="ratings">
+        <option value="ratings">3 Stars</option>
+        <option value="ratings">4 Stars</option>
+        <option value="ratings">5 Stars</option>
+      </select>
+
+      <label for="availability">Availability:</label>
+      <select id="availability" name="availability">
+        <option value="available">Available</option>
+        <option value="unavailable">Unavailable</option>
+      </select>
+
+      <button type="button" onclick="filterRooms()">Filter</button>
+    </form>
+  </div>
+  <section class="rooms">
+    <div class="container top">
+      <div class="heading">
+        <h1>EXPLORE</h1>
+        <h2>Hostels nearby</h2>
+        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+        </p>
+      </div>
+      <% data.forEach(item => { %>
+      <div class="content mtop">
+        <div class="owl-carousel owl-carousel1 owl-theme">
+          <div class="items">
+            <div class="image">
+              <img src="/assets/images/image2.jpg" alt="restaurant1">
+              <i class="far fa-heart favorite"></i>
+            </div>
+            <div class="text">
+              <a href="/indivHostel/<%= item.hostel_id %>">
+                <!-- Add the anchor tag here -->
                 <h2><%= item.hostel_name %></h2>
-                </a>
-                <div class="rate flex">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                </div>
-                <p>Lorem ipsum dolor sit amet constur adipisicing elit sed do eiusmtem por incid.
-                </p>
-                <div class="button flex">
-                  <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
-                  <!-- Modal -->
+              </a>
+              <div class="rate flex">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+              </div>
+              <p>Lorem ipsum dolor sit amet constur adipisicing elit sed do eiusmtem por incid.
+              </p>
+              <div class="button flex">
+                <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
+                <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
@@ -243,26 +254,28 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <h2 class="text-center" id="modalHostelName" value="<%= item.id %>"><%= item.hostel_name %></h2>
-                        
+                        <h2 class="text-center" id="modalHostelName"><%= item.hostel_name %></h2>
+                        <input type="hidden" id="itemHostelId" value="<%= item.hostel_id %>">
+                        <input type="hidden" id="sessionId" value="<%= session.user.user_id %>">
+
                         <div class="counter-section">
-                            <p>Rooms: <span id="roomCounter" value="1">1</span></p>
-                            <button onclick="changeCounter('roomCounter', 'increment')">+</button>
-                            <button onclick="changeCounter('roomCounter', 'decrement')">-</button>
+                          <p>Rooms: <span id="adultCounter" value="1">1</span></p>
+                          <button onclick="changeCounter('adultCounter', 'increment')">+</button>
+                          <button onclick="changeCounter('adultCounter', 'decrement')">-</button>
                         </div>
-                    
+
                         <div class="counter-section">
-                            <p>Adults: <span id="adultCounter"  value="1">1</span></p>
-                            <button onclick="changeCounter('adultCounter', 'increment')">+</button>
-                            <button onclick="changeCounter('adultCounter', 'decrement')">-</button>
+                          <p>Rooms: <span id="roomCounter" value="1">1</span></p>
+                          <button onclick="changeCounter('roomCounter', 'increment')">+</button>
+                          <button onclick="changeCounter('roomCounter', 'decrement')">-</button>
                         </div>
-                    
+
                         <div class="counter-section">
-                            <p>Children: <span id="childCounter"  value="0">0</span></p>
-                            <button onclick="changeCounter('childCounter', 'increment')">+</button>
-                            <button onclick="changeCounter('childCounter', 'decrement')">-</button>
+                          <p>Rooms: <span id="childCounter" value="1">1</span></p>
+                          <button onclick="changeCounter('childCounter', 'increment')">+</button>
+                          <button onclick="changeCounter('childCounter', 'decrement')">-</button>
                         </div>
-                    
+
                         <div class="calendar-section">
                           <p>Check-in Date: <input type="date" id="checkInDate"></p>
                         </div>
@@ -271,7 +284,7 @@
                           <p>Check-out Date: <input type="date" id="checkOutDate"></p>
                         </div>
                       </div>
-                    
+
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" id="submitBookingBtn">Submit</button>
@@ -280,18 +293,13 @@
                   </div>
                 </div>
 
-                  <h3>¥<%= item.price %><span> <br> PER NIGHT</span> </h3>
-                </div>
-                
               </div>
             </div>
+          </div>
+          <% }); %>
         </div>
-        <% }); %>
-      </div>
-    </section>
-    <script src="/assets/script/favourites.js"></script>
-    <script src="/assets/script/book-modal.js"></script>
-    <%- include('include/_footer') %>
-</body>
-
-
+  </section>
+  <script src="/assets/script/favourites.js"></script>
+  <script src="/assets/script/book-modal.js"></script>
+  
+  <%- include('include/_footer') %>

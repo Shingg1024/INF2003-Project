@@ -12,4 +12,6 @@ router.get('/booking/getRestaurantUpcoming/:id', bookingController.getRestaurant
 router.get('/booking/getHostelAndRestaurantCompleted/:id', bookingController.getHostelAndRestaurantCompleted);
 router.get('/booking/getHostelAndRestaurantUpcoming/:id', bookingController.getHostelAndRestaurantUpcoming);
 
+router.get('/booking/getHostelBookingCount', bookingController.getHostelBookingCount)
+
 module.exports = router;

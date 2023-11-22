@@ -70,3 +70,30 @@ exports.nearbyRes = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+exports.getMinRating = (req, res) => {
+    var rating = req.params.minRating;
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const query = "SELECT r.restaurant_id, r.restaurant_name, r.station, r.first_category, ROUND(AVG(rr.review_rating),2) AS avg_rating FROM review_restaurant rr JOIN booking_restaurant br ON rr.booking_restaurant_id = br.booking_restaurant_id JOIN restaurant r ON br.restaurant_id = r.restaurant_id WHERE rr.review_rating > ? GROUP BY r.restaurant_id;";
+        connection.query(query, rating, (err, result) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                res.send(result);
+                console.log("------------- SQL query used: " + query + " -------------");
+            } finally {
+                db.releaseConnection(connection);
+            }
+        });
+
+    });
+};

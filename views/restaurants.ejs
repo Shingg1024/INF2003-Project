@@ -176,7 +176,7 @@
         <option value="4">4 Stars</option>
       </select>
 
-      <button type="button" onclick="filterRooms()">Filter</button>
+      <button type="button" onclick="filter()">Filter</button>
     </form>
   </div>
   <section class="rooms">
@@ -253,6 +253,36 @@
         starRatingContainer.innerHTML = generateStarRating(avgRating);
       });
     });
+
+    function filter() {
+      const selectedRating = document.getElementById("ratings").value;
+
+      if (selectedRating) {
+        fetch(`/restaurant/getMinRating/${selectedRating}`)
+          .then(response => response.json())
+          .then(data => {
+            const roomContainers = document.querySelectorAll('.rooms .content');
+            roomContainers.forEach((roomContainer, index) => {
+              const filteredItem = data[index];
+
+              const h2 = roomContainer.querySelector('h2');
+              const h4Station = roomContainer.querySelector('h4.station');
+              const h4Category = roomContainer.querySelector('h4.category');
+              const h4Rating = roomContainer.querySelector('h4.eachAvgRating');
+              const itemrestaurant_idInput = roomContainer.querySelector('#restaurant_id');
+              itemrestaurant_idInput.value = filteredItem.restaurant_id;
+
+              h2.innerHTML = `<a href="/indivRestaurant/${filteredItem.restaurant_id}">${filteredItem.restaurant_name}</a>`;
+              h4Station.textContent = `Station: ¥ ${filteredItem.station}`;
+              h4Category.textContent = `Category: ${filteredItem.first_category}`;
+              h4Rating.textContent = `Rating: ${filteredItem.avg_rating}`;
+            });
+          })
+          .catch(error => {
+            console.error("Error fetching data:", error);
+          });
+      }
+    }
 
     function generateStarRating(avgRating) {
       const starCount = 5; // Total number of stars

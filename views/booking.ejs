@@ -172,6 +172,15 @@
             <td>${item.restaurant_id}</td>
             <td>${item.formatted_date}</td>
             <td>${item.time}</td>
+            <td>
+              <form action="review/submitHostelReview" method="post">
+              <input type="hidden" id="user_id" name="user_id" value=${id}>
+              <input type="hidden" id="booking_restaurant_id" name="booking_restaurant_id" value=${item.booking_restaurant_id}>
+              <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
+              <input type="number" id="reviewpoints" name="reviewpoints" min ="1" max="5" placeholder='Rating'>
+              <input type="submit" value="Submit">
+              </form>
+            </td>
           `;
               tbody.appendChild(row);
             })

@@ -10,7 +10,7 @@ exports.getReview = (req, res) => {
         id = req.params.id;
 
         const query = "SELECT * FROM review_hostel where user_id = ? UNION SELECT * FROM review_restaurant where user_id = ?";
-        connection.query(query, [id,id], (err, result) => {
+        connection.query(query, [id, id], (err, result) => {
             try {
                 if (err) {
                     console.log(err);
@@ -27,14 +27,14 @@ exports.getReview = (req, res) => {
 };
 
 exports.submitHostelReview = (req, res) => {
-    
+
     user_id = req.body.user_id;
     booking_hostel_id = req.body.booking_hostel_id;
+    booking_restaurant_id = req.body.booking_restaurant_id;
     review_comments = req.body.review_comments;
     reviewpoints = req.body.reviewpoints;
-    
-    //console.log(req.body)
 
+    //console.log(req.body)
     db.getConnection((err, connection) => {
         try {
             if (err) {
@@ -42,29 +42,53 @@ exports.submitHostelReview = (req, res) => {
                 return res.status(500).json({ error: 'An error occurred' });
             }
 
-            const selectQuery = "SELECT * FROM review_hostel where booking_hostel_id = ?";
-            connection.query(selectQuery, [booking_hostel_id], (err, results) => {
-                if (err) {
-                    console.log(err);
-                    return res.status(500).json({ error: 'An error occurred' });
-                }
+            if (booking_hostel_id != null) {
+                const selectQuery = "SELECT * FROM review_hostel where booking_hostel_id = ?";
+                connection.query(selectQuery, [booking_hostel_id], (err, results) => {
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).json({ error: 'An error occurred' });
+                    }
 
-                if (results.length == 0) {
-                    const insertQuery = "INSERT INTO review_hostel (user_id, booking_hostel_id, review_comment, review_rating) VALUES (?, ?, ?, ?)";
-                    connection.query(insertQuery, [user_id, booking_hostel_id, review_comments, reviewpoints], (err, results) => {
-                        if (err) {
-                            console.log(err);
-                            return res.status(500).json({ error: 'An error occurred during registration.' });
-                        }
-                        console.log("------------- SQL query used: " + insertQuery + " -------------");
-                        res.redirect('/review');
-                    });
-                } else {
-                    return res.status(400).json({ error: 'Review already exist' });
-                }
-            });
+                    if (results.length == 0) {
+                        const insertQuery = "INSERT INTO review_hostel (user_id, booking_hostel_id, review_comment, review_rating) VALUES (?, ?, ?, ?)";
+                        connection.query(insertQuery, [user_id, booking_hostel_id, review_comments, reviewpoints], (err, results) => {
+                            if (err) {
+                                console.log(err);
+                                return res.status(500).json({ error: 'An error occurred during registration.' });
+                            }
+                            console.log("------------- SQL query used: " + insertQuery + " -------------");
+                            res.redirect('/review');
+                        });
+                    } else {
+                        return res.status(400).json({ error: 'Review already exist' });
+                    }
+                });
+            } else if (booking_restaurant_id != null) {
+                const selectQuery = "SELECT * FROM review_restaurant where booking_restaurant_id = ?";
+                connection.query(selectQuery, [booking_restaurant_id], (err, results) => {
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).json({ error: 'An error occurred' });
+                    }
+
+                    if (results.length == 0) {
+                        const insertQuery = "INSERT INTO review_restaurant (user_id, booking_restaurant_id, review_comment, review_rating) VALUES (?, ?, ?, ?)";
+                        connection.query(insertQuery, [user_id, booking_restaurant_id, review_comments, reviewpoints], (err, results) => {
+                            if (err) {
+                                console.log(err);
+                                return res.status(500).json({ error: 'An error occurred during registration.' });
+                            }
+                            console.log("------------- SQL query used: " + insertQuery + " -------------");
+                            res.redirect('/review');
+                        });
+                    } else {
+                        return res.status(400).json({ error: 'Review already exist' });
+                    }
+                });
+            }
         } finally {
             db.releaseConnection(connection);
-        }        
+        }
     });
 };

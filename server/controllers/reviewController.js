@@ -25,3 +25,46 @@ exports.getReview = (req, res) => {
         });
     });
 };
+
+exports.submitHostelReview = (req, res) => {
+    
+    user_id = req.body.user_id;
+    booking_hostel_id = req.body.booking_hostel_id;
+    review_comments = req.body.review_comments;
+    reviewpoints = req.body.reviewpoints;
+    
+    //console.log(req.body)
+
+    db.getConnection((err, connection) => {
+        try {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: 'An error occurred' });
+            }
+
+            const selectQuery = "SELECT * FROM review_hostel where booking_hostel_id = ?";
+            connection.query(selectQuery, [booking_hostel_id], (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                if (results.length == 0) {
+                    const insertQuery = "INSERT INTO review_hostel (user_id, booking_hostel_id, review_comment, review_rating) VALUES (?, ?, ?, ?)";
+                    connection.query(insertQuery, [user_id, booking_hostel_id, review_comments, reviewpoints], (err, results) => {
+                        if (err) {
+                            console.log(err);
+                            return res.status(500).json({ error: 'An error occurred during registration.' });
+                        }
+                        console.log("------------- SQL query used: " + insertQuery + " -------------");
+                        res.redirect('/review');
+                    });
+                } else {
+                    return res.status(400).json({ error: 'Review already exist' });
+                }
+            });
+        } finally {
+            db.releaseConnection(connection);
+        }        
+    });
+};

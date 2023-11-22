@@ -38,7 +38,7 @@ exports.getAllHostelByUserId = (req, res) => {
         id = req.params.id;
 
         const query = "SELECT booking_hostel_id, user_id, hostel_id, DATE_FORMAT(date_start, '%Y-%m-%d') AS date_start, DATE_FORMAT(date_end, '%Y-%m-%d') AS date_end FROM booking_hostel WHERE user_id = ? ORDER BY date_start desc";
-        connection.query(query, [id, id], (err, result) => {
+        connection.query(query, [id], (err, result) => {
             try {
                 if (err) {
                     console.log(err);
@@ -63,7 +63,7 @@ exports.getRestaurantByUserId = (req, res) => {
         id = req.params.id;
 
         const query = "SELECT booking_restaurant_id, user_id, restaurant_id, DATE_FORMAT(date, '%Y-%m-%d') AS date, time FROM booking_restaurant WHERE user_id = ? ORDER BY date DESC;";
-        connection.query(query, [id, id], (err, result) => {
+        connection.query(query, [id], (err, result) => {
             try {
                 if (err) {
                     console.log(err);
@@ -87,8 +87,8 @@ exports.getHostelCompleted = (req, res) => {
         }
         id = req.params.id;
 
-        const query = "SELECT *, DATE_FORMAT(date_start, '%Y-%m-%d') AS formatted_date_start, DATE_FORMAT(date_end, '%Y-%m-%d') AS formatted_date_end FROM booking_hostel WHERE date_start < CURDATE() and user_id = 1 ORDER BY date_start DESC;";
-        connection.query(query, [id, id], (err, result) => {
+        const query = "SELECT *, DATE_FORMAT(date_start, '%Y-%m-%d') AS formatted_date_start, DATE_FORMAT(date_end, '%Y-%m-%d') AS formatted_date_end FROM booking_hostel WHERE date_start < CURDATE() and user_id = ? ORDER BY date_start DESC;";
+        connection.query(query, [id], (err, result) => {
             try {
                 if (err) {
                     console.log(err);
@@ -112,8 +112,8 @@ exports.getHostelUpcoming = (req, res) => {
         }
         id = req.params.id;
 
-        const query = "SELECT *, DATE_FORMAT(date_start, '%Y-%m-%d') AS formatted_date_start, DATE_FORMAT(date_end, '%Y-%m-%d') AS formatted_date_end FROM booking_hostel WHERE date_start > CURDATE() and user_id = 1 ORDER BY date_start DESC;";
-        connection.query(query, [id, id], (err, result) => {
+        const query = "SELECT *, DATE_FORMAT(date_start, '%Y-%m-%d') AS formatted_date_start, DATE_FORMAT(date_end, '%Y-%m-%d') AS formatted_date_end FROM booking_hostel WHERE date_start > CURDATE() and user_id = ? ORDER BY date_start DESC;";
+        connection.query(query, [id], (err, result) => {
             try {
                 if (err) {
                     console.log(err);
@@ -137,8 +137,8 @@ exports.getRestaurantCompleted = (req, res) => {
         }
         id = req.params.id;
 
-        const query = "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS formatted_date FROM booking_restaurant WHERE date < CURDATE() and user_id = 1 ORDER BY date DESC;";
-        connection.query(query, [id, id], (err, result) => {
+        const query = "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS formatted_date FROM booking_restaurant WHERE date < CURDATE() and user_id = ? ORDER BY date DESC;";
+        connection.query(query, [id], (err, result) => {
             try {
                 if (err) {
                     console.log(err);
@@ -162,8 +162,8 @@ exports.getRestaurantUpcoming = (req, res) => {
         }
         id = req.params.id;
 
-        const query = "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS formatted_date FROM booking_restaurant WHERE date > CURDATE()  and user_id = 1 ORDER BY date DESC;";
-        connection.query(query, [id, id], (err, result) => {
+        const query = "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS formatted_date FROM booking_restaurant WHERE date > CURDATE()  and user_id = ? ORDER BY date DESC;";
+        connection.query(query, [id], (err, result) => {
             try {
                 if (err) {
                     console.log(err);

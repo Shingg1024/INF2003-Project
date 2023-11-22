@@ -17,7 +17,7 @@ exports.allrestaurantSQL = (req, res) => {
             return res.status(500).json({ error: 'An error occurred' });
         }
 
-        const query = "SELECT * FROM restaurant";
+        const query = "SELECT r.restaurant_id, r.restaurant_name, r.station, r.first_category, ROUND(AVG(rr.review_rating),2) AS avg_rating FROM restaurant AS r JOIN booking_restaurant AS br ON r.restaurant_id = br.restaurant_id JOIN review_restaurant AS rr ON br.booking_restaurant_id = rr.booking_restaurant_id GROUP BY r.restaurant_id, r.restaurant_name, r.station, r.first_category";
         connection.query(query, (err, result) => {
             try {
                 if (err) {

@@ -90,8 +90,8 @@
             data.forEach(item => {
               const row = document.createElement('tr');
               row.innerHTML = `
-            <td>${item.hostel_id}</td>
-            <td>${item.formatted_date_start}</td>
+            <td>${item.hostel_name}</td>
+            <td>${item.formatted_date}</td>
             <td>${item.formatted_date_end}</td>
           `;
               tbody.appendChild(row);
@@ -112,8 +112,8 @@
               //console.log(item);
               const row = document.createElement('tr');
               row.innerHTML = `
-            <td>${item.hostel_id}</td>
-            <td>${item.formatted_date_start}</td>
+            <td>${item.hostel_name}</td>
+            <td>${item.formatted_date}</td>
             <td>${item.formatted_date_end}</td>
             <td>
               <form action="review/submitHostelReview" method="post">
@@ -132,7 +132,7 @@
             console.error("An error occurred:", error);
           });
       }
-      updateTableHeaders(['Hostal ID', 'Date Start', 'Date End', 'Comment & Rating']);
+      updateTableHeaders(['Hostal', 'Date Start', 'Date End', 'Comment & Rating']);
     } else if (sortingParameter == 'restaurant') {
       if ((completed.checked && upcoming.checked)) {
         const tableBody = document.querySelector('tbody');
@@ -167,9 +167,10 @@
           .then(data => {
             const tbody = document.querySelector('tbody');
             data.forEach(item => {
+              console.log(item);
               const row = document.createElement('tr');
               row.innerHTML = `
-            <td>${item.restaurant_id}</td>
+            <td>${item.restaurant_name}</td>
             <td>${item.formatted_date}</td>
             <td>${item.time}</td>
             <td>
@@ -199,7 +200,7 @@
             data.forEach(item => {
               const row = document.createElement('tr');
               row.innerHTML = `
-            <td>${item.restaurant_id}</td>
+            <td>${item.restaurant_name}</td>
             <td>${item.formatted_date}</td>
             <td>${item.time}</td>
           `;
@@ -211,7 +212,7 @@
           });
       }
 
-      updateTableHeaders(['Restaurant ID', 'Date', 'Time']);
+      updateTableHeaders(['Restaurant', 'Date', 'Time']);
     } else if (sortingParameter == 'all') {
       if ((completed.checked && upcoming.checked)) {
         const tableBody = document.querySelector('tbody');

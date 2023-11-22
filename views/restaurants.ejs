@@ -168,40 +168,12 @@
   <!-- Filter section -->
   <div class="filter-section">
     <form class="filter-form" id="filterForm">
-      <label for="location">Location:</label>
-      <select id="location" name="location">
-        <option value="location">Central Kyoto</option>
-        <option value="location">Gion</option>
-        <option value="location">Kyoto Station</option>
-        <option value="location">Downtown Kawaramachi</option>
-      </select>
-
-      <label for="cuisine">Cuisine Type:</label>
-      <select id="cuisine" name="cuisine">
-        <option value="cuisine">Japanese</option>
-        <option value="cuisine">Western</option>
-        <option value="cuisine">Chinese</option>
-        <option value="cuisine">Mexican</option>
-      </select>
-
-      <label for="price">Price Range:</label>
-      <select id="price" name="price">
-        <option value="price">¥800~¥1000</option>
-        <option value="price">¥1000~¥4999</option>
-        <option value="price">¥5000~¥8000</option>
-      </select>
-
       <label for="ratings">Minimum Ratings:</label>
       <select id="ratings" name="ratings">
-        <option value="ratings">3 Stars</option>
-        <option value="ratings">4 Stars</option>
-        <option value="ratings">5 Stars</option>
-      </select>
-
-      <label for="availability">Availability:</label>
-      <select id="availability" name="availability">
-        <option value="available">Available</option>
-        <option value="unavailable">Unavailable</option>
+        <option value="">-- Select Minimum Ratings --</option>
+        <option value="2">2 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
       </select>
 
       <button type="button" onclick="filterRooms()">Filter</button>
@@ -211,7 +183,7 @@
     <div class="container top">
       <div class="heading">
         <h1>EXPLORE</h1>
-        <h2>Restaurants nearby</h2>
+        <h2>Restaurants</h2>
       </div>
       <% data.forEach(item => { %>
       <div class="content mtop">
@@ -225,17 +197,13 @@
               <a href="/indivRestaurant/<%= item.restaurant_id %>">
                 <h2><%= item.restaurant_name %></h2>
               </a>
-              <div class="rate flex">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-              </div>
+              Station:<h4><%= item.station %></h4>
+              Category:<h4><%= item.first_category %></h4>
+              Rating:<h4 class="eachAvgRating"><%= item.avg_rating %></h4>
+              <div class="rate flex" id="starRating"></div>
               <% if (session.user) { %>
               <div class="button flex">
                 <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
-                <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
@@ -275,6 +243,45 @@
       </div>
   </section>
   <script src="/assets/script/favourites.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const eachAvgRatingElements = document.querySelectorAll(".eachAvgRating");
+      eachAvgRatingElements.forEach(eachAvgRating => {
+        const avgRating = parseFloat(eachAvgRating.innerText);
+
+        const starRatingContainer = eachAvgRating.nextElementSibling;
+        starRatingContainer.innerHTML = generateStarRating(avgRating);
+      });
+    });
+
+    function generateStarRating(avgRating) {
+      const starCount = 5; // Total number of stars
+      const fullStar = '<i class="fa fa-star"></i>';
+      const halfStar = '<i class="fa fa-star-half-o"></i>';
+      const emptyStar = '<i class="fa fa-star-o"></i>';
+
+      const fullStars = Math.floor(avgRating);
+      const hasHalfStar = avgRating % 1 !== 0;
+
+      let starRatingHTML = '';
+
+      for (let i = 0; i < fullStars; i++) {
+        starRatingHTML += fullStar;
+      }
+
+      if (hasHalfStar) {
+        starRatingHTML += halfStar;
+      }
+
+      const remainingStars = starCount - fullStars - (hasHalfStar ? 1 : 0);
+
+      for (let i = 0; i < remainingStars; i++) {
+        starRatingHTML += emptyStar;
+      }
+
+      return starRatingHTML;
+    }
+  </script>
   <script>
     function getResBookingCount() {
       return fetch('/booking/getResBookingCount')

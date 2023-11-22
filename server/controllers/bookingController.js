@@ -219,7 +219,7 @@ exports.getHostelAndRestaurantUpcoming = (req, res) => {
                     console.log(err);
                     return res.status(500).json({ error: 'An error occurred' });
                 }
-                
+
                 res.send(result);
                 console.log("------------- SQL query used: " + query + " -------------");
             } finally {
@@ -319,23 +319,22 @@ exports.addRestaurantBooking = (req, res) => {
             return res.status(500).json({ error: 'An error occurred' });
         }
 
-        id = req.params.id;
-        restaurantId = req.params.restaurantId;
-        bookingId = req.params.bookingId;
-        date = req.params.date;
-        time = req.params.time;
+        const id = req.body.user_id;
+        const restaurant_id = req.body.restaurant_id;
+        const bookingId = req.body.bookingId;
+        const date = req.body.date;
+        const time = req.body.time;
 
-        //const { bookingId, id, restaurantId, date, time } = req.body;
+        console.log(req);
 
         const query = "INSERT INTO booking_restaurant (booking_restaurant_id, user_id, restaurant_id, date, time) VALUES (?, ?, ?, ?, ?);";
-        connection.query(query, [bookingId, id, restaurantId, date, time], (err, result) => {
+        connection.query(query, [bookingId, id, restaurant_id, date, time], (err, result) => {
             try {
                 if (err) {
                     console.log(err);
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                res.send(result);
                 console.log("------------- SQL query used: " + query + " -------------");
             } finally {
                 db.releaseConnection(connection);

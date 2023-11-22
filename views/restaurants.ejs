@@ -1,271 +1,332 @@
 <%- include('include/_header') %>
-  <style>
-    .flex-container{
-      display: flex;
-    }
-    .flex-container > div{
-      margin: 10px;
-      padding: 20px;
-      font-size: 30px;
-    }
+<style>
+  .flex-container {
+    display: flex;
+  }
+
+  .flex-container>div {
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+  }
 
 
-    .heading h1 {
-      font-size: 100px;
-      font-weight: 500;
-      opacity: 0.1;
-      font-family: serif;
-      position: absolute;
-      top: -30px;
-    }
-    
-    .heading h2 {
-      margin: 30px 0;
-      font-size: 45px;
-      font-family: serif;
-      font-weight: 400;
-    }
-    .rooms {
-      position: relative;
-      flex:1;
-      display: flex;
-      margin-left: 20px;
-    }
+  .heading h1 {
+    font-size: 100px;
+    font-weight: 500;
+    opacity: 0.1;
+    font-family: serif;
+    position: absolute;
+    top: -30px;
+  }
 
-    .rooms .text {
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-top: none;
-      padding: 30px;
-    }
+  .heading h2 {
+    margin: 30px 0;
+    font-size: 45px;
+    font-family: serif;
+    font-weight: 400;
+  }
 
-    .rooms i {
-      font-size: 12px;
-      color: #fbb234;
-      margin: 15px 0;
-      margin-right: 5px;
-    }
+  .rooms {
+    position: relative;
+    flex: 1;
+    display: flex;
+    margin-left: 20px;
+  }
 
-    .rooms p {
-      margin: 20px 0;
-      opacity: 0.7;
-    }
+  .rooms .text {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: none;
+    padding: 30px;
+  }
 
-    .rooms h3 {
-      font-size: 30px;
-      line-height: 20px;
-      margin-left: 20px;
-      font-weight: 500;
-      color: #7fc142;
-    }
+  .rooms i {
+    font-size: 12px;
+    color: #fbb234;
+    margin: 15px 0;
+    margin-right: 5px;
+  }
 
-    .rooms h3 span {
-      font-size: 15px;
-      font-weight: 400;
-      color: #000;
-    }
+  .rooms p {
+    margin: 20px 0;
+    opacity: 0.7;
+  }
 
-    .rooms .items .image {
-      position: relative;
-      overflow: hidden;
-    }
+  .rooms h3 {
+    font-size: 30px;
+    line-height: 20px;
+    margin-left: 20px;
+    font-weight: 500;
+    color: #7fc142;
+  }
 
-    .rooms .items .image img {
-      width: 100%;
-      height: 50%;
-    }
+  .rooms h3 span {
+    font-size: 15px;
+    font-weight: 400;
+    color: #000;
+  }
 
-    .rooms .items .image .favorite {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 24px;
-      color: #fbb234;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
+  .rooms .items .image {
+    position: relative;
+    overflow: hidden;
+  }
 
-    .content{
-      flex:2;
-    }
+  .rooms .items .image img {
+    width: 100%;
+    height: 50%;
+  }
 
-    .filter-section {
-      float: left;
-      width: 30%; /* Adjust the width as needed */
-      background-color: lightgray;
-      color: black; /* Yellow text color */
-      padding: 20px;
-      box-sizing: border-box;
-      margin-left: 20px; /* Adjust margin as needed */
-      margin-top: 30px;
-      border-radius: 15px;
-    }
+  .rooms .items .image .favorite {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #fbb234;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
 
-    .filter-form {
-      margin-bottom: 20px;
-    }
+  .content {
+    flex: 2;
+  }
 
-    .filter-form label {
-      display: block;
-      margin-bottom: 8px;
-    }
+  .filter-section {
+    float: left;
+    width: 30%;
+    /* Adjust the width as needed */
+    background-color: lightgray;
+    color: black;
+    /* Yellow text color */
+    padding: 20px;
+    box-sizing: border-box;
+    margin-left: 20px;
+    /* Adjust margin as needed */
+    margin-top: 30px;
+    border-radius: 15px;
+  }
 
-    .filter-form input,
-    .filter-form select,
-    .filter-form button {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
+  .filter-form {
+    margin-bottom: 20px;
+  }
 
-    .filter-form button {
-      background-color: #ffc107; /* Yellow button color */
-      color: #333; /* Black text color */
-      cursor: pointer;
-    }
+  .filter-form label {
+    display: block;
+    margin-bottom: 8px;
+  }
 
-    .filter-form button:hover {
-      background-color: lightgray; /* Black button color on hover */
-      color: #ffc107; /* Yellow text color on hover */
-    }
+  .filter-form input,
+  .filter-form select,
+  .filter-form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
 
-    .owl-carousel1 .owl-nav .owl-prev,
-    .owl-carousel1 .owl-nav .owl-next {
-      position: absolute;
-      top: -20%;
-      height: 50px;
-      width: 50px;
-      background: #7fc142 !important;
-    }
+  .filter-form button {
+    background-color: #ffc107;
+    /* Yellow button color */
+    color: #333;
+    /* Black text color */
+    cursor: pointer;
+  }
 
-    .owl-carousel1 .owl-nav .owl-prev i,
-    .owl-carousel1 .owl-nav .owl-next i {
-      color: #fff;
-    }
+  .filter-form button:hover {
+    background-color: lightgray;
+    /* Black button color on hover */
+    color: #ffc107;
+    /* Yellow text color on hover */
+  }
 
-    .owl-carousel1 .owl-nav .owl-prev {
-      left: 90%;
-    }
+  .owl-carousel1 .owl-nav .owl-prev,
+  .owl-carousel1 .owl-nav .owl-next {
+    position: absolute;
+    top: -20%;
+    height: 50px;
+    width: 50px;
+    background: #7fc142 !important;
+  }
 
-    .owl-carousel1 .owl-nav .owl-next {
-      right: 0;
-    }
+  .owl-carousel1 .owl-nav .owl-prev i,
+  .owl-carousel1 .owl-nav .owl-next i {
+    color: #fff;
+  }
 
-  </style>
-  
+  .owl-carousel1 .owl-nav .owl-prev {
+    left: 90%;
+  }
+
+  .owl-carousel1 .owl-nav .owl-next {
+    right: 0;
+  }
+</style>
+
 <%- include('include/_nav') %>
-<body>
-         <!-- Filter section -->
-         <div class="filter-section">
-          <form class="filter-form" id="filterForm">
-            <label for="location">Location:</label>
-            <select id="location" name="location">
-              <option value="location">Central Kyoto</option>
-              <option value="location">Gion</option>
-              <option value="location">Kyoto Station</option>
-              <option value="location">Downtown Kawaramachi</option>
-            </select>
-  
-            <label for="cuisine">Cuisine Type:</label>
-            <select id="cuisine" name="cuisine">
-              <option value="cuisine">Japanese</option>
-              <option value="cuisine">Western</option>
-              <option value="cuisine">Chinese</option>
-              <option value="cuisine">Mexican</option>
-            </select>
 
-            <label for="price">Price Range:</label>
-            <select id="price" name="price">
-              <option value="price">¥800~¥1000</option>
-              <option value="price">¥1000~¥4999</option>
-              <option value="price">¥5000~¥8000</option>
-            </select>
-  
-            <label for="ratings">Minimum Ratings:</label>
-            <select id="ratings" name="ratings">
-              <option value="ratings">3 Stars</option>
-              <option value="ratings">4 Stars</option>
-              <option value="ratings">5 Stars</option>
-            </select>
-  
-            <label for="availability">Availability:</label>
-            <select id="availability" name="availability">
-              <option value="available">Available</option>
-              <option value="unavailable">Unavailable</option>
-            </select>
-  
-            <button type="button" onclick="filterRooms()">Filter</button>
-          </form>
-        </div>
-    <section class="rooms">
-      <div class="container top">
-        <div class="heading">
-          <h1>EXPLORE</h1>
-          <h2>Restaurants nearby</h2>
-        </div>
-        <% data.forEach(item => { %>
-        <div class="content mtop">
-          <div class="owl-carousel owl-carousel1 owl-theme">
-            <div class="items">
-              <div class="image">
-                <img src="/assets/images/image1.jpg" alt="restaurant1">
-                <i class="far fa-heart favorite"></i>
-              </div>
-              <div class="text">
-                <a href="/indivRestaurant/<%= item.restaurant_id %>">
+<body>
+  <!-- Filter section -->
+  <div class="filter-section">
+    <form class="filter-form" id="filterForm">
+      <label for="location">Location:</label>
+      <select id="location" name="location">
+        <option value="location">Central Kyoto</option>
+        <option value="location">Gion</option>
+        <option value="location">Kyoto Station</option>
+        <option value="location">Downtown Kawaramachi</option>
+      </select>
+
+      <label for="cuisine">Cuisine Type:</label>
+      <select id="cuisine" name="cuisine">
+        <option value="cuisine">Japanese</option>
+        <option value="cuisine">Western</option>
+        <option value="cuisine">Chinese</option>
+        <option value="cuisine">Mexican</option>
+      </select>
+
+      <label for="price">Price Range:</label>
+      <select id="price" name="price">
+        <option value="price">¥800~¥1000</option>
+        <option value="price">¥1000~¥4999</option>
+        <option value="price">¥5000~¥8000</option>
+      </select>
+
+      <label for="ratings">Minimum Ratings:</label>
+      <select id="ratings" name="ratings">
+        <option value="ratings">3 Stars</option>
+        <option value="ratings">4 Stars</option>
+        <option value="ratings">5 Stars</option>
+      </select>
+
+      <label for="availability">Availability:</label>
+      <select id="availability" name="availability">
+        <option value="available">Available</option>
+        <option value="unavailable">Unavailable</option>
+      </select>
+
+      <button type="button" onclick="filterRooms()">Filter</button>
+    </form>
+  </div>
+  <section class="rooms">
+    <div class="container top">
+      <div class="heading">
+        <h1>EXPLORE</h1>
+        <h2>Restaurants nearby</h2>
+      </div>
+      <% data.forEach(item => { %>
+      <div class="content mtop">
+        <div class="owl-carousel owl-carousel1 owl-theme">
+          <div class="items">
+            <div class="image">
+              <img src="/assets/images/image1.jpg" alt="restaurant1">
+              <i class="far fa-heart favorite"></i>
+            </div>
+            <div class="text">
+              <a href="/indivRestaurant/<%= item.restaurant_id %>">
                 <h2><%= item.restaurant_name %></h2>
-                </a>
-                <div class="rate flex">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                </div>
-                <% if (session.user) { %>
-                <div class="button flex">
-                  <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
-                  <!-- Modal -->
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Booking Form</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
+              </a>
+              <div class="rate flex">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+              </div>
+              <% if (session.user) { %>
+              <div class="button flex">
+                <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Booking Form</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h2 class="text-center" id="modalHostelName">Booking</h2>
+                        <input type="hidden" id="restaurant_id" value="<%= item.restaurant_id %>">
+                        <input type="hidden" id="user_id" value="<%= session.user.user_id %>">
+
+                        <div class="calendar-section">
+                          <p>Date: <input type="date" id="date"></p>
                         </div>
-                        <div class="modal-body">
-                          <h2 class="text-center" id="modalHostelName">Booking</h2>
-                          <!-- <input type="hidden" id="itemHostelId" value="<%= item.hostel_id %>"> -->
-                          <input type="hidden" id="sessionId" value="<%= session.user.user_id %>">
-  
-                          <div class="calendar-section">
-                            <p>Check-in Date: <input type="date" id="checkInDate"></p>
-                          </div>
-  
-                          <div class="calendar-section">
-                            <p>Check-out Date: <input type="date" id="checkOutDate"></p>
-                          </div>
+
+                        <div class="calendar-section">
+                          <p>Time: <input type="time" id="time"></p>
                         </div>
-  
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" id="submitBookingBtn">Submit</button>
-                        </div>
+                      </div>
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="submitBookingBtn">Submit</button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <% } %> 
               </div>
+              <% } %>
             </div>
+          </div>
         </div>
         <% }); %>
       </div>
-    </section>
-    <script src="/assets/script/favourites.js"></script>
-    <%- include('include/_footer') %>
-</body>
+  </section>
+  <script src="/assets/script/favourites.js"></script>
+  <script>
+    function getResBookingCount() {
+      return fetch('/booking/getResBookingCount')
+        .then(response => response.json())
+        .then(data => {
+          if (Array.isArray(data) && data.length > 0) {
+            return data[0].num;
+          } else {
+            console.error('Invalid response format:', data);
+            return 0;
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching booking count:', error);
+          return 0;
+        });
+    }
 
+    function submitNewBooking() {
+      getResBookingCount()
+        .then(bookingCount => {
+          var restaurant_id = document.getElementById("restaurant_id").value;
+          var user_id = document.getElementById("user_id").value;
+          var date = document.querySelector("#date").value;
+          var time = document.querySelector("#time").value;
+
+          var bookingNum = parseInt(bookingCount) + 1;
+
+          const postData = {
+            bookingId: bookingNum,
+            user_id: parseInt(user_id),
+            restaurant_id: restaurant_id,
+            date: date,
+            time: time
+          };
+
+          console.log(postData);
+
+          return fetch('/restaurant/newBooking', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(postData),
+          });
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+
+    document.querySelector("#submitBookingBtn").addEventListener('click', submitNewBooking);
+  </script>
+  <%- include('include/_footer') %>
+</body>

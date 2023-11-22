@@ -13,5 +13,9 @@ router.get('/booking/getHostelAndRestaurantCompleted/:id', bookingController.get
 router.get('/booking/getHostelAndRestaurantUpcoming/:id', bookingController.getHostelAndRestaurantUpcoming);
 
 router.get('/booking/getHostelBookingCount', bookingController.getHostelBookingCount)
+router.get('/booking/getResBookingCount', bookingController.getRestaurantBookingCount)
+
+router.post('/hostel/newBooking', bookingController.addHostelBooking);
+router.post('/restaurant/newBooking', bookingController.addRestaurantBooking);
 
 module.exports = router;

@@ -40,9 +40,6 @@
             </ul>
             <ul class="nav justify-content-end">
                     <% if (session.user) { %>
-                        <script>
-                            console.log('<%= (session.user.user_id) %>');
-                        </script>
                         <li class="nav-item">
                             <a class="nav-link" href="/edit">Edit Profile</a>
                         </li>

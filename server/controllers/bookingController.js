@@ -306,6 +306,7 @@ exports.addHostelBooking = (req, res) => {
                 }
 
                 console.log("------------- SQL query used: " + query + " -------------");
+                res.status(200).json({ success: true, message: 'Booking successful' });
             });
         } finally {
             db.releaseConnection(connection);
@@ -337,6 +338,7 @@ exports.addRestaurantBooking = (req, res) => {
                 }
 
                 console.log("------------- SQL query used: " + query + " -------------");
+                res.status(200).json({ success: true, message: 'Booking successful' });
             } finally {
                 db.releaseConnection(connection);
             }

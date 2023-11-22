@@ -63,6 +63,13 @@ function submitNewBooking() {
         body: JSON.stringify(postData),
       });
     })
+    .then(response => {
+      if (response.ok) {
+        alert("Thank You for Booking");
+      } else {
+        console.error('Error:', response.statusText);
+      }
+    })
     .catch((error) => {
       console.error('Error:', error);
     });

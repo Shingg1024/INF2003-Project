@@ -48,7 +48,7 @@ function submitNewBooking() {
       const postData = {
         bookingId: bookingNum,
         user_id: parseInt(sessionId),
-        hostelId: hostelId,
+        hostelId: parseInt(hostelId),
         date_start: datestart,
         date_end: dateend
       };

@@ -171,44 +171,20 @@
 <%- include('include/_nav') %>
 
 <body>
-  <!-- Filter section -->
   <div class="filter-section">
     <form class="filter-form" id="filterForm">
-      <label for="location">Location:</label>
-      <select id="location" name="location">
-        <option value="location">Central Kyoto</option>
-        <option value="location">Gion</option>
-        <option value="location">Kyoto Station</option>
-        <option value="location">Downtown Kawaramachi</option>
-      </select>
-
-      <label for="room">Room Type:</label>
-      <select id="room" name="room">
-        <option value="room">Dorm Room</option>
-        <option value="room">Private Room</option>
-      </select>
-
-      <label for="price">Price Range:</label>
-      <select id="price" name="price">
-        <option value="price">¥800~¥1000</option>
-        <option value="price">¥1000~¥4999</option>
-        <option value="price">¥5000~¥8000</option>
-      </select>
-
       <label for="ratings">Minimum Ratings:</label>
       <select id="ratings" name="ratings">
-        <option value="ratings">3 Stars</option>
-        <option value="ratings">4 Stars</option>
-        <option value="ratings">5 Stars</option>
+        <option value="">-- Select Minimum Ratings --</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
       </select>
 
-      <label for="availability">Availability:</label>
-      <select id="availability" name="availability">
-        <option value="available">Available</option>
-        <option value="unavailable">Unavailable</option>
-      </select>
+      <label for="avgPrice">Average price:</label>
+      <p id="avgPrice"></p>
 
-      <button type="button" onclick="filterRooms()">Filter</button>
+      <button type="button" onclick="filter()">Filter</button>
     </form>
   </div>
   <section class="rooms">
@@ -226,21 +202,15 @@
               <i class="far fa-heart favorite"></i>
             </div>
             <div class="text">
-              <a href="/indivHostel/<%= item.hostel_id %>">
-                <!-- Add the anchor tag here -->
+              <a href="/indivHostel/<%= item.hostel_id - 1 %>">
                 <h2><%= item.hostel_name %></h2>
               </a>
-              <div class="rate flex">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-              </div>
+              Price:<h4>¥ <%= item.price %></h4>
+              Rating:<h4 class="eachAvgRating"><%= item.avg_rating %></h4>
+              <div class="rate flex" id="starRating"></div>
               <% if (session.user) { %>
               <div class="button flex">
                 <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
-                <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
@@ -290,7 +260,7 @@
                   </div>
                 </div>
               </div>
-              <% } %>   
+              <% } %>
             </div>
           </div>
           <% }); %>
@@ -298,5 +268,82 @@
   </section>
   <script src="/assets/script/favourites.js"></script>
   <script src="/assets/script/book-modal.js"></script>
-  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const eachAvgRatingElements = document.querySelectorAll(".eachAvgRating");
+      eachAvgRatingElements.forEach(eachAvgRating => {
+        const avgRating = parseFloat(eachAvgRating.innerText);
+
+        const starRatingContainer = eachAvgRating.nextElementSibling;
+        starRatingContainer.innerHTML = generateStarRating(avgRating);
+      });
+
+      fetch('/hostel/avgPrice')
+        .then(response => response.json())
+        .then(data => {
+          const avgPriceElement = document.getElementById('avgPrice');
+          avgPriceElement.textContent = "¥" + data.avgPrice;
+        })
+        .catch(error => {
+          console.error("An error occurred:", error);
+        });
+    });
+
+    function filter() {
+      const selectedRating = document.getElementById("ratings").value;
+
+      if (selectedRating) {
+        fetch(`/hostel/getMinRating/${selectedRating}`)
+          .then(response => response.json())
+          .then(data => {
+            const roomContainers = document.querySelectorAll('.rooms .content');
+            roomContainers.forEach((roomContainer, index) => {
+              const filteredItem = data[index];
+
+              const h2 = roomContainer.querySelector('h2');
+              const h4Price = roomContainer.querySelector('h4:nth-of-type(1)');
+              const h4Rating = roomContainer.querySelector('h4.eachAvgRating');
+              const itemHostelIdInput = roomContainer.querySelector('#itemHostelId');
+              itemHostelIdInput.value = filteredItem.hostel_id;
+
+              h2.innerHTML = `<a href="/indivHostel/${filteredItem.hostel_id - 1}">${filteredItem.hostel_name}</a>`;
+              h4Price.textContent = `Price: ¥ ${filteredItem.price}`;
+              h4Rating.textContent = `Rating: ${filteredItem.avg_rating}`;
+            });
+          })
+          .catch(error => {
+            console.error("Error fetching data:", error);
+          });
+      }
+    }
+
+    function generateStarRating(avgRating) {
+      const starCount = 5; // Total number of stars
+      const fullStar = '<i class="fa fa-star"></i>';
+      const halfStar = '<i class="fa fa-star-half-o"></i>';
+      const emptyStar = '<i class="fa fa-star-o"></i>';
+
+      const fullStars = Math.floor(avgRating);
+      const hasHalfStar = avgRating % 1 !== 0;
+
+      let starRatingHTML = '';
+
+      for (let i = 0; i < fullStars; i++) {
+        starRatingHTML += fullStar;
+      }
+
+      if (hasHalfStar) {
+        starRatingHTML += halfStar;
+      }
+
+      const remainingStars = starCount - fullStars - (hasHalfStar ? 1 : 0);
+
+      for (let i = 0; i < remainingStars; i++) {
+        starRatingHTML += emptyStar;
+      }
+
+      return starRatingHTML;
+    }
+  </script>
+
   <%- include('include/_footer') %>

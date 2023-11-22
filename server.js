@@ -31,7 +31,7 @@ app.use(session({
 // app.use('/css', express.static(path.resolve(__dirname, 'assets/css')));
 // app.use('/js', express.static(path.resolve(__dirname, 'assets/js')));
 
-app.use('/assets', express.static('assets', { 
+app.use('/assets', express.static('assets', {
     setHeaders: (res, path, stat) => {
         if (path.endsWith('.js')) {
             res.set('Content-Type', 'application/javascript');
@@ -117,7 +117,7 @@ app.get('/hostelFull', async (req, res) => {
 
 app.get('/hostels', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3001/hostel/allhostelsSQL'); 
+        response = await axios.get('http://localhost:3001/hostel/allhostelsSQL');
         data = response.data;
 
         res.render('hostel', { data });
@@ -152,7 +152,7 @@ app.get('/restaurantFull', async (req, res) => {
 
 app.get('/restaurants', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3001/restaurant/allrestaurantSQL'); 
+        response = await axios.get('http://localhost:3001/restaurant/allrestaurantSQL');
         data = response.data;
 
         res.render('restaurants', { data });
@@ -226,10 +226,35 @@ app.get('/aboutus', async (req, res) => {
     res.render('aboutus');
 });
 
-app.get('/home', async (req, res) => {
-    res.render('home');
-});
+app.get('/search', async (req, res) => {
+    const searchTerm = req.query.searchTerm;
+    const params = [`%${searchTerm}%`];
 
+    console.log(params);
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const query = "Select * FROM hostel WHERE hostel_name LIKE ? UNION Select * FROM restaurant WHERE restaurant_name LIKE ?";
+        connection.query(query, [params,params], (err, result) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+                data = result;
+                res.render('search' , data);
+                console.log("------------- SQL query used: " + query + " -------------");
+            } finally {
+                db.releaseConnection(connection);
+            }
+        });
+
+    });
+});
 
 app.use(restaurantRoutes);
 app.use(hostelRoutes);

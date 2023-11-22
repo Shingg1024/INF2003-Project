@@ -1,0 +1,23 @@
+<%- include('include/_header') %>
+
+<%- include('include/_nav') %>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach(item => { %>
+    <tr>
+      <td><%= item.hostel_name %></td>
+      <td><%= item.city %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<!-- include footer -->
+<%- include('include/_footer')%>
+<!-- include footer -->

@@ -50,6 +50,7 @@
     background-color: #333;
     color: #fbb234;
   }
+
   body {
     display: flex;
     flex-direction: column;
@@ -66,7 +67,8 @@
     text-align: center;
     background-color: rgb(16, 15, 15);
     backdrop-filter: blur(10px);
-    margin-top: auto; /* Push the footer to the bottom */
+    margin-top: auto;
+    /* Push the footer to the bottom */
   }
 </style>
 <%- include('include/_nav') %>
@@ -76,7 +78,10 @@
   <p>Discover and explore the best restaurants and hostels in town.</p>
 
   <!-- Hero Section with Search Bar -->
-<input type="text" class="search-bar" placeholder="Search for restaurants or hostels..." style="color: #333;">
+  <form action="/search" method="get">
+    <input type="text" name="searchTerm" class="search-bar" placeholder="Search for restaurants or hostels..." style="color: #333;">
+    <button type="submit" style="color: black;">Search</button>
+  </form>
 
   <!-- Features/Services Section -->
   <h2>Discover Amazing Places</h2>

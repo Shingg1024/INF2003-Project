@@ -155,13 +155,13 @@ exports.editUser = async (req, res) => {
                 updateFields.push('password = ?');
                 updateValues.push(password);
             }
-            if (firstName) {
+            if (first_name) {
                 updateFields.push('first_name = ?');
-                updateValues.push(firstName);
+                updateValues.push(first_name);
             }
-            if (lastName) {
+            if (last_name) {
                 updateFields.push('last_name = ?');
-                updateValues.push(lastName);
+                updateValues.push(last_name);
             }
 
             const setClause = updateFields.join(', ');
@@ -176,8 +176,8 @@ exports.editUser = async (req, res) => {
                 }
 
                 if (email) req.session.user.email = email;
-                if (firstName) req.session.user.firstName = firstName;
-                if (lastName) req.session.user.lastName = lastName;
+                if (first_name) req.session.user.first_name = first_name;
+                if (last_name) req.session.user.lastName = last_name;
 
                 console.log("------------- SQL query used: " + query + " -------------");
             });
@@ -205,8 +205,8 @@ exports.editUser = async (req, res) => {
         req.session.user = {
             user_id: req.session.user.user_id,
             email: email || req.session.user.email,
-            firstName: firstName || req.session.user.firstName,
-            lastName: lastName || req.session.user.lastName,
+            first_name: first_name || req.session.user.first_name,
+            last_name: last_name || req.session.user.last_name,
             profile: {
                 biography: updatedUser.profile.biography,
                 interests: updatedUser.profile.interests,

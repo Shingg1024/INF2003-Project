@@ -241,6 +241,7 @@
               </div>
               <p>Lorem ipsum dolor sit amet constur adipisicing elit sed do eiusmtem por incid.
               </p>
+              <% if (session.user) { %>
               <div class="button flex">
                 <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
                 <!-- Modal -->
@@ -292,8 +293,8 @@
                     </div>
                   </div>
                 </div>
-
               </div>
+              <% } %>   
             </div>
           </div>
           <% }); %>

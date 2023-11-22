@@ -1,4 +1,5 @@
 const hostel = require('../models/hostelModel');
+const db = require('../dataset/db');
 
 exports.getAllHostels = (req, res) => {
     hostel.find({
@@ -10,6 +11,31 @@ exports.getAllHostels = (req, res) => {
         console.log(err);
     });
 }
+
+exports.getAllHostelsSQL = (req, res) => {
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const query = "SELECT * FROM hostel";
+        connection.query(query, (err, result) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                res.send(result);
+                console.log("------------- SQL query used: " + query + " -------------");
+            } finally {
+                db.releaseConnection(connection);
+            }
+        });
+    });
+}
+
 
 // Get booking count
 exports.getHostelBookingCount = (req, res) => {

@@ -114,9 +114,10 @@ app.get('/hostelFull', async (req, res) => {
     }
 });
 
+
 app.get('/hostels', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3001/hostel/allhostels'); 
+        response = await axios.get('http://localhost:3001/hostel/allhostelsSQL'); 
         data = response.data;
 
         res.render('hostel', { data });
@@ -151,7 +152,7 @@ app.get('/restaurantFull', async (req, res) => {
 
 app.get('/restaurants', async (req, res) => {
     try {
-        response = await axios.get('http://localhost:3001/restaurant/allrestaurants'); 
+        response = await axios.get('http://localhost:3001/restaurant/allrestaurantSQL'); 
         data = response.data;
 
         res.render('restaurants', { data });

@@ -4,6 +4,7 @@ const hostelController = require('../controllers/hostelController');
 const bookingController = require('../controllers/bookingController');
 
 router.get('/hostel/allhostels', hostelController.getAllHostels);
+router.get('/hostel/allhostelsSQL', hostelController.getAllHostelsSQL);
 router.post('/hostel/newBooking', bookingController.addHostelBooking);
 
 

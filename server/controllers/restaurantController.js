@@ -1,4 +1,5 @@
 const restaurant = require('../models/restaurantModel');
+const db = require('../dataset/db');
 
 exports.getAllRestaurants = (req, res) => {
     restaurant.find().then((result) => {
@@ -6,6 +7,30 @@ exports.getAllRestaurants = (req, res) => {
         res.send(result);
     }).catch((err) => {
         console.log(err);
+    });
+}
+
+exports.allrestaurantSQL = (req, res) => {
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'An error occurred' });
+        }
+
+        const query = "SELECT * FROM restaurant";
+        connection.query(query, (err, result) => {
+            try {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: 'An error occurred' });
+                }
+
+                res.send(result);
+                console.log("------------- SQL query used: " + query + " -------------");
+            } finally {
+                db.releaseConnection(connection);
+            }
+        });
     });
 }
 

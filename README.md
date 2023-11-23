@@ -34,14 +34,21 @@ Beyond convenience, our vision is to elevate the overall travel experience in Ky
    - SSH tunnel to MySQL server established
 
 7. Usage:
-   - Open your web browser and navigate to http://localhost:3000.
+   - Open your web browser and navigate to http://localhost:3001.
    - Follow the on-screen instructions to interact with the application.
 
 8. Errors:
-   - If you have any error  shown in the webpage or in the terminal. Please do the following:
+   - If you have any error shown in the webpage or in the terminal. Please do the following:
    > Press 'Ctrl-c' and type 'y'
    - You will see the result 
       - Server closing...
       - All connections in the pool have been released.
    - Now once the application has stopped running, please proceed to step 5 and run the application again.
 
+9. Noticable errors:
+   - Terminal shows:
+   > Warning: got packets out of order
+   
+Dont worry, it is just one of the open issues of using the library node-mySQL2 
+   - [https://github.com/sidorares/node-mysql2/issues/653](https://github.com/sidorares/node-mysql2/issues/653)
+   - [https://github.com/sidorares/node-mysql2/issues/1334](https://github.com/sidorares/node-mysql2/issues/1334)

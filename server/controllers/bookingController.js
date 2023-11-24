@@ -282,7 +282,7 @@ exports.getRestaurantBookingCount = (req, res) => {
 
 // Add new hostel booking
 exports.addHostelBooking = (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
 
     const id = req.body.user_id;
     const hostelId = req.body.hostelId;
@@ -327,7 +327,7 @@ exports.addRestaurantBooking = (req, res) => {
         const date = req.body.date;
         const time = req.body.time;
 
-        console.log(req);
+        //console.log(req);
 
         const query = "INSERT INTO booking_restaurant (booking_restaurant_id, user_id, restaurant_id, date, time) VALUES (?, ?, ?, ?, ?);";
         connection.query(query, [bookingId, id, restaurant_id, date, time], (err, result) => {

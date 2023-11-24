@@ -134,8 +134,8 @@ exports.regUser = (req, res) => {
 exports.editUser = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
+    const first_name = req.body.first_name;
+    const last_name = req.body.last_name;
 
     db.getConnection((err, connection) => {
         try {

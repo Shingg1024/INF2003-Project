@@ -10,9 +10,10 @@ const db = require('./server/dataset/db')
 
 const app = express();
 const port = 3001;
+const localhostLink = `http://localhost:${port}`;
 
 // Log requests
-app.use(morgan('tiny'));
+//app.use(morgan('tiny'));
 
 // Parse request to body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -50,6 +51,7 @@ app.use(express.json());
 
 const server = app.listen(port, () => {
     console.log(`Node.js App is running on port ${port}`);
+    console.log(`Link to the server here: ${localhostLink}`);
 });
 
 // Connect to the MongoDB Server
@@ -186,18 +188,6 @@ app.get('/booking', async (req, res) => {
     }
 });
 
-app.get('/indivBooking', async (req, res) => {
-    try {
-        id = req.session.user.user_id;
-        response = await axios.get('http://localhost:3001/booking/getBooking/' + id);
-        data = response.data;
-
-        res.render('indivBooking', { data });
-    } catch (error) {
-        res.status(500).send('Error fetching data');
-    }
-});
-
 app.get('/review', async (req, res) => {
     try {
         id = req.session.user.user_id;
@@ -205,18 +195,6 @@ app.get('/review', async (req, res) => {
         data = response.data;
 
         res.render('review', { data });
-    } catch (error) {
-        res.status(500).send('Error fetching data');
-    }
-});
-
-app.get('/indivReview', async (req, res) => {
-    try {
-        id = req.session.user.user_id;
-        response = await axios.get('http://localhost:3001/review/getReview/' + id);
-        data = response.data;
-
-        res.render('indivReview', { data });
     } catch (error) {
         res.status(500).send('Error fetching data');
     }
@@ -230,7 +208,7 @@ app.get('/search', async (req, res) => {
     const searchTerm = req.query.searchTerm;
     const params = [`%${searchTerm}%`];
 
-    console.log(params);
+    //console.log(params);
 
     db.getConnection((err, connection) => {
         if (err) {
@@ -277,9 +255,9 @@ app.use((err, req, res, next) => {
 const cleanUp = (eventType) => {
     server.close(() => {
         console.log('Server closing...');
-        db.closePool(); // Close the connection pool and the SSH tunnel
+        db.closePool(); 
         console.log('---Server closed---');
-        process.exit(0); // Exit with success status
+        process.exit(0); 
     });
 };
 

@@ -35,9 +35,6 @@ function submitNewBooking() {
     .then(bookingCount => {
       var hostelId = document.getElementById("itemHostelId").value;
       var sessionId = document.getElementById("sessionId").value;
-      var rooms = document.querySelector('#roomCounter').value;
-      var adultNum = document.querySelector("#adultCounter").value;
-      var childNum = document.querySelector('#childCounter').value;
       var datestart = document.querySelector("#checkInDate").value;
       var dateend = document.querySelector("#checkOutDate").value;
 

@@ -44,7 +44,6 @@ sshConnection.on('ready', () => {
     );
 });
 
-// Function to release all connections in the pool
 const closePool = () => {
     pool.end((err) => {
         if (err) {
@@ -52,8 +51,7 @@ const closePool = () => {
         } else {
             console.log('All connections in the pool have been released.');
         }
-        // After closing the pool, you can also close the SSH connection
-        sshConnection.end(); // Close the SSH tunnel connection
+        sshConnection.end();
     });
 };
 

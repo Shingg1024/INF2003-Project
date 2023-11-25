@@ -166,6 +166,11 @@
   .owl-carousel1 .owl-nav .owl-next {
     right: 0;
   }
+  body {
+    background-color: rgb(224, 223, 223); /* Light gray background color */
+    margin: 0; /* Remove default body margin */
+    font-family: Arial, sans-serif; /* Adjust font-family as needed */
+  }
 </style>
 
 <%- include('include/_nav') %>
@@ -183,8 +188,8 @@
         <option value="5">5 Stars</option>
       </select>
 
-      <label for="avgPrice">Average price:</label>
-      <p id="avgPrice"></p>
+      <!-- <label for="avgPrice">Average price:</label>
+      <p id="avgPrice"></p> -->
       <button type="button" onclick="filter()">Filter</button>
       <button style='background-color: darkred; color: white;' onclick="reset()">Reset</button>
     </form>

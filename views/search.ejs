@@ -4,20 +4,26 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>City</th>
+      <th>Hostel or Restaurant Name</th>
+      <th>Station</th>
     </tr>
   </thead>
   <tbody>
-    <% data.forEach(item => { %>
-    <tr>
-      <td><%= item.hostel_name %></td>
-      <td><%= item.city %></td>
-    </tr>
+    <% data.hostels.forEach(item => { %>
+      <tr>
+        <td><a href="/indivHostel/<%= item.hostel_id - 1 %>"><%= item.hostel_name %></a></td>
+        <td><%= item.city %></td>
+      </tr>
+    <% }); %>
+
+    <% data.restaurants.forEach(item => { %>
+      <tr>
+        <td><a href="/indivRestaurant/<%= item.restaurant_id %>"><%= item.restaurant_name %></a></td>
+        <td><%= item.station %></td>
+      </tr>
     <% }); %>
   </tbody>
 </table>
-
 <!-- include footer -->
 <%- include('include/_footer')%>
 <!-- include footer -->

@@ -1,9 +1,53 @@
 <%- include('include/_header') %>
+<%- include('include/_nav') %>
 
 <style>
+  body {
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+  }
+
+  main {
+    flex: 1;
+  }
+
+  footer {
+    padding: 15px;
+    color: #fff;
+    text-align: center;
+    background-color: rgb(16, 15, 15);
+    backdrop-filter: blur(5px);
+    margin-top: auto;
+  }
+
+  h1 {
+    font-size: 2em;
+
+  }
+
+  p {
+    font-size: 1.2em;
+
+  }
+
+  h3 {
+    font-size: 1.5em;
+
+  }
+
   .image-container {
     position: relative;
     display: inline-block;
+    overflow: hidden;
+
+  }
+
+  .restaurant-image {
+    width: 100%;
+    height: 100%;
+
   }
 
   .favorite {
@@ -13,89 +57,147 @@
     cursor: pointer;
     font-size: 24px;
     color: #fbb234;
+    transition: color 0.3s ease;
   }
 
   .favorite.clicked {
     color: red;
-    /* Change the color when clicked */
   }
+
+  #nearbyRestaurants {
+    display: none;
+  }
+
+  .nearby-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+
+  .table-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    background-color: #343a40;
+    color: #fff;
+    padding: 10px;
+  }
+
+  .nearby-table td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+  }
+
+  .nearby-table a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .nearby-table a:hover {
+    text-decoration: underline;
+  }
+
+  /* Styling for list items under each category */
+  .amenities-container ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .amenities-container li {
+    margin-bottom: 5px;
+
+  }
+  
 </style>
 
 <body>
-  <%- include('include/_nav') %>
-
   <div class="container">
     <h1><%= data[0].hostel_name %></h1><br>
 
     <div class="image-container">
-      <img src="/assets/images/image2.jpg" alt="restaurant1">
-      <i class="far fa-heart favorite" onclick="toggleFavorite(this)"></i>
+      <img src="/assets/images/image2.jpg" alt="restaurant1" class="restaurant-image" onclick="toggleFavorite(this)">
     </div>
     <br><br>
     <p>City: <%= data[0].city %><br>
       Price: ¥<%= data[0].price.toFixed(2) %></p>
 
-    <h3>Free Amenities</h3>
-    <ul>
-      <% if (data[0].free && data[0].free.length > 0) {
-            data[0].free[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-      <li><%= item.replace(/['"]+/g, '').trim() %></li>
-      <% });
-        } else { %>
-      <li>No free amenities available</li>
-      <% } %>
-    </ul>
-
-    <h3>General Amenities</h3>
-    <ul>
-      <% if (data[0].general && data[0].general.length > 0) {
-            data[0].general[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-      <li><%= item.replace(/['"]+/g, '').trim() %></li>
-      <% });
-        } else { %>
-      <li>No general amenities available</li>
-      <% } %>
-    </ul>
-
-    <h3>Services</h3>
-    <ul>
-      <% if (data[0].services && data[0].services.length > 0) {
-            data[0].services[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-      <li><%= item.replace(/['"]+/g, '').trim() %></li>
-      <% });
-        } else { %>
-      <li>No services available</li>
-      <% } %>
-    </ul>
-
-    <h3>Food & Drink Options</h3>
-    <ul>
-      <% if (data[0].foodDrink && data[0].foodDrink.length > 0) {
-            data[0].foodDrink[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-      <li><%= item.replace(/['"]+/g, '').trim() %></li>
-      <% });
-        } else { %>
-      <li>No food and drink options available</li>
-      <% } %>
-    </ul>
-
-    <h3>Entertainment</h3>
-    <ul>
-      <% if (data[0].entertainment && data[0].entertainment.length > 0) {
-            data[0].entertainment[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-      <li><%= item.replace(/['"]+/g, '').trim() %></li>
-      <% });
-        } else { %>
-      <li>No entertainment options available</li>
-      <% } %>
-    </ul>
-
-    <button id="showNearbyBtn" data-latitude="<%= data[0].location.coordinates[1] %>" data-longitude="<%= data[0].location.coordinates[0] %>" onclick="showNearbyRestaurants()">Show Nearby Restaurants</button>
-
-    <div id="nearbyRestaurants" style="display: none;">
+    <!-- Wrapper container for Free Amenities -->
+    <div class="amenities-container">
+      <h3>Free Amenities</h3>
+      <ul>
+        <% if (data[0].free && data[0].free.length > 0) {
+              data[0].free[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+        <li><%= item.replace(/['"]+/g, '').trim() %></li>
+        <% });
+          } else { %>
+        <li>No free amenities available</li>
+        <% } %>
+      </ul>
     </div>
-    <!-- rest of your code -->
+
+    <!-- Repeat the same structure for other categories -->
+    
+    <div class="amenities-container">
+      <h3>General Amenities</h3>
+      <ul>
+        <% if (data[0].general && data[0].general.length > 0) {
+              data[0].general[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+        <li><%= item.replace(/['"]+/g, '').trim() %></li>
+        <% });
+          } else { %>
+        <li>No general amenities available</li>
+        <% } %>
+      </ul>
+    </div>
+
+    <div class="amenities-container">
+      <h3>Services</h3>
+      <ul>
+        <% if (data[0].services && data[0].services.length > 0) {
+              data[0].services[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+        <li><%= item.replace(/['"]+/g, '').trim() %></li>
+        <% });
+          } else { %>
+        <li>No services available</li>
+        <% } %>
+      </ul>
+    </div>
+
+    <div class="amenities-container">
+      <h3>Food & Drink Options</h3>
+      <ul>
+        <% if (data[0].foodDrink && data[0].foodDrink.length > 0) {
+              data[0].foodDrink[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+        <li><%= item.replace(/['"]+/g, '').trim() %></li>
+        <% });
+          } else { %>
+        <li>No food and drink options available</li>
+        <% } %>
+      </ul>
+    </div>
+
+    <div class="amenities-container">
+      <h3>Entertainment</h3>
+      <ul>
+        <% if (data[0].entertainment && data[0].entertainment.length > 0) {
+              data[0].entertainment[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
+        <li><%= item.replace(/['"]+/g, '').trim() %></li>
+        <% });
+          } else { %>
+        <li>No entertainment options available</li>
+        <% } %>
+      </ul>
+    </div>
+
+    <div class="container" style="text-align: center;">
+      <button id="showNearbyBtn" data-latitude="<%= data[0].location.coordinates[1] %>"
+        data-longitude="<%= data[0].location.coordinates[0] %>" onclick="showNearbyRestaurants()">Show Nearby
+        Restaurants</button>
+    </div>
+
+    <div id="nearbyRestaurants">
+    </div>
   </div>
+
   <script>
     function toggleFavorite(element) {
       element.classList.toggle('clicked');
@@ -116,41 +218,41 @@
         .then(response => response.json())
         .then(data => {
           const nearbyRestaurantsDiv = document.getElementById('nearbyRestaurants');
-                nearbyRestaurantsDiv.innerHTML = ''; 
+          nearbyRestaurantsDiv.innerHTML = '';
 
-                if (data.length > 0) {
-                    const table = document.createElement('table');
-                    table.className = 'nearby-table';
+          if (data.length > 0) {
+            const table = document.createElement('table');
+            table.className = 'nearby-table';
 
-                    const headerRow = table.insertRow();
-                    const headerCell = headerRow.insertCell();
-                    headerCell.textContent = 'Nearby Restaurants';
-                    headerCell.colSpan = 2;
-                    headerCell.className = 'table-header';
+            const headerRow = table.insertRow();
+            const headerCell = headerRow.insertCell();
+            headerCell.textContent = 'Nearby Restaurants';
+            headerCell.colSpan = 2;
+            headerCell.className = 'table-header';
 
-                    data.forEach(restaurant => {
-                        const row = table.insertRow();
+            data.forEach(restaurant => {
+              const row = table.insertRow();
 
-                        const nameCell = row.insertCell();
-                        const nameLink = document.createElement('a');
-                        nameLink.href = `/indivRestaurant/${restaurant.restaurant_id}`; 
-                        nameLink.textContent = restaurant.name;
-                        nameCell.appendChild(nameLink);
+              const nameCell = row.insertCell();
+              const nameLink = document.createElement('a');
+              nameLink.href = `/indivRestaurant/${restaurant.restaurant_id}`;
+              nameLink.textContent = restaurant.name;
+              nameCell.appendChild(nameLink);
 
-                        const addressCell = row.insertCell();
-                        addressCell.textContent = restaurant.address;
-                    });
+              const addressCell = row.insertCell();
+              addressCell.textContent = restaurant.address;
+            });
 
-                    nearbyRestaurantsDiv.appendChild(table);
-                    nearbyRestaurantsDiv.style.display = 'block'; 
-                } else {
-                    nearbyRestaurantsDiv.innerHTML = '<p>No nearby restaurants found</p>';
-                    nearbyRestaurantsDiv.style.display = 'block'; 
-                }
+            nearbyRestaurantsDiv.appendChild(table);
+            nearbyRestaurantsDiv.style.display = 'block';
+          } else {
+            nearbyRestaurantsDiv.innerHTML = '<p>No nearby restaurants found</p>';
+            nearbyRestaurantsDiv.style.display = 'block';
+          }
         })
         .catch(error => console.error('Error fetching nearby restaurants:', error));
     }
-
   </script>
 
   <%- include('include/_footer') %>
+</body>

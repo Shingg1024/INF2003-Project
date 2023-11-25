@@ -176,9 +176,11 @@
       <label for="ratings">Minimum Ratings:</label>
       <select id="ratings" name="ratings">
         <option value="">-- Select Minimum Ratings --</option>
+        <option value="1">1 Stars</option>
         <option value="2">2 Stars</option>
         <option value="3">3 Stars</option>
         <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
       </select>
 
       <label for="avgPrice">Average price:</label>
@@ -202,9 +204,9 @@
             </div>
             <div class="text">
               <a href="/indivHostel/<%= item.hostel_id - 1 %>">
-                <h2><%= item.hostel_name %></h2>
+                <h2 class="linkname"><%= item.hostel_name %></h2>
               </a>
-              Price:<h4>¥ <%= item.price %></h4>
+              Price:<h4 class="price">¥ <%= item.price %></h4>
               Rating:<h4 class="eachAvgRating"><%= item.avg_rating %></h4>
               <div class="rate flex" id="starRating"></div>
               <% if (session.user) { %>
@@ -284,25 +286,41 @@
           .then(response => response.json())
           .then(data => {
             const roomContainers = document.querySelectorAll('.rooms .content');
-            roomContainers.forEach((roomContainer, index) => {
-              const filteredItem = data[index];
 
-              const h2 = roomContainer.querySelector('h2');
-              const h4Price = roomContainer.querySelector('h4:nth-of-type(1)');
-              const h4Rating = roomContainer.querySelector('h4.eachAvgRating');
-              const itemHostelIdInput = roomContainer.querySelector('#itemHostelId');
-              itemHostelIdInput.value = filteredItem.hostel_id;
+            // Check if data is defined and has elements
+            if (data && data.length > 0) {
+              roomContainers.forEach((roomContainer, index) => {
+                const filteredItem = data[index];
+                const h2 = roomContainer.querySelector('h2.linkname');
+                const h4Price = roomContainer.querySelector('h4.price');
+                const h4Rating = roomContainer.querySelector('h4.eachAvgRating');
 
-              h2.innerHTML = `<a href="/indivHostel/${filteredItem.hostel_id - 1}">${filteredItem.hostel_name}</a>`;
-              h4Price.textContent = `Price: ¥ ${filteredItem.price}`;
-              h4Rating.textContent = `Rating: ${filteredItem.avg_rating}`;
-            });
+                // Check if filteredItem is defined before accessing its properties
+                if (filteredItem) {
+                  console.log(filteredItem)
+                  h2.textContent = filteredItem.hostel_name;
+                  h2.innerHTML = `<a href="/indivHostel/${filteredItem.hostel_id - 1}">${filteredItem.hostel_name}</a>`;
+                  h4Price.textContent = `¥ ${filteredItem.price}`;
+                  h4Rating.textContent = `${filteredItem.avg_rating}`;
+                } else {
+                  // Handle the case when filteredItem is undefined
+                  h2.textContent = '';
+                  h4Price.textContent = '';
+                  h4Rating.textContent = '';
+                }
+              });
+            } else {
+              alert("No hostels found at the specified minimum rating.");
+              location.reload();
+            }
           })
           .catch(error => {
             console.error("Error fetching data:", error);
           });
       }
     }
+
+
 
     function generateStarRating(avgRating) {
       const starCount = 5; // Total number of stars

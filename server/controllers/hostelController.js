@@ -81,7 +81,8 @@ exports.getMinRating = (req, res) => {
             return res.status(500).json({ error: 'An error occurred' });
         }
 
-        const query = "SELECT h.hostel_id, h.hostel_name ,h.price, ROUND(AVG(r.review_rating),2) AS avg_rating FROM review_hostel r JOIN booking_hostel b ON r.booking_hostel_id = b.booking_hostel_id JOIN hostel h ON b.hostel_id = h.hostel_id WHERE r.review_rating > ? GROUP BY h.hostel_id, h.hostel_name, h.price;";
+        const query = "SELECT h.hostel_id, h.hostel_name, h.price, ROUND(AVG(r.review_rating), 2) AS avg_rating FROM review_hostel r JOIN booking_hostel b ON r.booking_hostel_id = b.booking_hostel_id JOIN hostel h ON b.hostel_id = h.hostel_id GROUP BY h.hostel_id, h.hostel_name, h.price HAVING avg_rating > ?; ";
+        
         connection.query(query, rating, (err, result) => {
             try {
                 if (err) {

@@ -1,25 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Add your other head elements here -->
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    body {
+      background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+    }
+
+    main {
+      flex: 1;
+    }
+
+    footer {
+      padding: 15px;
+      color: #fff;
+      text-align: center;
+      background-color: rgb(16, 15, 15); /* Set the background color with transparency */
+      backdrop-filter: blur(5px); /* Apply a blur effect to the background */
+      margin-top: auto; /* Push the footer to the bottom */
+    }
+
+    .container h2 {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 310%;
+    }
+    
+    /* Style to display Review ID side by side */
+    .table-bordered .thead-dark th {
+      white-space: nowrap;
+    }
+
+    .table-bordered tbody tr td:first-child {
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Your existing content -->
 <%- include('include/_header') %>
 
 <%- include('include/_nav') %>
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>id</th>
-      <th>comment </th>
-      <th>rating</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% data.forEach(item => { %>
-    <tr>
-      <td><%= item.booking_hostel_id %></td>
-      <td><%= item.review_comment %></td>
-      <td><%= item.review_rating %></td>
-    </tr>
-    <% }); %>
-  </tbody>
-</table>
+<br><br>
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Reviews</h2>
 
-<!-- include footer -->
-<%- include('include/_footer')%>
-<!-- include footer -->
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Review ID</th>
+        <th scope="col">Comment</th>
+        <th scope="col">Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach(item => { %>
+        <tr>
+          <td>#<%= item.booking_hostel_id %></td>
+          <td><%= item.review_comment %></td>
+          <td><%= item.review_rating %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
+
+<!-- End of your existing content -->
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2023 Your Company. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

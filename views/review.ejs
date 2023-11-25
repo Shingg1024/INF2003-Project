@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Add your other head elements here -->
   <style>
@@ -22,16 +23,19 @@
       padding: 15px;
       color: #fff;
       text-align: center;
-      background-color: rgb(16, 15, 15); /* Set the background color with transparency */
-      backdrop-filter: blur(5px); /* Apply a blur effect to the background */
-      margin-top: auto; /* Push the footer to the bottom */
+      background-color: rgb(16, 15, 15);
+      /* Set the background color with transparency */
+      backdrop-filter: blur(5px);
+      /* Apply a blur effect to the background */
+      margin-top: auto;
+      /* Push the footer to the bottom */
     }
 
     .container h2 {
       font-family: Georgia, 'Times New Roman', Times, serif;
       font-size: 310%;
     }
-    
+
     /* Style to display Review ID side by side */
     .table-bordered .thead-dark th {
       white-space: nowrap;
@@ -41,43 +45,58 @@
       white-space: nowrap;
     }
   </style>
+  <script>
+    // JavaScript function to format date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US');
+    }
+  </script>
 </head>
+
 <body>
 
-<!-- Your existing content -->
-<%- include('include/_header') %>
+  <!-- Your existing content -->
+  <%- include('include/_header') %>
 
-<%- include('include/_nav') %>
-<br><br>
-<div class="container mt-4">
-  <h2 class="text-center mb-4">Reviews</h2>
+  <%- include('include/_nav') %>
+  <br><br>
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Reviews</h2>
 
-  <table class="table table-bordered">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Review ID</th>
-        <th scope="col">Comment</th>
-        <th scope="col">Rating</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% data.forEach(item => { %>
+    <table class="table table-bordered">
+      <thead class="thead-dark">
         <tr>
-          <td>#<%= item.booking_hostel_id %></td>
+          <th scope="col">Hostel/Restaurant ID</th>
+          <th scope="col">Date</th>
+          <th scope="col">Comment</th>
+          <th scope="col">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.hostels.forEach(item => { %>
+        <tr>
+          <td># <%= item.review_hostel_id %></td>
+          <td><%= new Date(item.date_start).toLocaleDateString('en-US') %></td>
           <td><%= item.review_comment %></td>
           <td><%= item.review_rating %></td>
         </tr>
-      <% }); %>
-    </tbody>
-  </table>
-</div>
-
-<!-- End of your existing content -->
-
-<!-- Footer -->
-<footer>
-  <p>&copy; 2023 Your Company. All rights reserved.</p>
-</footer>
+        <% }); %>
+        <% data.restaurants.forEach(item => { %>
+        <tr>
+          <td># <%= item.booking_restaurant_id %></td>
+          <td><%= new Date(item.date).toLocaleDateString('en-US') %></td>
+          <td><%= item.review_comment %></td>
+          <td><%= item.review_rating %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+  <footer>
+    <p>&copy; 2023 Your Company. All rights reserved.</p>
+  </footer>
 
 </body>
+
 </html>

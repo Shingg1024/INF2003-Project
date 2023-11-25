@@ -9,16 +9,36 @@ exports.getReview = (req, res) => {
         }
         id = req.params.id;
 
-        const query = "SELECT * FROM review_hostel where user_id = ? UNION SELECT * FROM review_restaurant where user_id = ?";
-        connection.query(query, [id, id], (err, result) => {
+        const query = "SELECT * FROM review_hostel JOIN booking_hostel ON review_hostel.booking_hostel_id = booking_hostel.booking_hostel_id where review_hostel.user_id = ?";
+        connection.query(query, id, (err, hostelResults) => {
             try {
                 if (err) {
                     console.log(err);
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                res.send(result);
-                console.log("------------- SQL query used: " + query + " -------------");
+                const queryRestaurant = "SELECT * FROM review_restaurant JOIN booking_restaurant ON review_restaurant.booking_restaurant_id = booking_restaurant.booking_restaurant_id where review_restaurant.user_id = ?";
+
+                connection.query(queryRestaurant, id, (err, restaurantResults) => {
+                    try {
+                        if (err) {
+                            console.log(err);
+                            return res.status(500).json({ error: 'An error occurred' });
+                        }
+
+                        const dataObj = {
+                            hostels: hostelResults,
+                            restaurants: restaurantResults
+                        };
+
+                        console.log("------------- SQL query used: " + query + " -------------");
+                        console.log("------------- SQL query used: " + queryRestaurant + " -------------");
+
+                        res.send(dataObj);
+                    } finally {
+                        db.releaseConnection(connection);
+                    }
+                });
             } finally {
                 db.releaseConnection(connection);
             }

@@ -59,7 +59,7 @@
             const row = document.createElement('tr');
             if (sortingParameter === 'hostel') {
               row.innerHTML = `<td>${item.hostel_id}</td><td>${item.date_start}</td><td>${item.date_end}</td>`;
-              if (completed) {
+              if (completed && !upcoming) {
                 row.innerHTML +=
                   `<td>
                     <form action="review/submitHostelReview" method="post">
@@ -73,7 +73,7 @@
               }
             } else if (sortingParameter === 'restaurant') {
               row.innerHTML = `<td>${item.restaurant_id}</td><td>${item.date}</td><td>${item.time}</td>`;
-              if (completed) {
+              if (completed && !upcoming) {
                 row.innerHTML +=
                   `<td>
                     <form action="review/submitHostelReview" method="post">
@@ -88,7 +88,7 @@
 
             } else if (sortingParameter === 'all') {
               row.innerHTML = `<td>${item.booking_hostel_id}</td><td>${item.date_start}</td><td>${item.date_end}</td><td>${item.booking_type}</td>`;
-              if (completed) {
+              if (completed && !upcoming) {
                 row.innerHTML +=
                   `<td>
                     <form action="review/submitHostelReview" method="post">

@@ -186,6 +186,7 @@
       <label for="avgPrice">Average price:</label>
       <p id="avgPrice"></p>
       <button type="button" onclick="filter()">Filter</button>
+      <button style='background-color: darkred; color: white;' onclick="reset()">Reset</button>
     </form>
   </div>
   <section class="rooms">
@@ -287,7 +288,6 @@
           .then(data => {
             const roomContainers = document.querySelectorAll('.rooms .content');
 
-            // Check if data is defined and has elements
             if (data && data.length > 0) {
               roomContainers.forEach((roomContainer, index) => {
                 const filteredItem = data[index];
@@ -295,15 +295,13 @@
                 const h4Price = roomContainer.querySelector('h4.price');
                 const h4Rating = roomContainer.querySelector('h4.eachAvgRating');
 
-                // Check if filteredItem is defined before accessing its properties
                 if (filteredItem) {
-                  console.log(filteredItem)
+                  //console.log(filteredItem)
                   h2.textContent = filteredItem.hostel_name;
                   h2.innerHTML = `<a href="/indivHostel/${filteredItem.hostel_id - 1}">${filteredItem.hostel_name}</a>`;
                   h4Price.textContent = `¥ ${filteredItem.price}`;
                   h4Rating.textContent = `${filteredItem.avg_rating}`;
                 } else {
-                  // Handle the case when filteredItem is undefined
                   h2.textContent = '';
                   h4Price.textContent = '';
                   h4Rating.textContent = '';
@@ -320,10 +318,13 @@
       }
     }
 
+    function reset() {
+      location.reload();
+    }
 
 
     function generateStarRating(avgRating) {
-      const starCount = 5; // Total number of stars
+      const starCount = 5;
       const fullStar = '<i class="fa fa-star"></i>';
       const halfStar = '<i class="fa fa-star-half-o"></i>';
       const emptyStar = '<i class="fa fa-star-o"></i>';

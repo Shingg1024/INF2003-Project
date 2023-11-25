@@ -208,29 +208,45 @@ app.get('/search', async (req, res) => {
     const searchTerm = req.query.searchTerm;
     const params = [`%${searchTerm}%`];
 
-    //console.log(params);
-
     db.getConnection((err, connection) => {
         if (err) {
             console.log(err);
             return res.status(500).json({ error: 'An error occurred' });
         }
 
-        const query = "Select * FROM hostel WHERE hostel_name LIKE ? UNION Select * FROM restaurant WHERE restaurant_name LIKE ?";
-        connection.query(query, [params,params], (err, result) => {
+        const queryHostel = "SELECT * FROM hostel WHERE hostel_name LIKE ?";
+        connection.query(queryHostel, params, (err, hostelResults) => {
             try {
                 if (err) {
                     console.log(err);
                     return res.status(500).json({ error: 'An error occurred' });
                 }
-                data = result;
-                res.render('search' , data);
-                console.log("------------- SQL query used: " + query + " -------------");
+                
+                const queryRestaurant = "SELECT * FROM restaurant WHERE restaurant_name LIKE ?";
+                connection.query(queryRestaurant, params, (err, restaurantResults) => {
+                    try {
+                        if (err) {
+                            console.log(err);
+                            return res.status(500).json({ error: 'An error occurred' });
+                        }
+
+                        const dataObj = {
+                            hostels: hostelResults,
+                            restaurants: restaurantResults
+                        };
+
+                        console.log("------------- SQL query for hostels: " + queryHostel + " -------------");
+                        console.log("------------- SQL query for restaurants: " + queryRestaurant + " -------------");
+
+                        res.render('search', { data: dataObj });
+                    } finally {
+                        db.releaseConnection(connection);
+                    }
+                });
             } finally {
                 db.releaseConnection(connection);
             }
         });
-
     });
 });
 

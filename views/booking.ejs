@@ -1,6 +1,6 @@
 <%- include('include/_header') %>
-
 <%- include('include/_nav') %>
+
 <div class="text-center mb-3">
   <input type="radio" name="sortByType" id="all" value="all" checked> All
   <input type="radio" name="sortByType" id="hostel" value="hostel"> Hostel
@@ -16,292 +16,136 @@
   <button id="sort-button" class="btn btn-primary">Sort Data</button>
   <h1 id="display"></h1>
 </div>
-<input hidden id="hiddenUserId" value="<%= (session.user.user_id) %>" />
+
+<input hidden id="hiddenUserId" value="<%= session.user.user_id %>" />
+
 <table class="table table-bordered">
   <thead>
     <tr>
       <th>id</th>
-      <th>start </th>
+      <th>start</th>
       <th>end</th>
       <th>booking type</th>
     </tr>
   </thead>
-  <tbody>
-    <% data.forEach(item=> { %>
-    <tr>
-      <td>
-        <%= item.hostel_id %>
-      </td>
-      <td>
-        <%= item.date_start %>
-      </td>
-      <td>
-        <%= item.date_end %>
-      </td>
-      <td>
-        <%= item.booking_type %>
-      </td>
-    </tr>
-    <% }); %>
-  </tbody>
+  <tbody></tbody>
 </table>
 
 <script>
-  document.getElementById('sort-button').addEventListener('click', () => {
+  document.addEventListener('DOMContentLoaded', () => {
+    // Trigger the sorting logic to show all data on page load
+    sortData();
+  });
+  const sortButton = document.getElementById('sort-button');
+  const userId = document.querySelector('#hiddenUserId').value;
 
-    var completed = document.getElementById('completed');
-    var upcoming = document.getElementById('upcoming');
-    var id = document.querySelector('#hiddenUserId').value;
-
-    const sortingParameter = document.querySelector('input[name="sortByType"]:checked').value;
-    if (sortingParameter == 'hostel') {
-      if ((completed.checked && upcoming.checked)) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-
-        fetch(`/booking/getAllHostelByUserId/${id}`)
-          .then(response => response.json())
-          .then(data => {
-            const tbody = document.querySelector('tbody');
-            data.forEach(item => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-            <td>${item.hostel_id}</td>
-            <td>${item.date_start}</td>
-            <td>${item.date_end}</td>
-          `;
-              tbody.appendChild(row);
-            })
-          })
-          .catch(error => {
-            console.error("An error occurred:", error);
-          });
-      } else if ((!completed.checked && !upcoming.checked)) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-      } else if (upcoming.checked) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-
-        fetch(`/booking/getHostelUpcoming/${id}`)
-          .then(response => response.json())
-          .then(data => {
-            const tbody = document.querySelector('tbody');
-            data.forEach(item => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-            <td>${item.hostel_name}</td>
-            <td>${item.formatted_date}</td>
-            <td>${item.formatted_date_end}</td>
-          `;
-              tbody.appendChild(row);
-            })
-          })
-          .catch(error => {
-            console.error("An error occurred:", error);
-          });
-      } else if (completed.checked) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-
-        fetch(`/booking/getHostelCompleted/${id}`)
-          .then(response => response.json())
-          .then(data => {
-            const tbody = document.querySelector('tbody');
-            data.forEach(item => {
-              //console.log(item);
-              const row = document.createElement('tr');
-              row.innerHTML = `
-            <td>${item.hostel_name}</td>
-            <td>${item.formatted_date}</td>
-            <td>${item.formatted_date_end}</td>
-            <td>
-              <form action="review/submitHostelReview" method="post">
-              <input type="hidden" id="user_id" name="user_id" value=${id}>
-              <input type="hidden" id="booking_hostel_id" name="booking_hostel_id" value=${item.booking_hostel_id}>
-              <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
-              <input type="number" id="reviewpoints" name="reviewpoints" min ="1" max="5" placeholder='Rating'>
-              <input type="submit" value="Submit">
-              </form>
-            </td>
-          `;
-              tbody.appendChild(row);
-            })
-          })
-          .catch(error => {
-            console.error("An error occurred:", error);
-          });
-      }
-      updateTableHeaders(['Hostal', 'Date Start', 'Date End', 'Comment & Rating']);
-    } else if (sortingParameter == 'restaurant') {
-      if ((completed.checked && upcoming.checked)) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-
-        fetch(`/booking/getRestaurantByUserId/${id}`)
-          .then(response => response.json())
-          .then(data => {
-            const tbody = document.querySelector('tbody');
-            data.forEach(item => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-            <td>${item.restaurant_id}</td>
-            <td>${item.date}</td>
-            <td>${item.time}</td>
-          `;
-              tbody.appendChild(row);
-            })
-          })
-          .catch(error => {
-            console.error("An error occurred:", error);
-          });
-      } else if ((!completed.checked && !upcoming.checked)) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-      } else if (completed.checked) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-
-        fetch(`/booking/getRestaurantCompleted/${id}`)
-          .then(response => response.json())
-          .then(data => {
-            const tbody = document.querySelector('tbody');
-            data.forEach(item => {
-              //console.log(item);
-              const row = document.createElement('tr');
-              row.innerHTML = `
-            <td>${item.restaurant_name}</td>
-            <td>${item.formatted_date}</td>
-            <td>${item.time}</td>
-            <td>
-              <form action="review/submitHostelReview" method="post">
-              <input type="hidden" id="user_id" name="user_id" value=${id}>
-              <input type="hidden" id="booking_restaurant_id" name="booking_restaurant_id" value=${item.booking_restaurant_id}>
-              <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
-              <input type="number" id="reviewpoints" name="reviewpoints" min ="1" max="5" placeholder='Rating'>
-              <input type="submit" value="Submit">
-              </form>
-            </td>
-          `;
-              tbody.appendChild(row);
-            })
-          })
-          .catch(error => {
-            console.error("An error occurred:", error);
-          });
-      } else if (upcoming.checked) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-
-        fetch(`/booking/getRestaurantUpcoming/${id}`)
-          .then(response => response.json())
-          .then(data => {
-            const tbody = document.querySelector('tbody');
-            data.forEach(item => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-            <td>${item.restaurant_name}</td>
-            <td>${item.formatted_date}</td>
-            <td>${item.time}</td>
-          `;
-              tbody.appendChild(row);
-            })
-          })
-          .catch(error => {
-            console.error("An error occurred:", error);
-          });
-      }
-
-      updateTableHeaders(['Restaurant', 'Date', 'Time']);
-    } else if (sortingParameter == 'all') {
-      if ((completed.checked && upcoming.checked)) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-
-        fetch(`/booking/getBooking/${id}`)
-          .then(response => response.json())
-          .then(data => {
-            const tbody = document.querySelector('tbody');
-            data.forEach(item => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-            <td>${item.booking_hostel_id}</td>
-            <td>${item.date_start}</td>
-            <td>${item.date_end}</td>
-            <td>${item.booking_type}</td>
-          `;
-              tbody.appendChild(row);
-            })
-          })
-          .catch(error => {
-            console.error("An error occurred:", error);
-          });
-      } else if ((!completed.checked && !upcoming.checked)) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-      } else if (completed.checked) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-
-        fetch(`/booking/getHostelAndRestaurantCompleted/${id}`)
-          .then(response => response.json())
-          .then(data => {
-            const tbody = document.querySelector('tbody');
-            data.forEach(item => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-                  <td>${item.booking_hostel_id}</td>
-            <td>${item.date_start}</td>
-            <td>${item.date_end}</td>
-            <td>${item.booking_type}</td>
-          `;
-              tbody.appendChild(row);
-            })
-          })
-          .catch(error => {
-            console.error("An error occurred:", error);
-          });
-      } else if (upcoming.checked) {
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '';
-
-        fetch(`/booking/getHostelAndRestaurantUpcoming/${id}`)
-          .then(response => response.json())
-          .then(data => {
-            const tbody = document.querySelector('tbody');
-            data.forEach(item => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-                  <td>${item.booking_hostel_id}</td>
-            <td>${item.date_start}</td>
-            <td>${item.date_end}</td>
-            <td>${item.booking_type}</td>
-          `;
-              tbody.appendChild(row);
-            })
-          })
-          .catch(error => {
-            console.error("An error occurred:", error);
-          });
-      }
-
-      updateTableHeaders(['ID', 'start', 'end', 'booking type']);
-    }
+  sortButton.addEventListener('click', () => {
+    sortData();
   });
 
+  function sortData() {
+    const completed = document.getElementById('completed').checked;
+    const upcoming = document.getElementById('upcoming').checked;
+    const sortingParameter = document.querySelector('input[name="sortByType"]:checked').value;
+
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = '';
+
+    const fetchData = (url) => {
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(item => {
+            const row = document.createElement('tr');
+            if (sortingParameter === 'hostel') {
+              row.innerHTML = `<td>${item.hostel_id}</td><td>${item.date_start}</td><td>${item.date_end}</td>`;
+              if (completed) {
+                row.innerHTML +=
+                  `<td>
+                    <form action="review/submitHostelReview" method="post">
+                    <input type="hidden" id="user_id" name="user_id" value=${userId}>
+                    <input type="hidden" id="booking_hostel_id" name="booking_hostel_id" value=${item.booking_hostel_id}>
+                    <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
+                    <input type="number" id="reviewpoints" name="reviewpoints" min ="1" max="5" placeholder='Rating'>
+                    <input type="submit" value="Submit">
+                    </form>
+                </td>`
+              }
+            } else if (sortingParameter === 'restaurant') {
+              row.innerHTML = `<td>${item.restaurant_id}</td><td>${item.date}</td><td>${item.time}</td>`;
+              if (completed) {
+                row.innerHTML +=
+                  `<td>
+                    <form action="review/submitHostelReview" method="post">
+                    <input type="hidden" id="user_id" name="user_id" value=${userId}>
+                    <input type="hidden" id="booking_hostel_id" name="booking_hostel_id" value=${item.booking_hostel_id}>
+                    <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
+                    <input type="number" id="reviewpoints" name="reviewpoints" min ="1" max="5" placeholder='Rating'>
+                    <input type="submit" value="Submit">
+                    </form>
+                </td>`
+              }
+
+            } else if (sortingParameter === 'all') {
+              row.innerHTML = `<td>${item.booking_hostel_id}</td><td>${item.date_start}</td><td>${item.date_end}</td><td>${item.booking_type}</td>`;
+              if (completed) {
+                row.innerHTML +=
+                  `<td>
+                    <form action="review/submitHostelReview" method="post">
+                    <input type="hidden" id="user_id" name="user_id" value=${userId}>
+                    <input type="hidden" id="booking_hostel_id" name="booking_hostel_id" value=${item.booking_hostel_id}>
+                    <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
+                    <input type="number" id="reviewpoints" name="reviewpoints" min ="1" max="5" placeholder='Rating'>
+                    <input type="submit" value="Submit">
+                    </form>
+                </td>`
+              }
+            }
+            tableBody.appendChild(row);
+          });
+        })
+        .catch(error => console.error("An error occurred:", error));
+    };
+
+    if ((completed && upcoming) || (!completed && !upcoming)) {
+      if (sortingParameter === 'hostel') {
+        fetchData(`/booking/getAllHostelByUserId/${userId}`);
+      } else if (sortingParameter === 'restaurant') {
+        fetchData(`/booking/getRestaurantByUserId/${userId}`);
+      } else if (sortingParameter === 'all') {
+        fetchData(`/booking/getBooking/${userId}`);
+      }
+    } else {
+      if (completed) {
+        if (sortingParameter === 'hostel')
+          fetchData(`/booking/getHostelCompleted/${userId}`);
+        else if (sortingParameter === 'restaurant')
+          fetchData(`/booking/getRestaurantCompleted/${userId}`);
+        else if (sortingParameter === 'all')
+          fetchData(`/booking/getHostelAndRestaurantCompleted/${userId}`);
+      } else if (upcoming) {
+        if (sortingParameter === 'hostel')
+          fetchData(`/booking/getHostelUpcoming/${userId}`);
+        else if (sortingParameter === 'restaurant')
+          fetchData(`/booking/getRestaurantUpcoming/${userId}`);
+        else if (sortingParameter === 'all')
+          fetchData(`/booking/getHostelAndRestaurantUpcoming/${userId}`);
+      }
+    }
+
+    updateTableHeaders(sortingParameter === 'hostel' ? ['Hostel', 'Date Start', 'Date End'] :
+      sortingParameter === 'restaurant' ? ['Restaurant', 'Date', 'Time'] : ['ID', 'Start', 'End', 'Booking Type']);
+  }
 
   function updateTableHeaders(columnNames) {
     const thead = document.querySelector('thead tr');
-    thead.innerHTML = ''; // Clear existing headers
-
+    thead.innerHTML = '';
     columnNames.forEach(columnName => {
       const th = document.createElement('th');
       th.textContent = columnName;
       thead.appendChild(th);
     });
-  };
+  }
 </script>
 
-<!-- include footer -->
 <%- include('include/_footer')%>
-<!-- include footer -->

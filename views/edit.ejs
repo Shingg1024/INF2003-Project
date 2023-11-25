@@ -1,16 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Add your other head elements here -->
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+    }
+
+    main {
+      flex: 1;
+    }
+
+    footer {
+      padding: 15px;
+      color: #fff;
+      text-align: center;
+      background-color: rgb(16, 15, 15);
+      backdrop-filter: blur(5px);
+      margin-top: auto;
+    }
+
+
+    .card {
+      border: none; /* Remove card border */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    }
+
+    .card-header h3 {
+      margin-bottom: 0;
+    }
+
+    .form-control {
+      padding: auto;
+    }
+  </style>
+</head>
+<body>
 <%- include('include/_header') %>
 
 <%- include('include/_nav') %>
 
-<div class="container mt-5">
+<div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Edit</h3>
-                </div>
-                <div class="card-body">
-                    <form method="post" action="/edit">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3>Edit</h3>
+          </div>
+          <div class="card-body">
+            <form method="post" action="/edit">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required value="<%= session.user.email %>">
@@ -50,12 +92,14 @@
                         <button type="submit" class="btn btn-primary">Edit Profile</button>
                     </form>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</div>
 
-
-<!-- include footer -->
-<%- include('include/_footer')%>
-<!-- include footer -->
+        <footer>
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+          </footer>
+          
+          </body>
+          </html>

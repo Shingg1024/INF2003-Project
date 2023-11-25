@@ -297,8 +297,8 @@ exports.addHostelBooking = (req, res) => {
                 return res.status(500).json({ error: 'An error occurred' });
             }
 
-            const query = "INSERT INTO booking_hostel (booking_hostel_id, user_id, hostel_id, date_start, date_end) VALUES (?, ?, ?, ?, ?);";
-            connection.query(query, [bookingId, id, hostelId, checkInDate, checkOutDate], (err, result) => {
+            const query = "INSERT INTO booking_hostel (user_id, hostel_id, date_start, date_end) VALUES (?, ?, ?, ?);";
+            connection.query(query, [id, hostelId, checkInDate, checkOutDate], (err, result) => {
 
                 if (err) {
                     console.log(err);
@@ -329,8 +329,8 @@ exports.addRestaurantBooking = (req, res) => {
 
         //console.log(req);
 
-        const query = "INSERT INTO booking_restaurant (booking_restaurant_id, user_id, restaurant_id, date, time) VALUES (?, ?, ?, ?, ?);";
-        connection.query(query, [bookingId, id, restaurant_id, date, time], (err, result) => {
+        const query = "INSERT INTO booking_restaurant (user_id, restaurant_id, date, time) VALUES (?, ?, ?, ?);";
+        connection.query(query, [id, restaurant_id, date, time], (err, result) => {
             try {
                 if (err) {
                     console.log(err);

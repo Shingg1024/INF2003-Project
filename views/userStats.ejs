@@ -176,10 +176,6 @@
         })
         .then(response => {
           if (response.ok) {
-            const itemRow = document.querySelector(`#item-${id}`);
-            if (itemRow) {
-              itemRow.remove();
-            }
             fetchAndRefreshData();
           } else {
             response.text().then(errorMessage => {

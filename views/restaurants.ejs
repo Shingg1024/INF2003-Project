@@ -160,10 +160,13 @@
   .owl-carousel1 .owl-nav .owl-next {
     right: 0;
   }
+
   body {
     background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
-    margin: 0; /* Remove default body margin */
-    font-family: Arial, sans-serif; /* Adjust font-family as needed */
+    margin: 0;
+    /* Remove default body margin */
+    font-family: Arial, sans-serif;
+    /* Adjust font-family as needed */
   }
 </style>
 
@@ -183,8 +186,8 @@
         <option value="5">5 Stars</option>
       </select>
 
-      <button type="button" onclick="filter()">Filter</button>
-      <button style='background-color: darkred; color: white;' onclick="reset()">Reset</button>
+      <button class="filterbut" type="button" onclick="filter()">Filter</button>
+      <button class="resetbut" style='background-color: darkred; color: white; display:none' onclick="reset()">Reset</button>
     </form>
   </div>
   <section class="rooms">
@@ -264,6 +267,10 @@
 
     function reset() {
       location.reload();
+      document.querySelector(".filterbut").style.display = "inline-block";
+      document.querySelector(".resetbut").style.display = "none";
+
+      return false;
     }
 
     function filter() {
@@ -314,6 +321,9 @@
             console.error("Error fetching data:", error);
           });
       }
+
+      document.querySelector(".filterbut").style.display = "none";
+      document.querySelector(".resetbut").style.display = "inline-block";
     }
 
     function generateStarRating(avgRating) {

@@ -166,11 +166,15 @@
   .owl-carousel1 .owl-nav .owl-next {
     right: 0;
   }
+
   body {
     background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
-    margin: 0; /* Remove default body margin */
-    font-family: Arial, sans-serif; /* Adjust font-family as needed */
+    margin: 0;
+    /* Remove default body margin */
+    font-family: Arial, sans-serif;
+    /* Adjust font-family as needed */
   }
+
 </style>
 
 <%- include('include/_nav') %>
@@ -190,8 +194,8 @@
 
       <!-- <label for="avgPrice">Average price:</label>
       <p id="avgPrice"></p> -->
-      <button type="button" onclick="filter()">Filter</button>
-      <button style='background-color: darkred; color: white;' onclick="reset()">Reset</button>
+      <button class="filterbut" type="button" onclick="filter()">Filter</button>
+      <button class="resetbut" style='background-color: darkred; color: white; display:none' onclick="reset()">Reset</button>
     </form>
   </div>
   <section class="rooms">
@@ -286,6 +290,7 @@
 
     function filter() {
       const selectedRating = document.getElementById("ratings").value;
+      
 
       if (selectedRating) {
         fetch(`/hostel/getMinRating/${selectedRating}`)
@@ -301,7 +306,6 @@
                 const h4Rating = roomContainer.querySelector('h4.eachAvgRating');
 
                 if (filteredItem) {
-                  //console.log(filteredItem)
                   h2.textContent = filteredItem.hostel_name;
                   h2.innerHTML = `<a href="/indivHostel/${filteredItem.hostel_id - 1}">${filteredItem.hostel_name}</a>`;
                   h4Price.textContent = `¥ ${filteredItem.price}`;
@@ -321,12 +325,17 @@
             console.error("Error fetching data:", error);
           });
       }
+      document.querySelector(".filterbut").style.display = "none";      
+      document.querySelector(".resetbut").style.display = "inline-block";
     }
 
     function reset() {
       location.reload();
+      
+      document.querySelector(".filterbut").style.display = "inline-block";  
+      document.querySelector(".resetbut").style.display = "none";
+      return false;
     }
-
 
     function generateStarRating(avgRating) {
       const starCount = 5;

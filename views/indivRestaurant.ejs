@@ -1,8 +1,41 @@
 <%- include('include/_header') %>
 <style>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+  }
+
+  main {
+    flex: 1;
+  }
+
+  footer {
+    padding: 15px;
+    color: #fff;
+    text-align: center;
+    background-color: rgb(16, 15, 15);
+    backdrop-filter: blur(5px);
+    margin-top: auto;
+  }
+
+
+  .restaurant-container {
+    margin-bottom: 20px;
+  }
+
   .image-container {
     position: relative;
     display: inline-block;
+    overflow: hidden; /* Hide overflowing content */
+  }
+
+  .restaurant-image {
+    width: 80%; /* Ensure the image scales within its container */
+    height: 80%;
+    transition: transform 0.3s ease; /* Add smooth transition for scaling */
   }
 
   .favorite {
@@ -12,10 +45,18 @@
     cursor: pointer;
     font-size: 24px;
     color: #fbb234;
+    transition: color 0.3s ease; /* Add smooth transition for color change */
   }
 
   .favorite.clicked {
-    color: red; /* Change the color when clicked */
+    color: red;
+  }
+  h2 {
+    font-size: 2em; /* Adjust the font size as needed */
+  }
+
+  p {
+    font-size: 1.2em; /* Adjust the font size as needed */
   }
 </style>
 <body>
@@ -23,22 +64,23 @@
 
   <div class="container">
     <% data.forEach(restaurant => { %>
-      <h1><%= restaurant.name %> (<%= restaurant.japaneseName %>)</h1>
-      <br>
-      <div class="image-container">
-      <img src="/assets/images/image1.jpg" alt="restaurant1">
-      <i class="far fa-heart favorite" onclick="toggleFavorite(this)"></i></div>
-      <br><br>
-      <p>Nearest Station: <%= restaurant.station %></p>
-      <p>First Category: <%= restaurant.firstCategory %></p>
-      <p>Second Category: <%= restaurant.secondCategory %></p>
+      <div class="restaurant-container">
+        <h1><%= restaurant.name %> (<%= restaurant.japaneseName %>)</h1>
+        <br>
+        <div class="image-container">
+          <img src="/assets/images/image1.jpg" alt="restaurant1" class="restaurant-image" onclick="toggleFavorite(this)">
+          
+        </div>
+        <br><br>
+        <p>Nearest Station: <%= restaurant.station %></p>
+        <p>First Category: <%= restaurant.firstCategory %></p>
+        <p>Second Category: <%= restaurant.secondCategory %></p>
 
-      <h3>Prices</h3>
-      <p>Lunch Price: <%= restaurant.lunchPrice !== "NA" ? restaurant.lunchPrice : "Not available" %></p>
-      <p>Dinner Price: <%= restaurant.dinnerPrice %></p>
-
+        <h3>Prices</h3>
+        <p>Lunch Price: <%= restaurant.lunchPrice !== "NA" ? restaurant.lunchPrice : "Not available" %></p>
+        <p>Dinner Price: <%= restaurant.dinnerPrice %></p>
+      </div>
       <!-- Add more details if needed -->
-
     <% }); %>
 
     <!-- rest of your code -->
@@ -48,13 +90,16 @@
 
   <script>
     function toggleFavorite(element) {
+      element.parentNode.querySelector('.favorite').classList.toggle('clicked');
       element.classList.toggle('clicked');
-      if (element.classList.contains('clicked')) {
-        element.classList.remove('far');
-        element.classList.add('fas');
+      if (element.parentNode.querySelector('.favorite').classList.contains('clicked')) {
+        element.parentNode.querySelector('.favorite').classList.remove('far');
+        element.parentNode.querySelector('.favorite').classList.add('fas');
+        element.style.transform = 'scale(1.1)'; /* Scale up the image when clicked */
       } else {
-        element.classList.remove('fas');
-        element.classList.add('far');
+        element.parentNode.querySelector('.favorite').classList.remove('fas');
+        element.parentNode.querySelector('.favorite').classList.add('far');
+        element.style.transform = 'scale(1)'; /* Reset the image scale */
       }
     }
   </script>

@@ -1,94 +1,115 @@
 <%- include('include/_header') %>
-<%- include('include/_nav') %>
-<html lang="en">
+  <%- include('include/_nav') %>
+    <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us</title>
-  <style>
-    body {
-      background-image: url('assets/images/japan-sakura-landscape.jpg');
-      background-size: cover;
-      background-position: center;
-      height: 100%;
-      min-height: 100vh;
-    }
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>About Us</title>
+      <style>
+        body {
+          background-image: url('assets/images/japan-sakura-landscape.jpg');
+          background-size: cover;
+          background-position: center;
+          height: 100%;
+          min-height: 100vh;
+          text-align: center;
+        }
 
-    .content-container {
-      padding: 20px;
-      color: #fff;
-      background-color: rgba(0, 0, 0, 0.5); /* Set the background color with transparency */
-      backdrop-filter: blur(px); /* Apply a blur effect to the background */
-      border-radius: 10px;
-    }
+        .content-container {
+          margin: auto;
+          /* Center the container horizontally */
+          margin-top: 10vh;
+          /* Adjust the top margin to center vertically */
+          padding: 20px;
+          color: #fff;
+          background-color: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(px);
+          width: 80%;
+          max-width: 1250px;
+          /* Set a maximum width for better readability on larger screens */
+          text-align: center;
+        }
 
-    .content-container h1,
-    .content-container h2,
-    .content-container p {
-      margin: 0;
-      
-    }
+        .content-container h1,
+        .content-container h2,
+        .content-container p {
+          width: 80%;
+          text-align: center;
+          align-items: center;
+          margin-left: 10%;
+          padding: 15px;
+
+        }
 
 
 
-    .content-container h2 {
-      font-size: 28px;
-      margin-bottom: 10px;
-      
-    }
+        .content-container h2 {
+          font-size: 28px;
+          margin-bottom: 10px;
 
-    .content-container p {
-      font-size: 18px;
-      line-height: 1.5;
-      
-    }
+        }
 
-    footer {
-      padding: 20px;
-      color: #fff;
-      text-align: center;
-      color: #fff;
-      background-color: rgba(0, 0, 0, 0.5); /* Set the background color with transparency */
-      backdrop-filter: blur(px); /* Apply a blur effect to the background */
-      border-radius: 10px;
-    }   
-    h1 {
-        text-align: center;
-        font-family:Georgia, 'Times New Roman', Times, serif;
-        font-size:325%
-    }
-  </style>
-</head>
+        .content-container p {
+          font-size: 18px;
+          line-height: 1.5;
 
-<body>
-    <br>
-  
 
-  <main>
-    <header>
-      </header>
-    <div class="content-container">
-      <section>
-        <h1>About Us</h1>
-        <br>
-        <h2>Our Story</h2>
-        <p>We are a team of dedicated software engineers who are passionate about travelling. We created this website to
-            allow booking of restaurants and hotels on one platform, as we understand the frustration of navigating multiple
-            websites. 
-        </p>
-      </section>
+        }
+
+        footer {
+          padding: 20px;
+          color: #fff;
+          text-align: center;
+          color: #fff;
+          background-color: rgba(0, 0, 0, 0.5);
+          /* Set the background color with transparency */
+          backdrop-filter: blur(px);
+          /* Apply a blur effect to the background */
+
+          width: 65.1%;
+          margin-left: 17.45%;
+        }
+
+        h1 {
+          text-align: center;
+          font-family: Georgia, 'Times New Roman', Times, serif;
+          font-size: 325%
+        }
+      </style>
+    </head>
+
+    <body>
       <br>
-      <section>
-        <h2>Our Mission</h2>
-        <p>To create a platform that can handle restaurant and hotel bookings.</p>
-      </section>
-    </div>
-  </main>
 
-  <footer>
-    <p>&copy; 2023 Your Company. All rights reserved.</p>
-  </footer>
-</body>
 
-</html>
+      <main>
+        <header>
+        </header>
+        <div class="content-container">
+          <section>
+            <h1>About Us</h1>
+
+            <h2>Our Story</h2>
+            <p>We are a team of dedicated software engineers who are passionate about travelling. We created this
+              website to
+              allow booking of restaurants and hotels on one platform, as we understand the frustration of navigating
+              multiple
+              websites.
+            </p>
+          </section>
+          
+          <section>
+            <h2>Our Mission</h2>
+            <p>To create a platform that can handle restaurant and hotel bookings, as well as allow users to view/ leave
+              ratings.</p>
+          </section>
+        </div>
+      </main>
+
+      <footer>
+        <p>&copy; 2023 KyotoKozyKuisine. All rights reserved.</p>
+      </footer>
+    </body>
+
+    </html>

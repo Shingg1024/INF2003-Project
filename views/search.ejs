@@ -1,101 +1,120 @@
 <%- include('include/_nav') %>
-<%- include('include/_header') %>
+  <%- include('include/_header') %>
 
-<style>
-  body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-    background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
-  }
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+      }
 
-  .navbar {
-    border-radius: 0;
-    /* Add other styles as needed */
-  }
+      .navbar {
+        border-radius: 0;
+        /* Add other styles as needed */
+      }
 
-  main {
-    flex: 1;
-  }
+      main {
+        flex: 1;
+      }
 
-  footer {
-    padding: 15px;
-    color: #fff;
-    text-align: center;
-    background-color: rgb(16, 15, 15);
-    backdrop-filter: blur(5px);
-    margin-top: auto;
-    /* Push the footer to the bottom */
-  }
+      footer {
+        padding: 15px;
+        color: #fff;
+        text-align: center;
+        background-color: rgb(16, 15, 15);
+        backdrop-filter: blur(5px);
+        margin-top: auto;
+        /* Push the footer to the bottom */
+      }
 
-  .table-container {
-    width: 60%;
-    margin: 40px auto;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+      .table-container {
+        width: 60%;
+        margin: 40px auto;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        /* Add a subtle box shadow */
 
-  }
+      }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff; /* Set background color */
-  }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        /* Set background color */
+      }
 
-  th, td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    color: #333; /* Text color for table cells */
-  }
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        color: #333;
+        /* Text color for table cells */
+      }
 
-  th {
-    background-color: #333;
-    color: #fff;
-  }
+      .navbar {
+        border-radius: 0;
+        /* Add other styles as needed */
+      }
 
-  tbody tr:hover {
-    background-color: #f5f5f5;
-  }
+      th {
+        background-color: #333;
+        color: #fff;
+      }
 
-  h2 {
-    margin-top: 40px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 300%; /* Adjust the font size as needed */
-    text-align: center;
-    color: #333; /* Text color for the title */
-    
-  }
-</style>
+      tbody tr:hover {
+        background-color: #f5f5f5;
+      }
 
-<main>
-  <h2 class="text-center mb-4">Search Results</h2>
+      h2 {
+        margin-top: 40px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-size: 300%;
+        /* Adjust the font size as needed */
+        text-align: center;
+        color: #333;
+        /* Text color for the title */
 
-  <div class="table-container">
-    <table class="table table-bordered">
-      <thead class="thead-dark">
-        <tr>
-          <th>Hostel or Restaurant Name</th>
-          <th>Nearest Station</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% data.hostels.forEach(item => { %>
-          <tr>
-            <td><a href="/indivHostel/<%= item.hostel_id - 1 %>"><%= item.hostel_name %></a></td>
-            <td><%= item.city %></td>
-          </tr>
-        <% }); %>
+      }
+    </style>
 
-        <% data.restaurants.forEach(item => { %>
-          <tr>
-            <td><a href="/indivRestaurant/<%= item.restaurant_id %>"><%= item.restaurant_name %></a></td>
-            <td><%= item.station %></td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  </div>
-</main>
+    <main>
+      <h2 class="text-center mb-4">Search Results</h2>
 
-<%- include('include/_footer') %>
+      <div class="table-container">
+        <table class="table table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th>Hostel or Restaurant Name</th>
+              <th>Nearest Station</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.hostels.forEach(item=> { %>
+              <tr>
+                <td><a href="/indivHostel/<%= item.hostel_id - 1 %>">
+                    <%= item.hostel_name %>
+                  </a></td>
+                <td>
+                  <%= item.city %>
+                </td>
+              </tr>
+              <% }); %>
+
+                <% data.restaurants.forEach(item=> { %>
+                  <tr>
+                    <td><a href="/indivRestaurant/<%= item.restaurant_id %>">
+                        <%= item.restaurant_name %>
+                      </a></td>
+                    <td>
+                      <%= item.station %>
+                    </td>
+                  </tr>
+                  <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <%- include('include/_footer') %>

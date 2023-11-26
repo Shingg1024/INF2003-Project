@@ -1,210 +1,224 @@
 <%- include('include/_header') %>
-<style>
-  body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-    background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
-  }
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+    }
 
-  main {
-    flex: 1;
-  }
+    main {
+      flex: 1;
+    }
 
-  footer {
-    padding: 15px;
-    color: #fff;
-    text-align: center;
-    background-color: rgb(16, 15, 15);
-    backdrop-filter: blur(5px);
-    margin-top: auto;
-  }
+    footer {
+      padding: 15px;
+      color: #fff;
+      text-align: center;
+      background-color: rgb(16, 15, 15);
+      backdrop-filter: blur(5px);
+      margin-top: auto;
+    }
 
 
-  .restaurant-container {
-    margin-bottom: 20px;
-  }
+    .restaurant-container {
+      margin-bottom: 20px;
+    }
 
-  .image-container {
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    /* Hide overflowing content */
-  }
+    .image-container {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+      /* Hide overflowing content */
+    }
 
-  .restaurant-image {
-    width: 80%;
-    /* Ensure the image scales within its container */
-    height: 80%;
-    transition: transform 0.3s ease;
-    /* Add smooth transition for scaling */
-  }
+    .restaurant-image {
+      width: 80%;
+      /* Ensure the image scales within its container */
+      height: 80%;
+      transition: transform 0.3s ease;
+      /* Add smooth transition for scaling */
+    }
 
-  .favorite {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 24px;
-    color: #fbb234;
-    transition: color 0.3s ease;
-    /* Add smooth transition for color change */
-  }
+    .navbar {
+      border-radius: 0;
+      /* Add other styles as needed */
+    }
 
-  .favorite.clicked {
-    color: red;
-  }
+    .favorite {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 24px;
+      color: #fbb234;
+      transition: color 0.3s ease;
+      /* Add smooth transition for color change */
+    }
 
-  h2 {
-    font-size: 2em;
-    /* Adjust the font size as needed */
-  }
+    .favorite.clicked {
+      color: red;
+    }
 
-  p {
-    font-size: 1.2em;
-    /* Adjust the font size as needed */
-  }
-</style>
+    h2 {
+      font-size: 2em;
+      /* Adjust the font size as needed */
+    }
 
-<body>
-  <%- include('include/_nav') %>
+    p {
+      font-size: 1.2em;
+      /* Adjust the font size as needed */
+    }
+  </style>
 
-  <div class="container">
-    <% data.forEach(restaurant => { %>
-    <div class="restaurant-container">
-      <h1><%= restaurant.name %> (<%= restaurant.japaneseName %>)</h1>
-      <br>
-      <div class="image-container">
-        <img src="/assets/images/image1.jpg" alt="restaurant1" class="restaurant-image" onclick="toggleFavorite(this)">
+  <body>
+    <%- include('include/_nav') %>
 
-      </div>
-      <br><br>
-      <p>Nearest Station: <%= restaurant.station %></p>
-      <p>First Category: <%= restaurant.firstCategory %></p>
-      <p>Second Category: <%= restaurant.secondCategory %></p>
+      <div class="container">
+        <% data.forEach(restaurant=> { %>
+          <div class="restaurant-container">
+            <h1>
+              <%= restaurant.name %> (<%= restaurant.japaneseName %>)
+            </h1>
+            <br>
+            <div class="image-container">
+              <img src="/assets/images/image1.jpg" alt="restaurant1" class="restaurant-image"
+                onclick="toggleFavorite(this)">
 
-      <h3>Prices</h3>
-      <p>Lunch Price: <%= restaurant.lunchPrice !== "NA" ? restaurant.lunchPrice : "Not available" %></p>
-      <p>Dinner Price: <%= restaurant.dinnerPrice %></p>
-    </div>
-    <div style="text-align: center;">
-      <% if (session.user) { %>
-      <div class="button flex">
-        <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Booking Form</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <h2 class="text-center" id="modalHostelName">Booking</h2>
-                <input type="hidden" id="restaurant_id" value="<%= restaurant.restaurant_id %>">
-                <input type="hidden" id="user_id" value="<%= session.user.user_id %>">
-
-                <div class="calendar-section">
-                  <p>Date: <input type="date" id="date"></p>
-                </div>
-
-                <div class="calendar-section">
-                  <p>Time: <input type="time" id="time"></p>
-                </div>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="submitBookingBtn">Submit</button>
-              </div>
             </div>
+            <br><br>
+            <p>Nearest Station: <%= restaurant.station %>
+            </p>
+            <p>First Category: <%= restaurant.firstCategory %>
+            </p>
+            <p>Second Category: <%= restaurant.secondCategory %>
+            </p>
+
+            <h3>Prices</h3>
+            <p>Lunch Price: <%= restaurant.lunchPrice !=="NA" ? restaurant.lunchPrice : "Not available" %>
+            </p>
+            <p>Dinner Price: <%= restaurant.dinnerPrice %>
+            </p>
           </div>
-        </div>
+          <div style="text-align: center;">
+            <% if (session.user) { %>
+              <div class="button flex">
+                <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Booking Form</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h2 class="text-center" id="modalHostelName">Booking</h2>
+                        <input type="hidden" id="restaurant_id" value="<%= restaurant.restaurant_id %>">
+                        <input type="hidden" id="user_id" value="<%= session.user.user_id %>">
+
+                        <div class="calendar-section">
+                          <p>Date: <input type="date" id="date"></p>
+                        </div>
+
+                        <div class="calendar-section">
+                          <p>Time: <input type="time" id="time"></p>
+                        </div>
+                      </div>
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="submitBookingBtn">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+          </div>
+          <% }); %>
       </div>
-      <% } %>
-    </div>
-    <% }); %>
-  </div>
 
-  <%- include('include/_footer') %>
+      <%- include('include/_footer') %>
 
-  <script>
-    function toggleFavorite(element) {
-      element.parentNode.querySelector('.favorite').classList.toggle('clicked');
-      element.classList.toggle('clicked');
-      if (element.parentNode.querySelector('.favorite').classList.contains('clicked')) {
-        element.parentNode.querySelector('.favorite').classList.remove('far');
-        element.parentNode.querySelector('.favorite').classList.add('fas');
-        element.style.transform = 'scale(1.1)'; /* Scale up the image when clicked */
-      } else {
-        element.parentNode.querySelector('.favorite').classList.remove('fas');
-        element.parentNode.querySelector('.favorite').classList.add('far');
-        element.style.transform = 'scale(1)'; /* Reset the image scale */
-      }
-    }
-  </script>
-  <script>
-    function getResBookingCount() {
-      return fetch('/booking/getResBookingCount')
-        .then(response => response.json())
-        .then(data => {
-          if (Array.isArray(data) && data.length > 0) {
-            return data[0].num;
-          } else {
-            console.error('Invalid response format:', data);
-            return 0;
+        <script>
+          function toggleFavorite(element) {
+            element.parentNode.querySelector('.favorite').classList.toggle('clicked');
+            element.classList.toggle('clicked');
+            if (element.parentNode.querySelector('.favorite').classList.contains('clicked')) {
+              element.parentNode.querySelector('.favorite').classList.remove('far');
+              element.parentNode.querySelector('.favorite').classList.add('fas');
+              element.style.transform = 'scale(1.1)'; /* Scale up the image when clicked */
+            } else {
+              element.parentNode.querySelector('.favorite').classList.remove('fas');
+              element.parentNode.querySelector('.favorite').classList.add('far');
+              element.style.transform = 'scale(1)'; /* Reset the image scale */
+            }
           }
-        })
-        .catch(error => {
-          console.error('Error fetching booking count:', error);
-          return 0;
-        });
-    }
-
-    function submitNewBooking() {
-      getResBookingCount()
-        .then(bookingCount => {
-          var restaurant_id = document.getElementById("restaurant_id").value;
-          var user_id = document.getElementById("user_id").value;
-          var date = document.querySelector("#date").value;
-          var time = document.querySelector("#time").value;
-
-          var bookingNum = parseInt(bookingCount) + 1;
-
-          const postData = {
-            bookingId: bookingNum,
-            user_id: parseInt(user_id),
-            restaurant_id: restaurant_id,
-            date: date,
-            time: time
-          };
-
-          console.log(postData);
-
-          return fetch('/restaurant/newBooking', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(postData),
-          });
-        })
-        .then(response => {
-          if (response.ok) {
-            alert("Thank You for Booking");
-          } else {
-            console.error('Error:', response.statusText);
+        </script>
+        <script>
+          function getResBookingCount() {
+            return fetch('/booking/getResBookingCount')
+              .then(response => response.json())
+              .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                  return data[0].num;
+                } else {
+                  console.error('Invalid response format:', data);
+                  return 0;
+                }
+              })
+              .catch(error => {
+                console.error('Error fetching booking count:', error);
+                return 0;
+              });
           }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
 
-    document.querySelector("#submitBookingBtn").addEventListener('click', submitNewBooking);
-  </script>
-</body>
+          function submitNewBooking() {
+            getResBookingCount()
+              .then(bookingCount => {
+                var restaurant_id = document.getElementById("restaurant_id").value;
+                var user_id = document.getElementById("user_id").value;
+                var date = document.querySelector("#date").value;
+                var time = document.querySelector("#time").value;
 
-</html>
+                var bookingNum = parseInt(bookingCount) + 1;
+
+                const postData = {
+                  bookingId: bookingNum,
+                  user_id: parseInt(user_id),
+                  restaurant_id: restaurant_id,
+                  date: date,
+                  time: time
+                };
+
+                console.log(postData);
+
+                return fetch('/restaurant/newBooking', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(postData),
+                });
+              })
+              .then(response => {
+                if (response.ok) {
+                  alert("Thank You for Booking");
+                } else {
+                  console.error('Error:', response.statusText);
+                }
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+          }
+
+          document.querySelector("#submitBookingBtn").addEventListener('click', submitNewBooking);
+        </script>
+  </body>
+
+  </html>

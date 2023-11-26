@@ -1,377 +1,393 @@
 <%- include('include/_header') %>
-<%- include('include/_nav') %>
+  <%- include('include/_nav') %>
 
-<style>
-  body {
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-    background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
-  }
+    <style>
+      body {
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+      }
 
-  main {
-    flex: 1;
-  }
+      main {
+        flex: 1;
+      }
 
-  footer {
-    padding: 15px;
-    color: #fff;
-    text-align: center;
-    background-color: rgb(16, 15, 15);
-    backdrop-filter: blur(5px);
-    margin-top: auto;
-  }
+      footer {
+        padding: 15px;
+        color: #fff;
+        text-align: center;
+        background-color: rgb(16, 15, 15);
+        backdrop-filter: blur(5px);
+        margin-top: auto;
+      }
 
-  h1 {
-    font-size: 2em;
+      h1 {
+        font-size: 2em;
 
-  }
+      }
 
-  p {
-    font-size: 1.2em;
+      .navbar {
+        border-radius: 0;
+        /* Add other styles as needed */
+      }
 
-  }
+      p {
+        font-size: 1.2em;
 
-  h3 {
-    font-size: 1.5em;
+      }
 
-  }
+      h3 {
+        font-size: 1.5em;
 
-  .image-container {
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
+      }
 
-  }
+      .image-container {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
 
-  .restaurant-image {
-    width: 100%;
-    height: 100%;
+      }
 
-  }
+      .restaurant-image {
+        width: 100%;
+        height: 100%;
 
-  .favorite {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 24px;
-    color: #fbb234;
-    transition: color 0.3s ease;
-  }
+      }
 
-  .favorite.clicked {
-    color: red;
-  }
+      .favorite {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 24px;
+        color: #fbb234;
+        transition: color 0.3s ease;
+      }
 
-  #nearbyRestaurants {
-    display: none;
-  }
+      .favorite.clicked {
+        color: red;
+      }
 
-  .nearby-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-  }
+      #nearbyRestaurants {
+        display: none;
+      }
 
-  .table-header {
-    font-size: 1.5em;
-    font-weight: bold;
-    background-color: #343a40;
-    color: #fff;
-    padding: 10px;
-  }
+      .nearby-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
 
-  .nearby-table td {
-    border: 1px solid #dee2e6;
-    padding: 8px;
-  }
+      .table-header {
+        font-size: 1.5em;
+        font-weight: bold;
+        background-color: #343a40;
+        color: #fff;
+        padding: 10px;
+      }
 
-  .nearby-table a {
-    color: #007bff;
-    text-decoration: none;
-  }
+      .nearby-table td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+      }
 
-  .nearby-table a:hover {
-    text-decoration: underline;
-  }
+      .nearby-table a {
+        color: #007bff;
+        text-decoration: none;
+      }
 
-  /* Styling for list items under each category */
-  .amenities-container ul {
-    list-style: none;
-    padding: 0;
-  }
+      .nearby-table a:hover {
+        text-decoration: underline;
+      }
 
-  .amenities-container li {
-    margin-bottom: 5px;
+      /* Styling for list items under each category */
+      .amenities-container ul {
+        list-style: none;
+        padding: 0;
+      }
 
-  }
-</style>
+      .amenities-container li {
+        margin-bottom: 5px;
 
-<body>
-  <div class="container">
-    <h1><%= data[0].hostel_name %></h1><br>
+      }
+    </style>
 
-    <div class="image-container">
-      <img src="/assets/images/image2.jpg" alt="restaurant1" class="restaurant-image" onclick="toggleFavorite(this)">
-    </div>
-    <br><br>
-    <p>City: <%= data[0].city %><br>
-      Price: ¥<%= data[0].price.toFixed(2) %></p>
+    <body>
+      <div class="container">
+        <h1>
+          <%= data[0].hostel_name %>
+        </h1><br>
 
-    <!-- Wrapper container for Free Amenities -->
-    <div class="amenities-container">
-      <h3>Free Amenities</h3>
-      <ul>
-        <% if (data[0].free && data[0].free.length > 0) {
+        <div class="image-container">
+          <img src="/assets/images/image2.jpg" alt="restaurant1" class="restaurant-image"
+            onclick="toggleFavorite(this)">
+        </div>
+        <br><br>
+        <p>City: <%= data[0].city %><br>
+            Price: ¥<%= data[0].price.toFixed(2) %>
+        </p>
+
+        <!-- Wrapper container for Free Amenities -->
+        <div class="amenities-container">
+          <h3>Free Amenities</h3>
+          <ul>
+            <% if (data[0].free && data[0].free.length> 0) {
               data[0].free[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-        <li><%= item.replace(/['"]+/g, '').trim() %></li>
-        <% });
-          } else { %>
-        <li>No free amenities available</li>
-        <% } %>
-      </ul>
-    </div>
+              <li>
+                <%= item.replace(/['"]+/g, '' ).trim() %>
+              </li>
+              <% }); } else { %>
+                <li>No free amenities available</li>
+                <% } %>
+          </ul>
+        </div>
 
-    <!-- Repeat the same structure for other categories -->
+        <!-- Repeat the same structure for other categories -->
 
-    <div class="amenities-container">
-      <h3>General Amenities</h3>
-      <ul>
-        <% if (data[0].general && data[0].general.length > 0) {
+        <div class="amenities-container">
+          <h3>General Amenities</h3>
+          <ul>
+            <% if (data[0].general && data[0].general.length> 0) {
               data[0].general[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-        <li><%= item.replace(/['"]+/g, '').trim() %></li>
-        <% });
-          } else { %>
-        <li>No general amenities available</li>
-        <% } %>
-      </ul>
-    </div>
+              <li>
+                <%= item.replace(/['"]+/g, '' ).trim() %>
+              </li>
+              <% }); } else { %>
+                <li>No general amenities available</li>
+                <% } %>
+          </ul>
+        </div>
 
-    <div class="amenities-container">
-      <h3>Services</h3>
-      <ul>
-        <% if (data[0].services && data[0].services.length > 0) {
+        <div class="amenities-container">
+          <h3>Services</h3>
+          <ul>
+            <% if (data[0].services && data[0].services.length> 0) {
               data[0].services[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-        <li><%= item.replace(/['"]+/g, '').trim() %></li>
-        <% });
-          } else { %>
-        <li>No services available</li>
-        <% } %>
-      </ul>
-    </div>
+              <li>
+                <%= item.replace(/['"]+/g, '' ).trim() %>
+              </li>
+              <% }); } else { %>
+                <li>No services available</li>
+                <% } %>
+          </ul>
+        </div>
 
-    <div class="amenities-container">
-      <h3>Food & Drink Options</h3>
-      <ul>
-        <% if (data[0].foodDrink && data[0].foodDrink.length > 0) {
+        <div class="amenities-container">
+          <h3>Food & Drink Options</h3>
+          <ul>
+            <% if (data[0].foodDrink && data[0].foodDrink.length> 0) {
               data[0].foodDrink[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-        <li><%= item.replace(/['"]+/g, '').trim() %></li>
-        <% });
-          } else { %>
-        <li>No food and drink options available</li>
-        <% } %>
-      </ul>
-    </div>
+              <li>
+                <%= item.replace(/['"]+/g, '' ).trim() %>
+              </li>
+              <% }); } else { %>
+                <li>No food and drink options available</li>
+                <% } %>
+          </ul>
+        </div>
 
-    <div class="amenities-container">
-      <h3>Entertainment</h3>
-      <ul>
-        <% if (data[0].entertainment && data[0].entertainment.length > 0) {
+        <div class="amenities-container">
+          <h3>Entertainment</h3>
+          <ul>
+            <% if (data[0].entertainment && data[0].entertainment.length> 0) {
               data[0].entertainment[0].replace("[", "").replace("]", "").split(',').forEach(item => { %>
-        <li><%= item.replace(/['"]+/g, '').trim() %></li>
-        <% });
-          } else { %>
-        <li>No entertainment options available</li>
-        <% } %>
-      </ul>
-    </div>
+              <li>
+                <%= item.replace(/['"]+/g, '' ).trim() %>
+              </li>
+              <% }); } else { %>
+                <li>No entertainment options available</li>
+                <% } %>
+          </ul>
+        </div>
 
-    <div class="container" style="text-align: center;">
-      <button id="showNearbyBtn" data-latitude="<%= data[0].location.coordinates[1] %>" data-longitude="<%= data[0].location.coordinates[0] %>" onclick="showNearbyRestaurants()">Show Nearby
-        Restaurants</button>
+        <div class="container" style="text-align: center;">
+          <button id="showNearbyBtn" data-latitude="<%= data[0].location.coordinates[1] %>"
+            data-longitude="<%= data[0].location.coordinates[0] %>" onclick="showNearbyRestaurants()">Show Nearby
+            Restaurants</button>
 
-      <br><br><br>
-      <% if (session.user) { %>
-      <div class="button flex">
-        <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Booking Form</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <h2 class="text-center" id="modalHostelName">Booking</h2>
-                <input type="hidden" id="itemHostelId" value="<%= data[0].hostel_id %>">
-                <input type="hidden" id="sessionId" value="<%= session.user.user_id %>">
-                <div class="counter-section">
-                  <p>Rooms: <span id="roomCounter" value="1">1</span></p>
-                  <button onclick="changeCounter('roomCounter', 'increment')">+</button>
-                  <button onclick="changeCounter('roomCounter', 'decrement')">-</button>
+          <br><br><br>
+          <% if (session.user) { %>
+            <div class="button flex">
+              <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Booking Form</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <h2 class="text-center" id="modalHostelName">Booking</h2>
+                      <input type="hidden" id="itemHostelId" value="<%= data[0].hostel_id %>">
+                      <input type="hidden" id="sessionId" value="<%= session.user.user_id %>">
+                      <div class="counter-section">
+                        <p>Rooms: <span id="roomCounter" value="1">1</span></p>
+                        <button onclick="changeCounter('roomCounter', 'increment')">+</button>
+                        <button onclick="changeCounter('roomCounter', 'decrement')">-</button>
+                      </div>
+
+                      <br><br>
+
+                      <div class="calendar-section">
+                        <p>Check-in Date: <input type="date" id="checkInDate"></p>
+                      </div>
+
+                      <div class="calendar-section">
+                        <p>Check-out Date: <input type="date" id="checkOutDate"></p>
+                      </div>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" id="submitBookingBtn">Submit</button>
+                    </div>
+                  </div>
                 </div>
-                
-                <br><br>
-
-                <div class="calendar-section">
-                  <p>Check-in Date: <input type="date" id="checkInDate"></p>
-                </div>
-
-                <div class="calendar-section">
-                  <p>Check-out Date: <input type="date" id="checkOutDate"></p>
-                </div>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="submitBookingBtn">Submit</button>
               </div>
             </div>
-          </div>
+            <% } %>
         </div>
+
+        <div id="nearbyRestaurants">
+        </div>
+
       </div>
-      <% } %>
-    </div>
 
-    <div id="nearbyRestaurants">
-    </div>
+      <script>
+        function toggleFavorite(element) {
+          element.classList.toggle('clicked');
+          if (element.classList.contains('clicked')) {
+            element.classList.remove('far');
+            element.classList.add('fas');
+          } else {
+            element.classList.remove('fas');
+            element.classList.add('far');
+          }
+        }
 
-  </div>
+        function showNearbyRestaurants() {
+          const latitude = document.getElementById('showNearbyBtn').dataset.latitude;
+          const longitude = document.getElementById('showNearbyBtn').dataset.longitude;
 
-  <script>
-    function toggleFavorite(element) {
-      element.classList.toggle('clicked');
-      if (element.classList.contains('clicked')) {
-        element.classList.remove('far');
-        element.classList.add('fas');
-      } else {
-        element.classList.remove('fas');
-        element.classList.add('far');
-      }
-    }
+          fetch(`/restaurant/nearbyRestaurants?latitude=${latitude}&longitude=${longitude}`)
+            .then(response => response.json())
+            .then(data => {
+              const nearbyRestaurantsDiv = document.getElementById('nearbyRestaurants');
+              nearbyRestaurantsDiv.innerHTML = '';
 
-    function showNearbyRestaurants() {
-      const latitude = document.getElementById('showNearbyBtn').dataset.latitude;
-      const longitude = document.getElementById('showNearbyBtn').dataset.longitude;
+              if (data.length > 0) {
+                const table = document.createElement('table');
+                table.className = 'nearby-table';
 
-      fetch(`/restaurant/nearbyRestaurants?latitude=${latitude}&longitude=${longitude}`)
-        .then(response => response.json())
-        .then(data => {
-          const nearbyRestaurantsDiv = document.getElementById('nearbyRestaurants');
-          nearbyRestaurantsDiv.innerHTML = '';
+                const headerRow = table.insertRow();
+                const headerCell = headerRow.insertCell();
+                headerCell.textContent = 'Nearby Restaurants';
+                headerCell.colSpan = 2;
+                headerCell.className = 'table-header';
 
-          if (data.length > 0) {
-            const table = document.createElement('table');
-            table.className = 'nearby-table';
+                data.forEach(restaurant => {
+                  const row = table.insertRow();
 
-            const headerRow = table.insertRow();
-            const headerCell = headerRow.insertCell();
-            headerCell.textContent = 'Nearby Restaurants';
-            headerCell.colSpan = 2;
-            headerCell.className = 'table-header';
+                  const nameCell = row.insertCell();
+                  const nameLink = document.createElement('a');
+                  nameLink.href = `/indivRestaurant/${restaurant.restaurant_id}`;
+                  nameLink.textContent = restaurant.name;
+                  nameCell.appendChild(nameLink);
 
-            data.forEach(restaurant => {
-              const row = table.insertRow();
+                  const addressCell = row.insertCell();
+                  addressCell.textContent = restaurant.address;
+                });
 
-              const nameCell = row.insertCell();
-              const nameLink = document.createElement('a');
-              nameLink.href = `/indivRestaurant/${restaurant.restaurant_id}`;
-              nameLink.textContent = restaurant.name;
-              nameCell.appendChild(nameLink);
+                nearbyRestaurantsDiv.appendChild(table);
+                nearbyRestaurantsDiv.style.display = 'block';
+              } else {
+                nearbyRestaurantsDiv.innerHTML = '<p>No nearby restaurants found</p>';
+                nearbyRestaurantsDiv.style.display = 'block';
+              }
+            })
+            .catch(error => console.error('Error fetching nearby restaurants:', error));
+        }
 
-              const addressCell = row.insertCell();
-              addressCell.textContent = restaurant.address;
+        function getHostelBookingCount() {
+          return fetch('/booking/getHostelBookingCount')
+            .then(response => response.json())
+            .then(data => {
+              if (Array.isArray(data) && data.length > 0) {
+                return data[0].num;
+              } else {
+                console.error('Invalid response format:', data);
+                return 0;
+              }
+            })
+            .catch(error => {
+              console.error('Error fetching booking count:', error);
+              return 0;
             });
+        }
 
-            nearbyRestaurantsDiv.appendChild(table);
-            nearbyRestaurantsDiv.style.display = 'block';
-          } else {
-            nearbyRestaurantsDiv.innerHTML = '<p>No nearby restaurants found</p>';
-            nearbyRestaurantsDiv.style.display = 'block';
+
+        function changeCounter(counterId, action) {
+          var counter = document.getElementById(counterId);
+          var val = counter.value;
+          var value = parseInt(counter.textContent);
+
+          if (action === 'increment') {
+            value++;
+          } else if (action === 'decrement' && value > 0) {
+            value--;
           }
-        })
-        .catch(error => console.error('Error fetching nearby restaurants:', error));
-    }
+          counter.value = value;
+          counter.textContent = value;
+        }
 
-    function getHostelBookingCount() {
-      return fetch('/booking/getHostelBookingCount')
-        .then(response => response.json())
-        .then(data => {
-          if (Array.isArray(data) && data.length > 0) {
-            return data[0].num;
-          } else {
-            console.error('Invalid response format:', data);
-            return 0;
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching booking count:', error);
-          return 0;
-        });
-    }
+        function submitNewBooking() {
+          getHostelBookingCount()
+            .then(bookingCount => {
+              var hostelId = document.getElementById("itemHostelId").value;
+              var sessionId = document.getElementById("sessionId").value;
+              var datestart = document.querySelector("#checkInDate").value;
+              var dateend = document.querySelector("#checkOutDate").value;
 
+              //console.log("booking: " + bookingCount);
+              var bookingNum = parseInt(bookingCount) + 1;
 
-    function changeCounter(counterId, action) {
-      var counter = document.getElementById(counterId);
-      var val = counter.value;
-      var value = parseInt(counter.textContent);
+              // submit to SQL DB
+              const postData = {
+                bookingId: bookingNum,
+                user_id: parseInt(sessionId),
+                hostelId: parseInt(hostelId),
+                date_start: datestart,
+                date_end: dateend
+              };
 
-      if (action === 'increment') {
-        value++;
-      } else if (action === 'decrement' && value > 0) {
-        value--;
-      }
-      counter.value = value;
-      counter.textContent = value;
-    }
+              //console.log(postData);
 
-    function submitNewBooking() {
-      getHostelBookingCount()
-        .then(bookingCount => {
-          var hostelId = document.getElementById("itemHostelId").value;
-          var sessionId = document.getElementById("sessionId").value;
-          var datestart = document.querySelector("#checkInDate").value;
-          var dateend = document.querySelector("#checkOutDate").value;
+              return fetch('/hostel/newBooking', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+              });
+            })
+            .then(response => {
+              if (response.ok) {
+                alert("Thank You for Booking");
+              } else {
+                console.error('Error:', response.statusText);
+              }
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+        }
 
-          //console.log("booking: " + bookingCount);
-          var bookingNum = parseInt(bookingCount) + 1;
+        document.querySelector("#submitBookingBtn").addEventListener('click', submitNewBooking);
+      </script>
 
-          // submit to SQL DB
-          const postData = {
-            bookingId: bookingNum,
-            user_id: parseInt(sessionId),
-            hostelId: parseInt(hostelId),
-            date_start: datestart,
-            date_end: dateend
-          };
-
-          //console.log(postData);
-
-          return fetch('/hostel/newBooking', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(postData),
-          });
-        })
-        .then(response => {
-          if (response.ok) {
-            alert("Thank You for Booking");
-          } else {
-            console.error('Error:', response.statusText);
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-
-    document.querySelector("#submitBookingBtn").addEventListener('click', submitNewBooking);
-  </script>
-
-  <%- include('include/_footer') %>
-</body>
+      <%- include('include/_footer') %>
+    </body>

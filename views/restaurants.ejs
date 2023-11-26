@@ -1,418 +1,433 @@
 <%- include('include/_header') %>
-<style>
-  .flex-container {
-    display: flex;
-  }
+  <style>
+    .flex-container {
+      display: flex;
+    }
 
-  .flex-container>div {
-    margin: 10px;
-    padding: 20px;
-    font-size: 30px;
-  }
+    .flex-container>div {
+      margin: 10px;
+      padding: 20px;
+      font-size: 30px;
+    }
 
 
-  .heading h1 {
-    font-size: 100px;
-    font-weight: 500;
-    opacity: 0.1;
-    font-family: serif;
-    position: absolute;
-    top: -30px;
-  }
+    .heading h1 {
+      font-size: 100px;
+      font-weight: 500;
+      opacity: 0.1;
+      font-family: serif;
+      position: absolute;
+      top: -30px;
+    }
 
-  .heading h2 {
-    margin: 30px 0;
-    font-size: 45px;
-    font-family: serif;
-    font-weight: 400;
-  }
+    .heading h2 {
+      margin: 30px 0;
+      font-size: 45px;
+      font-family: serif;
+      font-weight: 400;
+    }
 
-  .rooms {
-    position: relative;
-    flex: 1;
-    display: flex;
-    margin-left: 20px;
-  }
+    .rooms {
+      position: relative;
+      flex: 1;
+      display: flex;
+      margin-left: 20px;
+    }
 
-  .rooms .text {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-top: none;
-    padding: 30px;
-  }
+    .rooms .text {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-top: none;
+      padding: 30px;
+    }
 
-  .rooms i {
-    font-size: 12px;
-    color: #fbb234;
-    margin: 15px 0;
-    margin-right: 5px;
-  }
+    .rooms i {
+      font-size: 12px;
+      color: #fbb234;
+      margin: 15px 0;
+      margin-right: 5px;
+    }
 
-  .rooms p {
-    margin: 20px 0;
-    opacity: 0.7;
-  }
+    .rooms p {
+      margin: 20px 0;
+      opacity: 0.7;
+    }
 
-  .rooms h3 {
-    font-size: 30px;
-    line-height: 20px;
-    margin-left: 20px;
-    font-weight: 500;
-    color: #7fc142;
-  }
+    .rooms h3 {
+      font-size: 30px;
+      line-height: 20px;
+      margin-left: 20px;
+      font-weight: 500;
+      color: #7fc142;
+    }
 
-  .rooms h3 span {
-    font-size: 15px;
-    font-weight: 400;
-    color: #000;
-  }
+    .navbar {
+      border-radius: 0;
+      /* Add other styles as needed */
+    }
 
-  .rooms .items .image {
-    position: relative;
-    overflow: hidden;
-  }
+    .rooms h3 span {
+      font-size: 15px;
+      font-weight: 400;
+      color: #000;
+    }
 
-  .rooms .items .image img {
-    width: 100%;
-    height: 50%;
-  }
+    .rooms .items .image {
+      position: relative;
+      overflow: hidden;
+    }
 
-  .rooms .items .image .favorite {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: #fbb234;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
+    .rooms .items .image img {
+      width: 100%;
+      height: 50%;
+    }
 
-  .content {
-    flex: 2;
-  }
+    .rooms .items .image .favorite {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      color: #fbb234;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
 
-  .filter-section {
-    float: left;
-    width: 30%;
-    /* Adjust the width as needed */
-    background-color: lightgray;
-    color: black;
-    /* Yellow text color */
-    padding: 20px;
-    box-sizing: border-box;
-    margin-left: 20px;
-    /* Adjust margin as needed */
-    margin-top: 30px;
-    border-radius: 15px;
-  }
+    .content {
+      flex: 2;
+    }
 
-  .filter-form {
-    margin-bottom: 20px;
-  }
+    .filter-section {
+      float: left;
+      width: 30%;
+      /* Adjust the width as needed */
+      background-color: lightgray;
+      color: black;
+      /* Yellow text color */
+      padding: 20px;
+      box-sizing: border-box;
+      margin-left: 20px;
+      /* Adjust margin as needed */
+      margin-top: 30px;
+      border-radius: 15px;
+    }
 
-  .filter-form label {
-    display: block;
-    margin-bottom: 8px;
-  }
+    .filter-form {
+      margin-bottom: 20px;
+    }
 
-  .filter-form input,
-  .filter-form select,
-  .filter-form button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-    font-size: 16px;
-  }
+    .filter-form label {
+      display: block;
+      margin-bottom: 8px;
+    }
 
-  .filter-form button {
-    background-color: #ffc107;
-    /* Yellow button color */
-    color: #333;
-    /* Black text color */
-    cursor: pointer;
-  }
+    .filter-form input,
+    .filter-form select,
+    .filter-form button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
 
-  .filter-form button:hover {
-    background-color: lightgray;
-    /* Black button color on hover */
-    color: #ffc107;
-    /* Yellow text color on hover */
-  }
+    .filter-form button {
+      background-color: #ffc107;
+      /* Yellow button color */
+      color: #333;
+      /* Black text color */
+      cursor: pointer;
+    }
 
-  .owl-carousel1 .owl-nav .owl-prev,
-  .owl-carousel1 .owl-nav .owl-next {
-    position: absolute;
-    top: -20%;
-    height: 50px;
-    width: 50px;
-    background: #7fc142 !important;
-  }
+    .filter-form button:hover {
+      background-color: lightgray;
+      /* Black button color on hover */
+      color: #ffc107;
+      /* Yellow text color on hover */
+    }
 
-  .owl-carousel1 .owl-nav .owl-prev i,
-  .owl-carousel1 .owl-nav .owl-next i {
-    color: #fff;
-  }
+    .owl-carousel1 .owl-nav .owl-prev,
+    .owl-carousel1 .owl-nav .owl-next {
+      position: absolute;
+      top: -20%;
+      height: 50px;
+      width: 50px;
+      background: #7fc142 !important;
+    }
 
-  .owl-carousel1 .owl-nav .owl-prev {
-    left: 90%;
-  }
+    .owl-carousel1 .owl-nav .owl-prev i,
+    .owl-carousel1 .owl-nav .owl-next i {
+      color: #fff;
+    }
 
-  .owl-carousel1 .owl-nav .owl-next {
-    right: 0;
-  }
+    .owl-carousel1 .owl-nav .owl-prev {
+      left: 90%;
+    }
 
-  body {
-    background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
-    margin: 0;
-    /* Remove default body margin */
-    font-family: Arial, sans-serif;
-    /* Adjust font-family as needed */
-  }
-</style>
+    .owl-carousel1 .owl-nav .owl-next {
+      right: 0;
+    }
 
-<%- include('include/_nav') %>
+    body {
+      background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+      margin: 0;
+      /* Remove default body margin */
+      font-family: Arial, sans-serif;
+      /* Adjust font-family as needed */
+    }
+  </style>
 
-<body>
-  <!-- Filter section -->
-  <div class="filter-section">
-    <form class="filter-form" id="filterForm">
-      <label for="ratings">Minimum Ratings:</label>
-      <select id="ratings" name="ratings">
-        <option value="">-- Select Minimum Ratings --</option>
-        <option value="1">1 Stars</option>
-        <option value="2">2 Stars</option>
-        <option value="3">3 Stars</option>
-        <option value="4">4 Stars</option>
-        <option value="5">5 Stars</option>
-      </select>
+  <%- include('include/_nav') %>
 
-      <button class="filterbut" type="button" onclick="filter()">Filter</button>
-      <button class="resetbut" style='background-color: darkred; color: white; display:none' onclick="reset()">Reset</button>
-    </form>
-  </div>
-  <section class="rooms">
-    <div class="container top">
-      <div class="heading">
-        <h1>EXPLORE</h1>
-        <h2>Restaurants</h2>
+    <body>
+      <!-- Filter section -->
+      <div class="filter-section">
+        <form class="filter-form" id="filterForm">
+          <label for="ratings">Minimum Ratings:</label>
+          <select id="ratings" name="ratings">
+            <option value="">-- Select Minimum Ratings --</option>
+            <option value="1">1 Stars</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+          </select>
+
+          <button class="filterbut" type="button" onclick="filter()">Filter</button>
+          <button class="resetbut" style='background-color: darkred; color: white; display:none'
+            onclick="reset()">Reset</button>
+        </form>
       </div>
-      <% data.forEach(item => { %>
-      <div class="content mtop">
-        <div class="owl-carousel owl-carousel1 owl-theme">
-          <div class="items">
-            <div class="image">
-              <img src="/assets/images/image1.jpg" alt="restaurant1">
-              <i class="far fa-heart favorite"></i>
-            </div>
-            <div class="text">
-              <a href="/indivRestaurant/<%= item.restaurant_id %>">
-                <h2 class="name"><%= item.restaurant_name %></h2>
-              </a>
-              Station:<h4 class="station"><%= item.station %></h4>
-              Category:<h4 class="category"><%= item.first_category %></h4>
-              Rating:<h4 class="eachAvgRating"><%= item.avg_rating %></h4>
-              <div class="rate flex" id="starRating"></div>
-              <% if (session.user) { %>
-              <div class="button flex">
-                <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Booking Form</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h2 class="text-center" id="modalHostelName">Booking</h2>
-                        <input type="hidden" id="restaurant_id" value="<%= item.restaurant_id %>">
-                        <input type="hidden" id="user_id" value="<%= session.user.user_id %>">
+      <section class="rooms">
+        <div class="container top">
+          <div class="heading">
+            <h1>EXPLORE</h1>
+            <h2>Restaurants</h2>
+          </div>
+          <% data.forEach(item=> { %>
+            <div class="content mtop">
+              <div class="owl-carousel owl-carousel1 owl-theme">
+                <div class="items">
+                  <div class="image">
+                    <img src="/assets/images/image1.jpg" alt="restaurant1">
+                    <i class="far fa-heart favorite"></i>
+                  </div>
+                  <div class="text">
+                    <a href="/indivRestaurant/<%= item.restaurant_id %>">
+                      <h2 class="name">
+                        <%= item.restaurant_name %>
+                      </h2>
+                    </a>
+                    Station:<h4 class="station">
+                      <%= item.station %>
+                    </h4>
+                    Category:<h4 class="category">
+                      <%= item.first_category %>
+                    </h4>
+                    Rating:<h4 class="eachAvgRating">
+                      <%= item.avg_rating %>
+                    </h4>
+                    <div class="rate flex" id="starRating"></div>
+                    <% if (session.user) { %>
+                      <div class="button flex">
+                        <button class="primary-btn" data-toggle="modal" data-target="#exampleModal">BOOK NOW</button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                          aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Booking Form</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <h2 class="text-center" id="modalHostelName">Booking</h2>
+                                <input type="hidden" id="restaurant_id" value="<%= item.restaurant_id %>">
+                                <input type="hidden" id="user_id" value="<%= session.user.user_id %>">
 
-                        <div class="calendar-section">
-                          <p>Date: <input type="date" id="date"></p>
+                                <div class="calendar-section">
+                                  <p>Date: <input type="date" id="date"></p>
+                                </div>
+
+                                <div class="calendar-section">
+                                  <p>Time: <input type="time" id="time"></p>
+                                </div>
+                              </div>
+
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="submitBookingBtn">Submit</button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-
-                        <div class="calendar-section">
-                          <p>Time: <input type="time" id="time"></p>
-                        </div>
                       </div>
-
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="submitBookingBtn">Submit</button>
-                      </div>
-                    </div>
+                      <% } %>
                   </div>
                 </div>
               </div>
-              <% } %>
+              <% }); %>
             </div>
-          </div>
-        </div>
-        <% }); %>
-      </div>
-  </section>
-  <script src="/assets/script/favourites.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const eachAvgRatingElements = document.querySelectorAll(".eachAvgRating");
-      eachAvgRatingElements.forEach(eachAvgRating => {
-        const avgRating = parseFloat(eachAvgRating.innerText);
+      </section>
+      <script src="/assets/script/favourites.js"></script>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const eachAvgRatingElements = document.querySelectorAll(".eachAvgRating");
+          eachAvgRatingElements.forEach(eachAvgRating => {
+            const avgRating = parseFloat(eachAvgRating.innerText);
 
-        const starRatingContainer = eachAvgRating.nextElementSibling;
-        starRatingContainer.innerHTML = generateStarRating(avgRating);
-      });
-    });
+            const starRatingContainer = eachAvgRating.nextElementSibling;
+            starRatingContainer.innerHTML = generateStarRating(avgRating);
+          });
+        });
 
-    function reset() {
-      location.reload();
-      document.querySelector(".filterbut").style.display = "inline-block";
-      document.querySelector(".resetbut").style.display = "none";
+        function reset() {
+          location.reload();
+          document.querySelector(".filterbut").style.display = "inline-block";
+          document.querySelector(".resetbut").style.display = "none";
 
-      return false;
-    }
+          return false;
+        }
 
-    function filter() {
-      const selectedRating = document.getElementById("ratings").value;
+        function filter() {
+          const selectedRating = document.getElementById("ratings").value;
 
-      if (selectedRating) {
-        fetch(`/restaurant/getMinRating/${selectedRating}`)
-          .then(response => response.json())
-          .then(data => {
-            const roomContainers = document.querySelectorAll('.rooms .content');
+          if (selectedRating) {
+            fetch(`/restaurant/getMinRating/${selectedRating}`)
+              .then(response => response.json())
+              .then(data => {
+                const roomContainers = document.querySelectorAll('.rooms .content');
 
-            if (data && data.length > 0) {
-              // Update content based on data
-              roomContainers.forEach((roomContainer, index) => {
-                const filteredItem = data[index];
-                const h2 = roomContainer.querySelector('h2.name');
-                const h4Station = roomContainer.querySelector('h4.station');
-                const h4Category = roomContainer.querySelector('h4.category');
-                const h4Rating = roomContainer.querySelector('h4.eachAvgRating');
-                const starRatingContainer = roomContainer.querySelector('div#starRating');
+                if (data && data.length > 0) {
+                  // Update content based on data
+                  roomContainers.forEach((roomContainer, index) => {
+                    const filteredItem = data[index];
+                    const h2 = roomContainer.querySelector('h2.name');
+                    const h4Station = roomContainer.querySelector('h4.station');
+                    const h4Category = roomContainer.querySelector('h4.category');
+                    const h4Rating = roomContainer.querySelector('h4.eachAvgRating');
+                    const starRatingContainer = roomContainer.querySelector('div#starRating');
 
-                if (filteredItem) {
-                  h2.innerHTML = `<a href="/indivRestaurant/${filteredItem.restaurant_id}">${filteredItem.restaurant_name}</a>`;
-                  h4Station.textContent = `${filteredItem.station}`;
-                  h4Category.textContent = `${filteredItem.first_category}`;
-                  h4Rating.textContent = `${filteredItem.avg_rating}`;
+                    if (filteredItem) {
+                      h2.innerHTML = `<a href="/indivRestaurant/${filteredItem.restaurant_id}">${filteredItem.restaurant_name}</a>`;
+                      h4Station.textContent = `${filteredItem.station}`;
+                      h4Category.textContent = `${filteredItem.first_category}`;
+                      h4Rating.textContent = `${filteredItem.avg_rating}`;
 
-                  const avgRating = parseFloat(filteredItem.avg_rating);
-                  starRatingContainer.innerHTML = generateStarRating(avgRating);
+                      const avgRating = parseFloat(filteredItem.avg_rating);
+                      starRatingContainer.innerHTML = generateStarRating(avgRating);
+                    } else {
+                      h2.textContent = '';
+                      h4Station.textContent = '';
+                      h4Category.textContent = '';
+                      h4Rating.textContent = '';
+                      starRatingContainer.innerHTML = '';
+                    }
+                  });
+                  for (let i = data.length; i < roomContainers.length; i++) {
+                    const roomContainer = roomContainers[i];
+                    const div = roomContainer.querySelector('div.items');
+                    div.innerHTML = '';
+                  }
                 } else {
-                  h2.textContent = '';
-                  h4Station.textContent = '';
-                  h4Category.textContent = '';
-                  h4Rating.textContent = '';
-                  starRatingContainer.innerHTML = '';
+                  alert("No restaurant found at the specified minimum rating.");
                 }
+              })
+              .catch(error => {
+                console.error("Error fetching data:", error);
               });
-              for (let i = data.length; i < roomContainers.length; i++) {
-                const roomContainer = roomContainers[i];
-                const div = roomContainer.querySelector('div.items');
-                div.innerHTML = '';
+          }
+
+          document.querySelector(".filterbut").style.display = "none";
+          document.querySelector(".resetbut").style.display = "inline-block";
+        }
+
+        function generateStarRating(avgRating) {
+          const starCount = 5;
+          const fullStar = '<i class="fa fa-star"></i>';
+          const halfStar = '<i class="fa fa-star-half-o"></i>';
+          const emptyStar = '<i class="fa fa-star-o"></i>';
+
+          const fullStars = Math.floor(avgRating);
+          const hasHalfStar = avgRating % 1 !== 0;
+
+          let starRatingHTML = '';
+
+          for (let i = 0; i < fullStars; i++) {
+            starRatingHTML += fullStar;
+          }
+
+          if (hasHalfStar) {
+            starRatingHTML += halfStar;
+          }
+
+          const remainingStars = starCount - fullStars - (hasHalfStar ? 1 : 0);
+
+          for (let i = 0; i < remainingStars; i++) {
+            starRatingHTML += emptyStar;
+          }
+
+          return starRatingHTML;
+        }
+      </script>
+      <script>
+        function getResBookingCount() {
+          return fetch('/booking/getResBookingCount')
+            .then(response => response.json())
+            .then(data => {
+              if (Array.isArray(data) && data.length > 0) {
+                return data[0].num;
+              } else {
+                console.error('Invalid response format:', data);
+                return 0;
               }
-            } else {
-              alert("No restaurant found at the specified minimum rating.");
-            }
-          })
-          .catch(error => {
-            console.error("Error fetching data:", error);
-          });
-      }
+            })
+            .catch(error => {
+              console.error('Error fetching booking count:', error);
+              return 0;
+            });
+        }
 
-      document.querySelector(".filterbut").style.display = "none";
-      document.querySelector(".resetbut").style.display = "inline-block";
-    }
+        function submitNewBooking() {
+          getResBookingCount()
+            .then(bookingCount => {
+              var restaurant_id = document.getElementById("restaurant_id").value;
+              var user_id = document.getElementById("user_id").value;
+              var date = document.querySelector("#date").value;
+              var time = document.querySelector("#time").value;
 
-    function generateStarRating(avgRating) {
-      const starCount = 5;
-      const fullStar = '<i class="fa fa-star"></i>';
-      const halfStar = '<i class="fa fa-star-half-o"></i>';
-      const emptyStar = '<i class="fa fa-star-o"></i>';
+              var bookingNum = parseInt(bookingCount) + 1;
 
-      const fullStars = Math.floor(avgRating);
-      const hasHalfStar = avgRating % 1 !== 0;
+              const postData = {
+                bookingId: bookingNum,
+                user_id: parseInt(user_id),
+                restaurant_id: restaurant_id,
+                date: date,
+                time: time
+              };
 
-      let starRatingHTML = '';
+              console.log(postData);
 
-      for (let i = 0; i < fullStars; i++) {
-        starRatingHTML += fullStar;
-      }
+              return fetch('/restaurant/newBooking', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+              });
+            })
+            .then(response => {
+              if (response.ok) {
+                alert("Thank You for Booking");
+              } else {
+                console.error('Error:', response.statusText);
+              }
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+        }
 
-      if (hasHalfStar) {
-        starRatingHTML += halfStar;
-      }
-
-      const remainingStars = starCount - fullStars - (hasHalfStar ? 1 : 0);
-
-      for (let i = 0; i < remainingStars; i++) {
-        starRatingHTML += emptyStar;
-      }
-
-      return starRatingHTML;
-    }
-  </script>
-  <script>
-    function getResBookingCount() {
-      return fetch('/booking/getResBookingCount')
-        .then(response => response.json())
-        .then(data => {
-          if (Array.isArray(data) && data.length > 0) {
-            return data[0].num;
-          } else {
-            console.error('Invalid response format:', data);
-            return 0;
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching booking count:', error);
-          return 0;
-        });
-    }
-
-    function submitNewBooking() {
-      getResBookingCount()
-        .then(bookingCount => {
-          var restaurant_id = document.getElementById("restaurant_id").value;
-          var user_id = document.getElementById("user_id").value;
-          var date = document.querySelector("#date").value;
-          var time = document.querySelector("#time").value;
-
-          var bookingNum = parseInt(bookingCount) + 1;
-
-          const postData = {
-            bookingId: bookingNum,
-            user_id: parseInt(user_id),
-            restaurant_id: restaurant_id,
-            date: date,
-            time: time
-          };
-
-          console.log(postData);
-
-          return fetch('/restaurant/newBooking', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(postData),
-          });
-        })
-        .then(response => {
-          if (response.ok) {
-            alert("Thank You for Booking");
-          } else {
-            console.error('Error:', response.statusText);
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-
-    document.querySelector("#submitBookingBtn").addEventListener('click', submitNewBooking);
-  </script>
-  <%- include('include/_footer') %>
-</body>
+        document.querySelector("#submitBookingBtn").addEventListener('click', submitNewBooking);
+      </script>
+      <%- include('include/_footer') %>
+    </body>

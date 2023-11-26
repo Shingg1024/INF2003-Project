@@ -33,6 +33,7 @@
 7. **Usage:**
    - Open your web browser and navigate to [http://localhost:3001](http://localhost:3001).
    - Follow the on-screen instructions to interact with the application.
+   - Recommand to use the application side by side with the terminal, to see input and output.
 
 8. **Handling Errors:**
    - If you encounter any errors in the webpage or terminal:

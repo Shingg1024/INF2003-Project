@@ -168,7 +168,7 @@
               const currentDate = new Date();
               const bookingDate = sortingParameter === 'hostel' ? new Date(item.date_start) : new Date(item.date);
 
-              if (bookingDate < currentDate) {
+              if (bookingDate > currentDate) {
                 reviewCell = `<td><p>Not completed</p></td>`;
               } else {
                 reviewCell = `<td>

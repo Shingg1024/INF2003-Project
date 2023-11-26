@@ -58,12 +58,12 @@ CREATE TABLE IF NOT EXISTS `inf2003`.`booking_hostel` (
   CONSTRAINT `fk_user_has_hotel_user`
     FOREIGN KEY (`user_id`)
     REFERENCES `inf2003`.`user` (`user_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_has_hotel_hotel1`
     FOREIGN KEY (`hostel_id`)
     REFERENCES `inf2003`.`hostel` (`hostel_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -83,12 +83,12 @@ CREATE TABLE IF NOT EXISTS `inf2003`.`review_hostel` (
   CONSTRAINT `fk_user_has_booking_hotel_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `inf2003`.`user` (`user_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_has_booking_hotel_booking_hotel1`
     FOREIGN KEY (`booking_hostel_id`)
     REFERENCES `inf2003`.`booking_hostel` (`booking_hostel_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -120,12 +120,12 @@ CREATE TABLE IF NOT EXISTS `inf2003`.`booking_restaurant` (
   CONSTRAINT `fk_user_has_restaurant_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `inf2003`.`user` (`user_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_has_restaurant_restaurant1`
     FOREIGN KEY (`restaurant_id`)
     REFERENCES `inf2003`.`restaurant` (`restaurant_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -145,12 +145,12 @@ CREATE TABLE IF NOT EXISTS `inf2003`.`review_restaurant` (
   CONSTRAINT `fk_user_has_booking_restaurant_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `inf2003`.`user` (`user_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_has_booking_restaurant_booking_restaurant1`
     FOREIGN KEY (`booking_restaurant_id`)
     REFERENCES `inf2003`.`booking_restaurant` (`booking_restaurant_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

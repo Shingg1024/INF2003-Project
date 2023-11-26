@@ -80,6 +80,7 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">Hostel/Restaurant ID</th>
+          <th scope="col">Hostel/Restaurant Name</th>
           <th scope="col">Comment</th>
           <th scope="col">Rating</th>
         </tr>
@@ -90,6 +91,7 @@
           <td>
             <a href="/indivHostel/<%= item.hostel_id - 1 %>">#<%= item.hostel_id %></a>
           </td>
+          <td><%= item.hostel_name %></td>
           <td><%= item.review_comment %></td>
           <td><%= item.review_rating %></td>
         </tr>
@@ -99,6 +101,7 @@
           <td>
             <a href="/indivRestaurant/<%= item.restaurant_id %>">#<%= item.restaurant_id %></a>
           </td>
+          <td><%= item.restaurant_name %></td>
           <td><%= item.review_comment %></td>
           <td><%= item.review_rating %></td>
         </tr>

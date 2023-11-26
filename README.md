@@ -20,7 +20,7 @@
    - Run the following command to install dependencies:
       > Type "npm install" on the terminal
   
-5. Running the Application
+5. **Running the Application**
    - Execute the following command in the terminal:
       > Type "npm run dev" on the terminal
 
@@ -34,6 +34,7 @@
    - Open your web browser and navigate to [http://localhost:3001](http://localhost:3001).
    - Follow the on-screen instructions to interact with the application.
    - Recommand to use the application side by side with the terminal, to see input and output.
+   - Please take a look on the account section below for admin account or you could register a new account.
 
 8. **Handling Errors:**
    - If you encounter any errors in the webpage or terminal:
@@ -48,3 +49,8 @@
      - [Issue #653](https://github.com/sidorares/node-mysql2/issues/653)
      - [Issue #1334](https://github.com/sidorares/node-mysql2/issues/1334)
    - To bypass this error, please proceed closed the application and proceed to step 5 and run the application again
+
+
+## Accounts
+- Email:    Admin@gmail.com   
+- Password: 12345678

@@ -1,217 +1,226 @@
 <%- include('include/_header') %>
-  <%- include('include/_nav') %>
+<%- include('include/_nav') %>
 
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
+<head>
 
-      <style>
-        
-        /* Add this style for the rating input */
-        input[type="number"] {
-          width: 65px;
-          /* Adjust the width as needed */
-          /* Adjust the font size as needed */
-          text-align: center;
-        }
+  <style>
+    /* Add this style for the rating input */
+    input[type="number"] {
+      width: 65px;
+      /* Adjust the width as needed */
+      /* Adjust the font size as needed */
+      text-align: center;
+    }
 
-        body {
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-          margin: 0;
-        }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+    }
 
-        body {
-          background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
-        }
+    body {
+      background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+    }
 
-        main {
-          flex: 1;
-        }
+    main {
+      flex: 1;
+    }
 
-        footer {
-          padding: 15px;
-          color: #fff;
-          text-align: center;
-          background-color: rgb(16, 15, 15);
-          backdrop-filter: blur(5px);
-          margin-top: auto;
-        }
+    footer {
+      padding: 15px;
+      color: #fff;
+      text-align: center;
+      background-color: rgb(16, 15, 15);
+      backdrop-filter: blur(5px);
+      margin-top: auto;
+    }
 
-        .container h2 {
-          font-family: Georgia, 'Times New Roman', Times, serif;
-          font-size: 310%;
-          
-        }
+    .container h2 {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 310%;
 
-        .table-bordered .thead-dark th {
-          white-space: nowrap;
-        }
+    }
 
-        .table-bordered tbody tr td:first-child {
-          white-space: nowrap;
-        }
-      </style>
-    </head>
+    .table-bordered .thead-dark th {
+      white-space: nowrap;
+    }
 
-    <body>
+    .table-bordered tbody tr td:first-child {
+      white-space: nowrap;
+    }
+  </style>
+</head>
 
-      <br><br>
-      <div class="container mt-4">
-        <h2 class="text-center mb-4">Bookings</h2>
+<body>
 
-        <div class="text-center mb-3">
-          <input type="radio" name="sortByType" id="all" value="all" checked> All
-          <input type="radio" name="sortByType" id="hostel" value="hostel"> Hostel
-          <input type="radio" name="sortByType" id="restaurant" value="restaurant"> Restaurant
-        </div>
+  <br><br>
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Bookings</h2>
 
-        <div class="text-center mb-3">
-          <input type="checkbox" name="sortUpcoming" id="upcoming" value="upcoming"> Upcoming
-          <input type="checkbox" name="sortCompleted" id="completed" value="completed"> Completed
-        </div>
+    <div class="text-center mb-3">
+      <input type="radio" name="sortByType" id="all" value="all" checked> All
+      <input type="radio" name="sortByType" id="hostel" value="hostel"> Hostel
+      <input type="radio" name="sortByType" id="restaurant" value="restaurant"> Restaurant
+    </div>
 
-        <div class="text-center mb-3">
-          <button id="sort-button" class="btn btn-primary">Sort Data</button>
-          <h1 id="display"></h1>
-        </div>
+    <div class="text-center mb-3">
+      <input type="checkbox" name="sortUpcoming" id="upcoming" value="upcoming"> Upcoming
+      <input type="checkbox" name="sortCompleted" id="completed" value="completed"> Completed
+    </div>
 
-        <input hidden id="hiddenUserId" value="<%= session.user.user_id %>" />
+    <div class="text-center mb-3">
+      <button id="sort-button" class="btn btn-primary">Sort Data</button>
+      <h1 id="display"></h1>
+    </div>
 
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>name</th>
-              <th>start</th>
-              <th>end</th>
-              <th>booking type</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+    <input hidden id="hiddenUserId" value="<%= session.user.user_id %>" />
 
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          sortData();
-        });
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>start</th>
+          <th>end</th>
+          <th>booking type</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-        const sortButton = document.getElementById('sort-button');
-        const userId = document.querySelector('#hiddenUserId').value;
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      sortData();
+    });
 
-        sortButton.addEventListener('click', () => {
-          sortData();
-        });
+    const sortButton = document.getElementById('sort-button');
+    const userId = document.querySelector('#hiddenUserId').value;
 
-        function sortData() {
-          const completed = document.getElementById('completed').checked;
-          const upcoming = document.getElementById('upcoming').checked;
-          const sortingParameter = document.querySelector('input[name="sortByType"]:checked').value;
+    sortButton.addEventListener('click', () => {
+      sortData();
+    });
 
-          const tableBody = document.querySelector('tbody');
-          tableBody.innerHTML = '';
+    function sortData() {
+      const completed = document.getElementById('completed').checked;
+      const upcoming = document.getElementById('upcoming').checked;
+      const sortingParameter = document.querySelector('input[name="sortByType"]:checked').value;
 
-          const fetchData = async (url) => {
-            try {
-              const response = await fetch(url);
-              const data = await response.json();
+      const tableBody = document.querySelector('tbody');
+      tableBody.innerHTML = '';
 
-              data.forEach(item => {
-                const row = document.createElement('tr');
-                let reviewCell = '';
+      const fetchData = async (url) => {
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
 
-                if (!completed && !upcoming || completed && upcoming) {
-                  const currentDate = new Date();
-                  const bookingDate = sortingParameter === 'hostel' ? new Date(item.date_start) : new Date(item.date);
+          data.forEach(item => {
+            const row = document.createElement('tr');
+            let reviewCell = '';
 
+            let formAction = '';
+            let bookingIdName = '';
 
-                  if (bookingDate < currentDate) {
-                    reviewCell = `<td><p>Not completed</p></td>`;
-                  } else {
-                    reviewCell = `<td>
-              <form action="review/submitHostelReview" method="post">
-                <input type="hidden" id="user_id" name="user_id" value=${userId}>
-                <input type="hidden" id="booking_hostel_id" name="booking_hostel_id" value=${item.booking_hostel_id}>
-                <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
-                <input type="number" id="reviewpoints" name="reviewpoints" min="1" max="5" placeholder='Rating'>
-                <input type="submit" value="Submit">
-              </form>
-            </td>`;
-                  }
-                } else if (completed && !upcoming) {
-                  reviewCell = `<td>
-            <form action="review/submitHostelReview" method="post">
-              <input type="hidden" id="user_id" name="user_id" value=${userId}>
-              <input type="hidden" id="booking_hostel_id" name="booking_hostel_id" value=${item.booking_hostel_id}>
-              <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
-              <input type="number" id="reviewpoints" name="reviewpoints" min="1" max="5" placeholder='Rating'>
-              <input type="submit" value="Submit">
-            </form>
-          </td>`;
-                } else if (upcoming && !completed) {
-                  reviewCell = `<td><p>Not completed</p></td>`;
-                }
-
-                if (sortingParameter === 'hostel') {
-                  row.innerHTML = `<td>#${item.hostel_id}</td><td>${item.hostel_name}</td><td>${item.date_start}</td><td>${item.date_end}</td>${reviewCell}`;
-                } else if (sortingParameter === 'restaurant') {
-                  row.innerHTML = `<td>#${item.restaurant_id}</td><td>${item.restaurant_name}</td><td>${item.date}</td><td>${item.time}</td>${reviewCell}`;
-                } else if (sortingParameter === 'all') {
-                  row.innerHTML = `<td>#${item.booking_hostel_id}</td><td>${item.hostel_name}</td><td>${item.date_start}</td><td>${item.date_end}</td><td>${item.booking_type}</td>`;
-                }
-
-                tableBody.appendChild(row);
-                
-              });
-            } catch (error) {
-              console.error("An error occurred:", error);
-            }
-          };
-
-          if ((!completed && !upcoming) || (completed && upcoming)) {
             if (sortingParameter === 'hostel') {
-              fetchData(`/booking/getAllHostelByUserId/${userId}`);
+              formAction = 'review/submitHostelReview';
+              bookingIdName = 'booking_hostel_id';
             } else if (sortingParameter === 'restaurant') {
-              fetchData(`/booking/getRestaurantByUserId/${userId}`);
-            } else if (sortingParameter === 'all') {
-              fetchData(`/booking/getBooking/${userId}`);
+              formAction = 'review/submitHostelReview';
+              bookingIdName = 'booking_restaurant_id';
             }
-          } else if (completed && !upcoming) {
-            if (sortingParameter === 'hostel')
-              fetchData(`/booking/getHostelCompleted/${userId}`);
-            else if (sortingParameter === 'restaurant')
-              fetchData(`/booking/getRestaurantCompleted/${userId}`);
-            else if (sortingParameter === 'all')
-              fetchData(`/booking/getHostelAndRestaurantCompleted/${userId}`);
-          } else if (upcoming && !completed) {
-            if (sortingParameter === 'hostel')
-              fetchData(`/booking/getHostelUpcoming/${userId}`);
-            else if (sortingParameter === 'restaurant')
-              fetchData(`/booking/getRestaurantUpcoming/${userId}`);
-            else if (sortingParameter === 'all')
-              fetchData(`/booking/getHostelAndRestaurantUpcoming/${userId}`);
-          }
 
-          updateTableHeaders(sortingParameter === 'hostel' ? ['Hostel ID', 'Name', 'Start Date', 'End Date', 'Review'] :
-            sortingParameter === 'restaurant' ? ['Restaurant ID', 'Name', 'Reservation Date', 'Reservation Time', 'Review'] : ['Hostel/ Restaurant ID', 'Name', 'Start Date/ Reservation Date', 'End Date/ Reservation Time', 'Booking Type']);
-        }
+            if (!completed && !upcoming || completed && upcoming) {
+              const currentDate = new Date();
+              const bookingDate = sortingParameter === 'hostel' ? new Date(item.date_start) : new Date(item.date);
 
-        function updateTableHeaders(columnNames) {
-          const thead = document.querySelector('thead tr');
-          thead.innerHTML = '';
-          columnNames.forEach(columnName => {
-            const th = document.createElement('th');
-            th.textContent = columnName;
-            thead.appendChild(th);
+              if (bookingDate < currentDate) {
+                reviewCell = `<td><p>Not completed</p></td>`;
+              } else {
+                reviewCell = `<td>
+        <form action="${formAction}" method="post">
+          <input type="hidden" id="user_id" name="user_id" value=${userId}>
+          <input type="hidden" id="${bookingIdName}" name="${bookingIdName}" value=${item[bookingIdName]}>
+          <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
+          <input type="number" id="reviewpoints" name="reviewpoints" min="1" max="5" placeholder='Rating'>
+          <input type="submit" value="Submit">
+        </form>
+      </td>`;
+              }
+            } else if (completed && !upcoming) {
+              reviewCell = `<td>
+      <form action="${formAction}" method="post">
+        <input type="hidden" id="user_id" name="user_id" value=${userId}>
+        <input type="hidden" id="${bookingIdName}" name="${bookingIdName}" value=${item[bookingIdName]}>
+        <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
+        <input type="number" id="reviewpoints" name="reviewpoints" min="1" max="5" placeholder='Rating'>
+        <input type="submit" value="Submit">
+      </form>
+    </td>`;
+            } else if (upcoming && !completed) {
+              reviewCell = `<td><p>Not completed</p></td>`;
+            }
+
+            if (sortingParameter === 'hostel') {
+              row.innerHTML = `<td>#${item.hostel_id}</td><td>${item.hostel_name}</td><td>${item.date_start}</td><td>${item.date_end}</td>${reviewCell}`;
+            } else if (sortingParameter === 'restaurant') {
+              row.innerHTML = `<td>#${item.restaurant_id}</td><td>${item.restaurant_name}</td><td>${item.date}</td><td>${item.time}</td>${reviewCell}`;
+            } else if (sortingParameter === 'all') {
+              row.innerHTML = `<td>#${item.booking_hostel_id}</td><td>${item.hostel_name}</td><td>${item.date_start}</td><td>${item.date_end}</td><td>${item.booking_type}</td>`;
+            }
+
+            tableBody.appendChild(row);
+
           });
+        } catch (error) {
+          console.error("An error occurred:", error);
         }
-      </script>
+      };
 
-      <%- include('include/_footer')%>
+      if ((!completed && !upcoming) || (completed && upcoming)) {
+        if (sortingParameter === 'hostel') {
+          fetchData(`/booking/getAllHostelByUserId/${userId}`);
+        } else if (sortingParameter === 'restaurant') {
+          fetchData(`/booking/getRestaurantByUserId/${userId}`);
+        } else if (sortingParameter === 'all') {
+          fetchData(`/booking/getBooking/${userId}`);
+        }
+      } else if (completed && !upcoming) {
+        if (sortingParameter === 'hostel')
+          fetchData(`/booking/getHostelCompleted/${userId}`);
+        else if (sortingParameter === 'restaurant')
+          fetchData(`/booking/getRestaurantCompleted/${userId}`);
+        else if (sortingParameter === 'all')
+          fetchData(`/booking/getHostelAndRestaurantCompleted/${userId}`);
+      } else if (upcoming && !completed) {
+        if (sortingParameter === 'hostel')
+          fetchData(`/booking/getHostelUpcoming/${userId}`);
+        else if (sortingParameter === 'restaurant')
+          fetchData(`/booking/getRestaurantUpcoming/${userId}`);
+        else if (sortingParameter === 'all')
+          fetchData(`/booking/getHostelAndRestaurantUpcoming/${userId}`);
+      }
 
-    </body>
+      updateTableHeaders(sortingParameter === 'hostel' ? ['Hostel ID', 'Name', 'Start Date', 'End Date', 'Review'] :
+        sortingParameter === 'restaurant' ? ['Restaurant ID', 'Name', 'Reservation Date', 'Reservation Time', 'Review'] : ['Hostel/ Restaurant ID', 'Name', 'Start Date/ Reservation Date', 'End Date/ Reservation Time', 'Booking Type']);
+    }
 
-    </html>
+    function updateTableHeaders(columnNames) {
+      const thead = document.querySelector('thead tr');
+      thead.innerHTML = '';
+      columnNames.forEach(columnName => {
+        const th = document.createElement('th');
+        th.textContent = columnName;
+        thead.appendChild(th);
+      });
+    }
+  </script>
+
+  <%- include('include/_footer')%>
+
+</body>
+
+</html>

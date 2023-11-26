@@ -54,7 +54,7 @@ exports.submitHostelReview = (req, res) => {
     review_comments = req.body.review_comments;
     reviewpoints = req.body.reviewpoints;
 
-    //console.log(req.body)
+    console.log(req.body)
     db.getConnection((err, connection) => {
         try {
             if (err) {

@@ -73,16 +73,20 @@
         </tr>
       </thead>
       <tbody>
-        <% data.hostels.forEach(item => { %>
+        <% data.hostels.forEach(item => {%>
         <tr>
-          <td># <%= item.review_hostel_id %></td>
+          <td>
+            <a href="/indivHostel/<%= item.hostel_id - 1 %>"># <%= item.hostel_id %></a>
+          </td>
           <td><%= item.review_comment %></td>
           <td><%= item.review_rating %></td>
         </tr>
         <% }); %>
         <% data.restaurants.forEach(item => { %>
         <tr>
-          <td># <%= item.booking_restaurant_id %></td>
+          <td>
+            <a href="/indivRestaurant/<%= item.restaurant_id %>"># <%= item.restaurant_id %></a>
+          </td>
           <td><%= item.review_comment %></td>
           <td><%= item.review_rating %></td>
         </tr>

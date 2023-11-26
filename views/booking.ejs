@@ -7,7 +7,11 @@
     <head>
 
       <style>
-        
+        .navbar {
+          border-radius: 0;
+          /* Add other styles as needed */
+        }
+
         /* Add this style for the rating input */
         input[type="number"] {
           width: 65px;
@@ -43,7 +47,7 @@
         .container h2 {
           font-family: Georgia, 'Times New Roman', Times, serif;
           font-size: 310%;
-          
+
         }
 
         .table-bordered .thead-dark th {
@@ -52,6 +56,32 @@
 
         .table-bordered tbody tr td:first-child {
           white-space: nowrap;
+        }
+
+        table {
+          margin-top: 0px;
+          width: 80%;
+          border-collapse: collapse;
+          margin-bottom: 15px;
+          background-color: #fff;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+          padding: 15px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+          color: #333;
+        }
+
+        th {
+          background-color: #333;
+          color: #fff;
+        }
+
+        tbody tr:hover {
+          background-color: #f5f5f5;
         }
       </style>
     </head>
@@ -81,7 +111,7 @@
         <input hidden id="hiddenUserId" value="<%= session.user.user_id %>" />
 
         <table class="table table-bordered">
-          <thead>
+          <thead class="thead-dark">
             <tr>
               <th>id</th>
               <th>name</th>
@@ -132,39 +162,45 @@
                     reviewCell = `<td><p>Not completed</p></td>`;
                   } else {
                     reviewCell = `<td>
-              <form action="review/submitHostelReview" method="post">
-                <input type="hidden" id="user_id" name="user_id" value=${userId}>
-                <input type="hidden" id="booking_hostel_id" name="booking_hostel_id" value=${item.booking_hostel_id}>
-                <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
-                <input type="number" id="reviewpoints" name="reviewpoints" min="1" max="5" placeholder='Rating'>
-                <input type="submit" value="Submit">
-              </form>
-            </td>`;
+          <form action="review/submitHostelReview" method="post">
+            <input type="hidden" id="user_id" name="user_id" value=${userId}>
+            <input type="hidden" id="booking_hostel_id" name="booking_hostel_id" value=${item.booking_hostel_id}>
+            <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
+            <input type="number" id="reviewpoints" name="reviewpoints" min="1" max="5" placeholder='Rating'>
+            <input type="submit" value="Submit">
+          </form>
+        </td>`;
                   }
                 } else if (completed && !upcoming) {
                   reviewCell = `<td>
-            <form action="review/submitHostelReview" method="post">
-              <input type="hidden" id="user_id" name="user_id" value=${userId}>
-              <input type="hidden" id="booking_hostel_id" name="booking_hostel_id" value=${item.booking_hostel_id}>
-              <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
-              <input type="number" id="reviewpoints" name="reviewpoints" min="1" max="5" placeholder='Rating'>
-              <input type="submit" value="Submit">
-            </form>
-          </td>`;
+        <form action="review/submitHostelReview" method="post">
+          <input type="hidden" id="user_id" name="user_id" value=${userId}>
+          <input type="hidden" id="booking_hostel_id" name="booking_hostel_id" value=${item.booking_hostel_id}>
+          <textarea id="review_comments" name="review_comments" rows="4" cols="50" placeholder="Enter your comments here"></textarea><br>
+          <input type="number" id="reviewpoints" name="reviewpoints" min="1" max="5" placeholder='Rating'>
+          <input type="submit" value="Submit">
+        </form>
+      </td>`;
                 } else if (upcoming && !completed) {
                   reviewCell = `<td><p>Not completed</p></td>`;
                 }
 
                 if (sortingParameter === 'hostel') {
-                  row.innerHTML = `<td>#${item.hostel_id}</td><td>${item.hostel_name}</td><td>${item.date_start}</td><td>${item.date_end}</td>${reviewCell}`;
+                  const hostelId = item.hostel_id - 1;
+                  row.innerHTML = `<td><a href="/indivhostel/${hostelId}">#${hostelId}</a></td><td>${item.hostel_name}</td><td>${item.date_start}</td><td>${item.date_end}</td>${reviewCell}`;
                 } else if (sortingParameter === 'restaurant') {
-                  row.innerHTML = `<td>#${item.restaurant_id}</td><td>${item.restaurant_name}</td><td>${item.date}</td><td>${item.time}</td>${reviewCell}`;
+                  const restaurantId = item.restaurant_id - 1;
+                  row.innerHTML = `<td><a href="/indivrestaurant/${restaurantId}">#${restaurantId}</a></td><td>${item.restaurant_name}</td><td>${item.date}</td><td>${item.time}</td>${reviewCell}`;
                 } else if (sortingParameter === 'all') {
-                  row.innerHTML = `<td>#${item.booking_hostel_id}</td><td>${item.hostel_name}</td><td>${item.date_start}</td><td>${item.date_end}</td><td>${item.booking_type}</td>`;
+                  // Determine the link and ID based on the sortingParameter
+                  const indivLink = item.hostel_id ? 'indivhostel' : 'indivrestaurant';
+                  const itemId = item.hostel_id ? item.hostel_id - 1 : item.restaurant_id - 1;
+
+                  row.innerHTML = `<td><a href="/${indivLink}/${itemId}">#${itemId}</a></td><td>${item.hostel_name || item.restaurant_name}</td><td>${item.date_start || item.date}</td><td>${item.date_end || item.time}</td><td>${item.booking_type}</td>`;
                 }
 
                 tableBody.appendChild(row);
-                
+
               });
             } catch (error) {
               console.error("An error occurred:", error);

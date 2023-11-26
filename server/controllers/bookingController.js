@@ -12,7 +12,7 @@ exports.getBooking = (req, res) => {
         }
         id = req.params.id;
 
-        const query = "SELECT 'hostel' AS booking_type, booking_hostel_id, user_id, hostel_id, DATE_FORMAT(date_start, '%Y-%m-%d') AS date_start, DATE_FORMAT(date_end, '%Y-%m-%d') AS date_end FROM booking_hostel WHERE user_id = ? UNION SELECT 'restaurant' AS booking_type, booking_restaurant_id, user_id, restaurant_id, DATE_FORMAT(date, '%Y-%m-%d') AS date, time FROM booking_restaurant WHERE user_id = ? ORDER BY date_start DESC";
+        const query = "SELECT 'hostel' AS booking_type, bh.booking_hostel_id, bh.user_id, bh.hostel_id, h.hostel_name, DATE_FORMAT(bh.date_start, '%Y-%m-%d') AS date_start, DATE_FORMAT(bh.date_end, '%Y-%m-%d') AS date_end FROM booking_hostel bh JOIN hostel h ON bh.hostel_id = h.hostel_id WHERE bh.user_id = ? UNION SELECT 'restaurant' AS booking_type, br.booking_restaurant_id, br.user_id, br.restaurant_id, r.restaurant_name, DATE_FORMAT(br.date, '%Y-%m-%d') AS date, br.time FROM booking_restaurant br JOIN restaurant r ON br.restaurant_id = r.restaurant_id WHERE br.user_id = ? ORDER BY date_start DESC";
         connection.query(query, [id, id], (err, result) => {
             try {
                 if (err) {
@@ -37,7 +37,7 @@ exports.getAllHostelByUserId = (req, res) => {
         }
         id = req.params.id;
 
-        const query = "SELECT booking_hostel_id, user_id, hostel_id, DATE_FORMAT(date_start, '%Y-%m-%d') AS date_start, DATE_FORMAT(date_end, '%Y-%m-%d') AS date_end FROM booking_hostel WHERE user_id = ? ORDER BY date_start desc";
+        const query = "SELECT bh.booking_hostel_id, bh.user_id, bh.hostel_id, h.hostel_name, DATE_FORMAT(bh.date_start, '%Y-%m-%d') AS date_start, DATE_FORMAT(bh.date_end, '%Y-%m-%d') AS date_end FROM booking_hostel bh JOIN hostel h ON bh.hostel_id = h.hostel_id WHERE bh.user_id = ? ORDER BY bh.date_start DESC";
         connection.query(query, [id], (err, result) => {
             try {
                 if (err) {
@@ -62,7 +62,7 @@ exports.getRestaurantByUserId = (req, res) => {
         }
         id = req.params.id;
 
-        const query = "SELECT booking_restaurant_id, user_id, restaurant_id, DATE_FORMAT(date, '%Y-%m-%d') AS date, time FROM booking_restaurant WHERE user_id = ? ORDER BY date DESC;";
+        const query = "SELECT br.booking_restaurant_id, br.user_id, br.restaurant_id, r.restaurant_name, DATE_FORMAT(br.date, '%Y-%m-%d') AS date, br.time FROM booking_restaurant br JOIN restaurant r ON br.restaurant_id = r.restaurant_id WHERE br.user_id = ? ORDER BY br.date DESC";
         connection.query(query, [id], (err, result) => {
             try {
                 if (err) {

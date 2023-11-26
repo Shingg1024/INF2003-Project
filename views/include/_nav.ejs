@@ -15,14 +15,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/restaurants">Restaurants</a>
                 </li>
-                <!-- <li class="nav-item dropdown">
+                <% if (session.user) { if (session.user.user_id == 102)  { %> 
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Detailed Information</a>
                     <ul class="dropdown-menu">
-                        <% if (session.user) { if (session.user.user_id == 102)  { %> <li><a class="dropdown-item" href="/userStats">All User Statistic</a></li> <% } }%>  
+                        <li><a class="dropdown-item" href="/userStats">All User Statistic</a></li> 
                         <li><a class="dropdown-item" href="/hostelFull">All Hostels Full Detail</a></li>
                         <li><a class="dropdown-item" href="/restaurantFull">All Restaurants Full Detail</a></li>
                     </ul>
-                </li> -->
+                </li>
+                <% } }%>  
                 <% if (session.user) { %>
                 <li class="nav-item">
                     <a class="nav-link" href="/booking">Booking</a>

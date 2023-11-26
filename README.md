@@ -30,7 +30,7 @@
       - Connected to MongoDB Server
       - SSH tunnel to MySQL server established
 
-7. Usage:
+7. **Usage:**
    - Open your web browser and navigate to [http://localhost:3001](http://localhost:3001).
    - Follow the on-screen instructions to interact with the application.
 

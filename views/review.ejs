@@ -85,7 +85,7 @@
         <% data.hostels.forEach(item => {%>
         <tr>
           <td>
-            <a href="/indivHostel/<%= item.hostel_id - 1 %>"># <%= item.hostel_id %></a>
+            <a href="/indivHostel/<%= item.hostel_id - 1 %>">#<%= item.hostel_id %></a>
           </td>
           <td><%= item.review_comment %></td>
           <td><%= item.review_rating %></td>
@@ -94,7 +94,7 @@
         <% data.restaurants.forEach(item => { %>
         <tr>
           <td>
-            <a href="/indivRestaurant/<%= item.restaurant_id %>"># <%= item.restaurant_id %></a>
+            <a href="/indivRestaurant/<%= item.restaurant_id %>">#<%= item.restaurant_id %></a>
           </td>
           <td><%= item.review_comment %></td>
           <td><%= item.review_rating %></td>

@@ -112,7 +112,7 @@
             const row = document.createElement('tr');
             let reviewCell = '';
 
-            if (!completed && !upcoming) {
+            if (!completed && !upcoming || completed && upcoming) {
               const currentDate = new Date();
               const bookingDate = sortingParameter === 'hostel' ? new Date(item.date_start) : new Date(item.date);
 

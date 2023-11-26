@@ -9,7 +9,7 @@ exports.getReview = (req, res) => {
         }
         id = req.params.id;
 
-        const query = "SELECT * FROM review_hostel JOIN booking_hostel ON review_hostel.booking_hostel_id = booking_hostel.booking_hostel_id where review_hostel.user_id = ?";
+        const query = "SELECT * FROM review_restaurant JOIN booking_restaurant ON review_restaurant.booking_restaurant_id = booking_restaurant.booking_restaurant_id JOIN restaurant on booking_restaurant.restaurant_id = restaurant.restaurant_id where review_restaurant.user_id = ?";
         connection.query(query, id, (err, hostelResults) => {
             try {
                 if (err) {
@@ -17,8 +17,7 @@ exports.getReview = (req, res) => {
                     return res.status(500).json({ error: 'An error occurred' });
                 }
 
-                const queryRestaurant = "SELECT * FROM review_restaurant JOIN booking_restaurant ON review_restaurant.booking_restaurant_id = booking_restaurant.booking_restaurant_id where review_restaurant.user_id = ?";
-
+                const queryRestaurant = "SELECT * FROM review_restaurant JOIN booking_restaurant ON review_restaurant.booking_restaurant_id = booking_restaurant.booking_restaurant_id JOIN restaurant ON booking_restaurant.restaurant_id = restaurant.restaurant_id where review_restaurant.user_id = ?";
                 connection.query(queryRestaurant, id, (err, restaurantResults) => {
                     try {
                         if (err) {

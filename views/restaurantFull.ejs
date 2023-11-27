@@ -1,37 +1,60 @@
 <%- include('include/_header') %>
 
-<%- include('include/_nav') %>
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Japanese Name</th>
-      <th>Station</th>
-      <th>First Category</th>
-      <th>Second Category</th>
-      <th>Lunch Price</th>
-      <th>Dinner Price</th>
-      <th>Location</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% data.forEach(item => { %>
-    <tr>
-      <td><%= item.name %></td>
-      <td><%= item.japaneseName %></td>
-      <td><%= item.station %></td>
-      <td><%= item.firstCategory %></td>
-      <td><%= item.secondCategory %></td>
-      <td><%= item.lunchPrice %></td>
-      <td><%= item.dinnerPrice %></td>
-      <td>
-        <a href="https://maps.google.com/?q=<%= item.location.coordinates[1] %>,<%= item.location.coordinates[0] %>">Google Map</a>
-      </td>
-    </tr>
-    <% }); %>
-  </tbody>
-</table>
+  <%- include('include/_nav') %>
+    <style>
+      .navbar {
+        margin-bottom: 0;
+        /* Add this to remove any bottom margin on the navbar */
+        border-radius: 0%;
+      }
+    </style>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Japanese Name</th>
+          <th>Station</th>
+          <th>First Category</th>
+          <th>Second Category</th>
+          <th>Lunch Price</th>
+          <th>Dinner Price</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.forEach(item=> { %>
+          <tr>
+            <td>
+              <%= item.name %>
+            </td>
+            <td>
+              <%= item.japaneseName %>
+            </td>
+            <td>
+              <%= item.station %>
+            </td>
+            <td>
+              <%= item.firstCategory %>
+            </td>
+            <td>
+              <%= item.secondCategory %>
+            </td>
+            <td>
+              <%= item.lunchPrice %>
+            </td>
+            <td>
+              <%= item.dinnerPrice %>
+            </td>
+            <td>
+              <a
+                href="https://maps.google.com/?q=<%= item.location.coordinates[1] %>,<%= item.location.coordinates[0] %>">Google
+                Map</a>
+            </td>
+          </tr>
+          <% }); %>
+      </tbody>
+    </table>
 
-<!-- include footer -->
-<%- include('include/_footer')%>
-<!-- include footer -->
+    <!-- include footer -->
+    <%- include('include/_footer')%>
+      <!-- include footer -->
